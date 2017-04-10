@@ -1,19 +1,31 @@
 package com.danielspeixoto.connect.view.activity;
 
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.view.View;
 
 import com.danielspeixoto.connect.R;
+import com.danielspeixoto.connect.model.Connection;
+
+import butterknife.OnClick;
 
 public class MainActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        if (Connection.hasAccountSavedOnDevice()) {
+            goToActivity(HomeActivity.class);
+            finish();
+        }
         super.onCreate(savedInstanceState, R.layout.activity_main);
+    }
+
+    @OnClick(R.id.signUpButton)
+    public void signUp() {
+        goToActivity(SignUpActivity.class);
+    }
+
+    @OnClick(R.id.haveAccountButton)
+    public void logIn() {
+        goToActivity(LoginActivity.class);
     }
 
 }

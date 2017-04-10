@@ -17,4 +17,7 @@
     <string name="title_activity_login" translatable="false">Login</string>
     <string name="error_occurred">An error occurred</string>
     <string name="loading">Loading…</string>
+    <string name="icon">icon</string>
+    <string name="title_activity_home">HomeActivity</string>
+    <string name="title_activity_sign_up">SignUpActivity</string>
 </resources>
