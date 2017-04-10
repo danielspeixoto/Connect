@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name" translatable="false">Connect</string>
+    <string name="are_you_sure">Tem certeza disso?</string>
+    <string name="cancel">Cancelar</string>
+    <string name="confirm_your_password">Confirme sua senha</string>
+    <string name="username_must_fill">Preencha o nome de usuário</string>
+    <string name="error_occurred">Um erro ocorreu</string>
+    <string name="has_account">Já tenho conta</string>
+    <string name="has_no_account">Ainda não tenho conta</string>
+    <string name="incorrect_username_password">Usuário e/ou senha incorreta</string>
+    <string name="loading">Carregando…</string>
+    <string name="name">Nome</string>
+    <string name="name_must_fill">Nome deve ser preenchido</string>
+    <string name="password">Senha</string>
+    <string name="password_must_fill">A senha precisa ser preenchida</string>
+    <string name="password_must_match">Senhas precisam ser iguais</string>
+    <string name="save">Salvar</string>
+    <string name="user_added">Usuário criado</string>
+    <string name="username_already_exists">Usuário com este nome já existe</string>
+    <string name="yes">Sim</string>
+    <string name="username">Nome de usuário</string>
+    <string name="no_items">Não há itens para serem mostrados</string>
+</resources>
