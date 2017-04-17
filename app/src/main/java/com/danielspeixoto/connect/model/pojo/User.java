@@ -11,7 +11,7 @@ import lombok.Data;
 @Data
 public class User {
     private HashMap<String, Boolean> permissions;
-    private String name, username, password, adm;
+	private String name, username, password, group;
 
     public User() {
     }
@@ -20,13 +20,14 @@ public class User {
         this.username = username;
         this.password = password;
     }
-
-    public User(String name, String username, String password, String adm, HashMap<String, Boolean> permissions) {
-        this.name = name;
+	
+	public User(String name, String username, String password, String group,
+			HashMap<String, Boolean> permissions) {
+		this.name = name;
         this.username = username;
         this.password = password;
-        this.adm = adm;
-        this.permissions = permissions;
+		this.group = group;
+		this.permissions = permissions;
 
     }
 

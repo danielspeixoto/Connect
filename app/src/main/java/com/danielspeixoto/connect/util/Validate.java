@@ -16,6 +16,8 @@ public class Validate {
         message = OK;
         if (user.getUsername().length() == 0) {
             message = App.getStringResource(R.string.username_must_fill);
+        } else if (!user.getUsername().matches("[a-z | 0-9]*")) {
+	        message = App.getStringResource(R.string.username_lowercase);
         }
         return message;
     }

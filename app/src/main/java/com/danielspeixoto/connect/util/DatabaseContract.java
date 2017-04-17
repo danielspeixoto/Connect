@@ -7,7 +7,7 @@ package com.danielspeixoto.connect.util;
 public interface DatabaseContract {
 
     String EMAIL = "username";
-    String ADM = "adm";
+    String GROUP = "group";
     String NAME = "name";
     String PASSWORD = "password";
     String PERMISSIONS = "permissions";

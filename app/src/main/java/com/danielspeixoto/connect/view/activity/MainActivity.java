@@ -1,5 +1,6 @@
 package com.danielspeixoto.connect.view.activity;
 
+
 import android.os.Bundle;
 
 import com.danielspeixoto.connect.R;

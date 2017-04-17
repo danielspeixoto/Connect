@@ -2,15 +2,18 @@ package com.danielspeixoto.connect.presenter;
 
 import com.danielspeixoto.connect.R;
 import com.danielspeixoto.connect.model.Connection;
-import com.danielspeixoto.connect.model.CRUDUsers;
+import com.danielspeixoto.connect.model.WebService.UsersService;
 import com.danielspeixoto.connect.model.pojo.User;
 import com.danielspeixoto.connect.module.SignUp;
 import com.danielspeixoto.connect.util.App;
+import com.danielspeixoto.connect.util.Database;
+import com.danielspeixoto.connect.util.Permissions;
 import com.danielspeixoto.connect.util.Validate;
 import com.danielspeixoto.connect.view.activity.BaseActivity;
 import com.danielspeixoto.connect.view.activity.HomeActivity;
 
-import rx.SingleSubscriber;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 
 /**
  * Created by danielspeixoto on 2/14/17.
@@ -30,25 +33,27 @@ public class SignUpPresenter implements SignUp.Presenter {
     @Override
     public void signUp(User user) {
         App.showMessage(mActivity.getResources().getString(R.string.loading));
-        String result = Validate.User(user);
+	    user.setGroup(user.getUsername());
+	    user.setPermissions(Permissions.getADMPermissions());
+	    String result = Validate.User(user);
         if (result.equals(Validate.OK)) {
-            CRUDUsers.createAdm(user).subscribe(new SingleSubscriber<User>() {
-                @Override
-                public void onSuccess(User user) {
-                    App.showMessage(App.getStringResource(R.string.user_added));
-                    Connection.logIn(user);
-                    mView.goToActivity(HomeActivity.class);
-                    mView.getActivity().finish();
-                }
-
-                @Override
-                public void onError(Throwable error) {
-                    App.showMessage(error.getMessage());
-                }
-            });
+	        // TODO Check if username is unique
+	        Database.getMRetrofit()
+			        .create(UsersService.class)
+			        .createUser(user)
+			        .subscribeOn(Schedulers.io())
+			        .observeOn(AndroidSchedulers.mainThread())
+			        .subscribe(user1 -> {
+				        App.showMessage(App.getStringResource(R.string.user_added));
+				        Connection.logIn(user1);
+				        mView.goToActivity(HomeActivity.class);
+				        mView.getActivity().finish();
+			        }, throwable -> {
+				        App.showMessage(App.getStringResource(R.string.error_occurred));
+				        throwable.printStackTrace();
+			        });
         } else {
             App.showMessage(result);
         }
-
     }
 }

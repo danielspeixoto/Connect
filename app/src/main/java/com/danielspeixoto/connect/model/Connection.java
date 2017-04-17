@@ -17,9 +17,6 @@ import java.io.ObjectOutputStream;
 import java.util.HashMap;
 
 import lombok.Getter;
-import rx.Single;
-import rx.SingleSubscriber;
-
 /**
  * Created by danielspeixoto on 2/14/17.
  */
@@ -28,10 +25,10 @@ public class Connection implements DatabaseContract {
 
     @Getter
     private static User currentUser;
-
-    public static Single<User> findUser(String email, String password) {
-        return CRUDUsers.logIn(email, password);
-    }
+    
+    //    public static Single<User> findUser(String email, String password) {
+    //        return CRUDUsers.logIn(email, password);
+    //    }
 
     public static void logIn(User user) {
         new Thread(() -> {
@@ -40,7 +37,7 @@ public class Connection implements DatabaseContract {
 		            .getSharedPreferences(LOGIN, Context.MODE_PRIVATE).edit();
             editor.putString(EMAIL, user.getUsername());
             editor.putString(PASSWORD, user.getPassword());
-            editor.putString(ADM, user.getAdm());
+            editor.putString(GROUP, user.getGroup());
             editor.putString(NAME, user.getName());
             editor.apply();
             try {
@@ -53,7 +50,7 @@ public class Connection implements DatabaseContract {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        }).run();
+        }).start();
     }
 
     public static boolean hasAccountSavedOnDevice() {
@@ -67,9 +64,7 @@ public class Connection implements DatabaseContract {
                     ObjectInputStream outputStream = new ObjectInputStream(new FileInputStream(file));
                     currentUser = new User(preferences.getString(NAME, ""),
 		                    preferences.getString(EMAIL, ""),
-		                    preferences.getString(PASSWORD, ""),
-		                    preferences.getString(ADM, ""),
-		                    (HashMap<String, Boolean>) outputStream.readObject());
+		                    preferences.getString(PASSWORD, ""), preferences.getString(GROUP, ""), (HashMap<String, Boolean>) outputStream.readObject());
                     updateUser();
                 } catch (IOException | ClassNotFoundException e) {
                     e.printStackTrace();
@@ -82,25 +77,35 @@ public class Connection implements DatabaseContract {
     public static boolean isLogged() {
         return currentUser != null;
     }
-
-    public static void logOff() {
+    
+    public static void logOut() {
         currentUser = null;
         App.getContext().getSharedPreferences(LOGIN, Context.MODE_PRIVATE).edit().clear().commit();
     }
 
     private static void updateUser() {
         // Sincroniza dados locais com os remotos
-	    CRUDUsers.update(currentUser).subscribe(new SingleSubscriber<User>() {
-		    @Override
-		    public void onSuccess(User value) {
-				Connection.logIn(value);
-		    }
-		
-		    @Override
-		    public void onError(Throwable error) {
-			    logOff();
-			    App.showMessage(error.getMessage());
-		    }
-	    });
+        //	    CRUDUsers.update(currentUser).subscribe(new Subscriber<User>() {
+        //
+        //		    @Override
+        //		    public void onSubscribe(Subscription subscription) {
+        //		    }
+        //
+        //		    @Override
+        //		    public void onNext(User user) {
+        //			    Connection.logIn(user);
+        //		    }
+        //
+        //		    @Override
+        //		    public void onError(Throwable error) {
+        //			    logOut();
+        //			    App.showMessage(error.getMessage());
+        //		    }
+        //
+        //		    @Override
+        //		    public void onComplete() {
+        //
+        //		    }
+        //	    });
     }
 }

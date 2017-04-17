@@ -20,4 +20,10 @@
     <string name="icon">icon</string>
     <string name="title_activity_home">HomeActivity</string>
     <string name="title_activity_sign_up">SignUpActivity</string>
+    <string name="username_lowercase">Cannot use uppercase on username</string>
+    <string name="history">History</string>
+    <string name="manage_offers">Manage Offers</string>
+    <string name="manage_payment">Manage Payment</string>
+    <string name="manage_users">Manage Users</string>
+    <string name="manage_tickets">Manage Tickets</string>
 </resources>
