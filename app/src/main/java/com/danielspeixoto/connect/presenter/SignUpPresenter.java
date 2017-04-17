@@ -45,7 +45,7 @@ public class SignUpPresenter implements SignUp.Presenter {
 			        .observeOn(AndroidSchedulers.mainThread())
 			        .subscribe(user1 -> {
 				        App.showMessage(App.getStringResource(R.string.user_added));
-				        Connection.logIn(user1);
+				        Connection.saveAccountOnDevice(user1);
 				        mView.goToActivity(HomeActivity.class);
 				        mView.getActivity().finish();
 			        }, throwable -> {

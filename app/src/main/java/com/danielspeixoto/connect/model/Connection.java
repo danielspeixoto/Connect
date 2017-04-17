@@ -26,13 +26,13 @@ public class Connection implements DatabaseContract {
     @Getter
     private static User currentUser;
     
-    //    public static Single<User> findUser(String email, String password) {
-    //        return CRUDUsers.logIn(email, password);
+    //    public static Single<User> logIn(String email, String password) {
+    //        return CRUDUsers.saveAccountOnDevice(email, password);
     //    }
-
-    public static void logIn(User user) {
+    
+    public static void saveAccountOnDevice(User user) {
         new Thread(() -> {
-            // Salva os dados do usuario novamente no celular
+            // Save User data on phone
             SharedPreferences.Editor editor = App.getContext()
 		            .getSharedPreferences(LOGIN, Context.MODE_PRIVATE).edit();
             editor.putString(EMAIL, user.getUsername());
@@ -73,16 +73,7 @@ public class Connection implements DatabaseContract {
         }
         return isLogged();
     }
-
-    public static boolean isLogged() {
-        return currentUser != null;
-    }
     
-    public static void logOut() {
-        currentUser = null;
-        App.getContext().getSharedPreferences(LOGIN, Context.MODE_PRIVATE).edit().clear().commit();
-    }
-
     private static void updateUser() {
         // Sincroniza dados locais com os remotos
         //	    CRUDUsers.update(currentUser).subscribe(new Subscriber<User>() {
@@ -93,7 +84,7 @@ public class Connection implements DatabaseContract {
         //
         //		    @Override
         //		    public void onNext(User user) {
-        //			    Connection.logIn(user);
+        //			    Connection.saveAccountOnDevice(user);
         //		    }
         //
         //		    @Override
@@ -107,5 +98,15 @@ public class Connection implements DatabaseContract {
         //
         //		    }
         //	    });
+    }
+    
+    public static void logOut() {
+        currentUser = null;
+        App.getContext().getSharedPreferences(LOGIN, Context.MODE_PRIVATE).edit().clear().commit();
+    }
+    
+    
+    public static boolean isLogged() {
+        return currentUser != null;
     }
 }

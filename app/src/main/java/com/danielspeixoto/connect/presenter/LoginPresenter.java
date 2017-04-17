@@ -30,7 +30,7 @@ public class LoginPresenter implements Login.Presenter {
 	    //            Connection.findUser(email, password).subscribe(new SingleSubscriber<User>() {
 	    //                @Override
 	    //                public void onSuccess(User user) {
-	    //                    Connection.logIn(user);
+	    //                    Connection.saveAccountOnDevice(user);
 	    //                    mView.goToActivity(HomeActivity.class);
 	    //                    mActivity.finish();
 	    //                }
