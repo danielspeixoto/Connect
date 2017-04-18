@@ -1,11 +1,15 @@
 package com.danielspeixoto.connect.presenter;
 
 import com.danielspeixoto.connect.R;
+import com.danielspeixoto.connect.model.UserModel;
 import com.danielspeixoto.connect.model.pojo.User;
 import com.danielspeixoto.connect.module.Login;
 import com.danielspeixoto.connect.util.App;
 import com.danielspeixoto.connect.util.Validate;
-import com.danielspeixoto.connect.view.activity.BaseActivity;
+import com.danielspeixoto.connect.view.activity.HomeActivity;
+
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 
 /**
  * Created by danielspeixoto on 2/15/17.
@@ -14,34 +18,26 @@ import com.danielspeixoto.connect.view.activity.BaseActivity;
 public class LoginPresenter implements Login.Presenter {
 
     private Login.View mView;
-    private BaseActivity mActivity;
 
     public LoginPresenter(Login.View view) {
         mView = view;
-        mActivity = mView.getActivity();
     }
 
     @Override
-    public void logIn(String email, String password) {
-        mActivity.showMessage(App.getStringResource(R.string.loading));
-        User user = new User(email, password);
-        String result = Validate.User(user);
-	    //        if (result.equals(Validate.OK)) {
-	    //            Connection.findUser(email, password).subscribe(new SingleSubscriber<User>() {
-	    //                @Override
-	    //                public void onSuccess(User user) {
-	    //                    Connection.saveAccountOnDevice(user);
-	    //                    mView.goToActivity(HomeActivity.class);
-	    //                    mActivity.finish();
-	    //                }
-	    //
-	    //                @Override
-	    //                public void onError(Throwable error) {
-	    //                    App.showMessage(error.getMessage());
-	    //                }
-	    //            });
-	    //        } else {
-	    //            App.showMessage(result);
-	    //        }
+    public void logIn(String username, String password) {
+	    App.showMessage(App.getStringResource(R.string.loading));
+	    User user = new User(username, password);
+	    String result = Validate.User(user);
+	    if (result.equals(Validate.OK)) {
+		    UserModel.logIn(username, password)
+				    .subscribeOn(Schedulers.io())
+				    .observeOn(AndroidSchedulers.mainThread())
+				    .subscribe(user1 -> {
+					    mView.goToActivity(HomeActivity.class);
+					    mView.getActivity().finish();
+				    });
+	    } else {
+		    App.showMessage(result);
+	    }
     }
 }

@@ -4,7 +4,7 @@ package com.danielspeixoto.connect.view.activity;
 import android.os.Bundle;
 
 import com.danielspeixoto.connect.R;
-import com.danielspeixoto.connect.model.Connection;
+import com.danielspeixoto.connect.model.UserModel;
 
 import butterknife.OnClick;
 
@@ -12,7 +12,7 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        if (Connection.hasAccountSavedOnDevice()) {
+        if (UserModel.hasAccountSavedOnDevice()) {
             goToActivity(HomeActivity.class);
             finish();
         }

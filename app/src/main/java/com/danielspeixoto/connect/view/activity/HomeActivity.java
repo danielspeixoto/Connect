@@ -5,7 +5,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.danielspeixoto.connect.R;
-import com.danielspeixoto.connect.model.Connection;
+import com.danielspeixoto.connect.model.UserModel;
 
 public class HomeActivity extends BaseActivity {
 
@@ -24,7 +24,7 @@ public class HomeActivity extends BaseActivity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 			case R.id.logout:
-				Connection.logOut();
+				UserModel.logOut();
 				goToActivity(MainActivity.class);
 				finish();
 		}

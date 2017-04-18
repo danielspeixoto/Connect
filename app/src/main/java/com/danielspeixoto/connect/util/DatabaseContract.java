@@ -17,4 +17,7 @@ public interface DatabaseContract {
     String TOKEN = "token";
     
     String USER = "user";
+    String SUCCESS = "success";
+    String ERROR = "error";
+    String MESSAGE = "msg";
 }

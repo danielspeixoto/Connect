@@ -17,13 +17,13 @@ import retrofit2.http.POST;
  * Created by daniel on 16/04/17.
  */
 
-public interface UsersService {
+public interface UserService {
 	
 	@GET("users/get-all")
 	Observable<List<User>> getUsers();
 	
 	@POST("users/register")
-	Single<JsonObject> createUser(@Body User user);
+	Single<JsonObject> createADM(@Body User user);
 	
 	@FormUrlEncoded
 	@POST("users/authenticate")
