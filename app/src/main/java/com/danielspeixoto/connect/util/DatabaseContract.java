@@ -5,12 +5,16 @@ package com.danielspeixoto.connect.util;
  */
 
 public interface DatabaseContract {
-
-    String EMAIL = "username";
+    
+    String USERNAME = "username";
     String GROUP = "group";
     String NAME = "name";
     String PASSWORD = "password";
     String PERMISSIONS = "permissions";
+    
     String LOGIN = "login";
     String DATA = "data";
+    String TOKEN = "token";
+    
+    String USER = "user";
 }

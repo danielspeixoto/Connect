@@ -1,5 +1,6 @@
 package com.danielspeixoto.connect.util;
 
+import com.google.gson.Gson;
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 
 import lombok.Getter;
@@ -12,15 +13,18 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class Database {
 	
-	public static final String END_POINT = "http://192.168.0.22:4000/api/";
+	public static final String END_POINT = "http://192.168.0.22:8080/";
 	@Getter
-	private static Retrofit mRetrofit;
+	private static Retrofit retrofit;
+	@Getter
+	private static Gson gson;
 	
 	static {
-		mRetrofit = new Retrofit.Builder().baseUrl(END_POINT)
+		retrofit = new Retrofit.Builder().baseUrl(END_POINT)
 				.addConverterFactory(GsonConverterFactory.create())
 				.addCallAdapterFactory(RxJava2CallAdapterFactory.create())
 				.build();
+		gson = new Gson();
 	}
 	
 }
