@@ -2,9 +2,9 @@ package com.danielspeixoto.connect.view.activity
 
 
 import android.os.Bundle
-import com.danielspeixoto.connect.R
 import com.danielspeixoto.connect.model.UserModel
-import kotlinx.android.synthetic.main.content_main.*
+import com.danielspeixoto.connect.view.ui.MainUi
+import org.jetbrains.anko.setContentView
 
 class MainActivity : BaseActivity() {
 
@@ -13,8 +13,7 @@ class MainActivity : BaseActivity() {
             goToActivity(HomeActivity::class.java)
             finish()
         }
-        super.onCreate(savedInstanceState, R.layout.activity_main)
-        activity.signUpButton.setOnClickListener { goToActivity(SignUpActivity::class.java) }
-        activity.haveAccountButton.setOnClickListener { goToActivity(LoginActivity::class.java) }
+        super.onCreate(savedInstanceState)
+        MainUi().setContentView(this)
     }
 }
