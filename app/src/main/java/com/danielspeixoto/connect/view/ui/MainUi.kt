@@ -4,6 +4,7 @@ import android.graphics.Color
 import android.support.v4.content.ContextCompat
 import android.widget.ImageView
 import com.danielspeixoto.connect.R
+import com.danielspeixoto.connect.util.App
 import com.danielspeixoto.connect.view.activity.LoginActivity
 import com.danielspeixoto.connect.view.activity.MainActivity
 import com.danielspeixoto.connect.view.activity.SignUpActivity
@@ -21,7 +22,7 @@ class MainUi : AnkoComponent<MainActivity> {
         relativeLayout {
             lparams(width = matchParent, height = matchParent)
             padding = dip(8)
-            button(R.string.has_no_account) {
+            button(App.getStringResource(R.string.has_no_account)) {
                 id = HAS_NO_ACCOUNT
                 onClick {
                     startActivity<SignUpActivity>()
@@ -32,7 +33,7 @@ class MainUi : AnkoComponent<MainActivity> {
                     alignParentBottom()
                     alignParentStart()
                 }
-            button(R.string.has_account) {
+            button(App.getStringResource(R.string.has_account)) {
                 id = HAS_ACCOUNT
                 onClick {
                     startActivity<LoginActivity>()

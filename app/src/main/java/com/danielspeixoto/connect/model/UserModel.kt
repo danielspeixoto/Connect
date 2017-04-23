@@ -8,10 +8,14 @@ import com.danielspeixoto.connect.util.App
 import com.danielspeixoto.connect.util.Database
 import com.danielspeixoto.connect.util.DatabaseContract
 import io.reactivex.Single
+import io.reactivex.schedulers.Schedulers
 import lombok.Getter
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.io.File
+import java.io.ObjectInputStream
+import java.io.ObjectOutputStream
 
 /**
  * Created by danielspeixoto on 4/21/17.
@@ -30,7 +34,7 @@ class UserModel : DatabaseContract {
                         .enqueue(object : Callback<User> {
                             override fun onResponse(call: Call<User>, response: Response<User>) {
                                 currentUser = response.body()
-                                saveAccountOnDevice(username, password)
+                                saveAccountOnDevice()
                                 subscriber.onSuccess(currentUser)
                             }
 
@@ -43,14 +47,15 @@ class UserModel : DatabaseContract {
             }
         }
 
+        fun logIn(user: User) = logIn(user.username, user.password)
+
         fun createADM(user: User): Single<User> {
-            val passwordWithoutHash = user.password
             return Single.create<User> { subscriber ->
                 sUsersService.createADM(user)
                         .enqueue(object : Callback<User> {
                             override fun onResponse(call: Call<User>, response: Response<User>) {
                                 currentUser = response.body()
-                                saveAccountOnDevice(currentUser!!.username, passwordWithoutHash)
+                                saveAccountOnDevice()
                                 subscriber.onSuccess(currentUser)
                             }
 
@@ -65,27 +70,28 @@ class UserModel : DatabaseContract {
 
         fun hasAccountSavedOnDevice(): Boolean {
             if (!isLogged) {
-                val preferences = App.context!!.getSharedPreferences(DatabaseContract.LOGIN,
-                        Context.MODE_PRIVATE)
-                if (preferences.contains(DatabaseContract.USERNAME)) {
-                    logIn(preferences.getString(DatabaseContract.USERNAME, ""), preferences.getString(DatabaseContract.PASSWORD, ""))
+                val file = File("user")
+                if (file.isFile) {
+                    currentUser = ObjectInputStream(App.context!!.openFileInput("user")).readObject() as User
+                    logIn(currentUser!!).subscribeOn(Schedulers.io()).observeOn(Schedulers.io()).subscribe()
+                    return true
                 }
             }
-            return isLogged
+            return false
         }
 
         fun logOut() {
             currentUser = null
-            App.context!!.getSharedPreferences(DatabaseContract.LOGIN, Context.MODE_PRIVATE).edit().clear().commit()
+            App.context!!.getSharedPreferences(DatabaseContract.LOGIN,
+                                               Context.MODE_PRIVATE).edit().clear().commit()
         }
 
-        private fun saveAccountOnDevice(username: String, password: String) {
+        private fun saveAccountOnDevice() {
             Thread {
-                val editor = App.context!!.getSharedPreferences(DatabaseContract.LOGIN, Context
-                        .MODE_PRIVATE).edit()
-                editor.putString(DatabaseContract.USERNAME, username)
-                editor.putString(DatabaseContract.PASSWORD, password)
-                editor.apply()
+                val objectOS = ObjectOutputStream(App.context!!.openFileOutput("user",
+                                                                               Context.MODE_PRIVATE))
+                objectOS.writeObject(currentUser)
+                objectOS.close()
             }.start()
         }
 

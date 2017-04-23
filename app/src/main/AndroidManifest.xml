@@ -26,13 +26,13 @@
         <activity
             android:name=".view.activity.HomeActivity"
             android:label="@string/title_activity_home"
-            android:theme="@style/AppTheme">
+            android:theme="@style/AppTheme.NoActionBar">
         </activity>
         <activity
             android:name=".view.activity.SignUpActivity"
             android:label="@string/title_activity_sign_up"
             android:parentActivityName=".view.activity.MainActivity"
-            android:theme="@style/AppTheme">
+            android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.danielspeixoto.connect.view.activity.MainActivity"/>
@@ -41,7 +41,7 @@
             android:name=".view.activity.LoginActivity"
             android:label="@string/title_activity_login"
             android:parentActivityName=".view.activity.MainActivity"
-            android:theme="@style/AppTheme">
+            android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.danielspeixoto.connect.view.activity.MainActivity"/>
