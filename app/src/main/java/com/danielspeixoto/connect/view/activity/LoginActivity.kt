@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.support.v4.view.GravityCompat
 import android.text.InputType
 import android.view.Gravity
+import android.view.inputmethod.EditorInfo
 import com.danielspeixoto.connect.R
 import com.danielspeixoto.connect.module.Login
 import com.danielspeixoto.connect.presenter.LoginPresenter
@@ -35,7 +36,7 @@ class LoginActivity : BaseActivity(), Login.View {
                     }
                     passEdit = editField {
                         hint = getString(R.string.password)
-                        inputType = InputType.TYPE_TEXT_VARIATION_PASSWORD
+                        inputType = EditorInfo.TYPE_CLASS_TEXT or EditorInfo.TYPE_TEXT_VARIATION_WEB_PASSWORD
                     }
                 }.lparams(width = matchParent, height = wrapContent) {
                     centerInParent()

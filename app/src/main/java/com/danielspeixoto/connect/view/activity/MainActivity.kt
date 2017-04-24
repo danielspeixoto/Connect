@@ -48,9 +48,9 @@ class MainActivity : BaseActivity() {
                 alignParentStart()
             }
             iconView().lparams {
-                above(HAS_ACCOUNT)
                 alignParentTop()
                 centerHorizontally()
+                topMargin = dip(16)
             }
         }
     }

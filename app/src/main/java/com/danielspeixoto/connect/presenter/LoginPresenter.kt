@@ -1,5 +1,6 @@
 package com.danielspeixoto.connect.presenter
 
+import com.danielspeixoto.connect.R
 import com.danielspeixoto.connect.model.UserModel
 import com.danielspeixoto.connect.model.pojo.User
 import com.danielspeixoto.connect.module.Login
@@ -16,6 +17,7 @@ import io.reactivex.schedulers.Schedulers
 class LoginPresenter(private val mView: Login.View) : Login.Presenter {
 
     override fun logIn(username: String, password: String) {
+        App.showMessage(App.getStringResource(R.string.loading))
         val user = User(username, password)
         val result = Validate.User(user)
         if (result == Validate.OK) {

@@ -9,7 +9,7 @@ class Login {
     interface View : ActivityBase.View
 
     interface Presenter : ActivityBase.Presenter {
-        fun logIn(email: String, password: String)
+        fun logIn(username: String, password: String)
     }
 
 }

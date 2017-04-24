@@ -6,9 +6,7 @@ import com.danielspeixoto.connect.model.pojo.User
 import com.danielspeixoto.connect.module.SignUp
 import com.danielspeixoto.connect.util.App
 import com.danielspeixoto.connect.util.Validate
-import com.danielspeixoto.connect.view.activity.BaseActivity
 import com.danielspeixoto.connect.view.activity.HomeActivity
-
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
@@ -17,15 +15,9 @@ import io.reactivex.schedulers.Schedulers
  */
 
 class SignUpPresenter(private val mView: SignUp.View) : SignUp.Presenter {
-    private val mActivity: BaseActivity
-
-
-    init {
-        mActivity = mView.activity
-    }
 
     override fun signUp(user: User) {
-        App.showMessage(mActivity.resources.getString(R.string.loading))
+        App.showMessage(App.getStringResource(R.string.loading))
         val result = Validate.User(user)
         if (result == Validate.OK) {
             UserModel.createADM(user)

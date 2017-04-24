@@ -32,7 +32,7 @@
             android:name=".view.activity.SignUpActivity"
             android:label="@string/title_activity_sign_up"
             android:parentActivityName=".view.activity.MainActivity"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.danielspeixoto.connect.view.activity.MainActivity"/>
