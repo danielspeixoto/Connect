@@ -1,9 +1,13 @@
 package com.danielspeixoto.connect.view.recycler.adapter
 
+import android.support.v7.widget.RecyclerView
+import com.danielspeixoto.connect.view.activity.BaseActivity
+import com.danielspeixoto.connect.view.recycler.holder.BaseHolder
+
 /**
  * Created by danielspeixoto on 4/21/17.
  */
-/*class BaseAdapter<out H : BaseHolder<*,*>, O>
+abstract class BaseAdapter<H : BaseHolder<O>, O>
     (var activity : BaseActivity) :
         RecyclerView.Adapter<H>() {
 
@@ -36,15 +40,10 @@ package com.danielspeixoto.connect.view.recycler.adapter
     }
 
     override fun onBindViewHolder(holder: H, position: Int) {
-        holder.setItem(data[position] as Any)
-        holder.setPosition(position);
+        holder.item = data[position]
+        holder.itemPosition = position
         holder.onPostCreated()
     }
 
     override fun getItemCount() = data.size
-
-    override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): H {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-}*/
+}

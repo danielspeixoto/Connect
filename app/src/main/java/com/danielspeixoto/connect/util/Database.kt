@@ -15,5 +15,8 @@ object Database {
             .addConverterFactory(GsonConverterFactory.create())
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
             .build()
+    init {
+
+    }
     val gson: Gson? = Gson()
 }

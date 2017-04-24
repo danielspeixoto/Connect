@@ -7,7 +7,7 @@ import com.danielspeixoto.connect.model.pojo.User
 import com.danielspeixoto.connect.module.SignUp
 import com.danielspeixoto.connect.presenter.SignUpPresenter
 import com.danielspeixoto.connect.util.checkTextEmpty
-import com.danielspeixoto.connect.util.getStringText
+import com.danielspeixoto.connect.util.content
 import kotlinx.android.synthetic.main.activity_sign_up.*
 import kotlinx.android.synthetic.main.content_sign_up.*
 
@@ -37,13 +37,13 @@ class SignUpActivity : BaseActivity(), SignUp.View {
             } else if (passEdit!!.checkTextEmpty()) {
                 passEdit!!.requestFocus()
                 showMessage("Must have a password")
-            } else if (passEdit!!.getStringText() != confirmPassEdit!!.getStringText()) {
+            } else if (passEdit!!.content != confirmPassEdit!!.content) {
                 confirmPassEdit!!.requestFocus()
                 showMessage("Passwords must match")
             } else {
-                user.name = nameEdit!!.getStringText()
-                user.username = usernameEdit!!.getStringText()
-                user.password = passEdit!!.getStringText()
+                user.name = nameEdit!!.content
+                user.username = usernameEdit!!.content
+                user.password = passEdit!!.content
                 mPresenter!!.signUp(user)
             }
         }

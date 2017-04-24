@@ -1,28 +1,18 @@
 package com.danielspeixoto.connect.view.recycler.holder
 
+import android.support.v7.widget.RecyclerView
+import android.view.View
+import com.danielspeixoto.connect.view.recycler.adapter.BaseAdapter
+
 /**
  * Created by danielspeixoto on 20/11/16.
  */
-/*abstract class BaseHolder<out A : BaseAdapter<*,*>, O>(itemView: View, protected var mAdapter:
-A) :
+abstract class BaseHolder<O>(itemView: View) :
         RecyclerView.ViewHolder(itemView) {
 
-    protected var item: O? = null
-        set
+    var item: O? = null
     var itemPosition: Int = 0
-        set
-     val activity: BaseActivity
-        get() = mAdapter.activity
-
-    init {
-        ButterKnife.bind(this, itemView)
-    }
+    var adapter : BaseAdapter<*,O>? = null
 
     abstract fun onPostCreated()
-
-    fun goToActivity(clazz: Class<*>) {
-        mAdapter.activity.goToActivity(clazz)
-    }
-
-
-}*/
+}

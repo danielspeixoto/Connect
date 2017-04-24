@@ -22,8 +22,6 @@ class RecyclerList(context: Context, attrs: AttributeSet?) : LinearLayout(contex
     private val emptyView: LinearLayout
 
     init {
-        //TODO use ANKO
-
         emptyView = LinearLayout(context)
         recycler = CustomRecycler(context)
         recycler.layoutManager = LinearLayoutManager(context)
@@ -40,11 +38,6 @@ class RecyclerList(context: Context, attrs: AttributeSet?) : LinearLayout(contex
         addView(recycler)
         addView(emptyView)
     }
-
-    /*fun setAdapter(adapter: BaseAdapter<*, *>) {
-        recycler.adapter = adapter
-        recycler.checkIfEmpty()
-    }*/
 
     fun setNestedScrollEnabled(enabled: Boolean) {
         recycler.isNestedScrollingEnabled = enabled

@@ -9,8 +9,11 @@ val EMPTY_STRING = ""
 
 fun TextView.checkTextEmpty() = this.text.toString() == EMPTY_STRING
 
-fun TextView.getStringText() = this.text.toString()
+val TextView.content
+ get() = this.text.toString()
 
 fun TextView.clear() {
     this.text = EMPTY_STRING
 }
+
+val ACTIVITY_BORDER = 8

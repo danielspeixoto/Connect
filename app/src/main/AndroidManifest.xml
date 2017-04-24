@@ -26,7 +26,7 @@
         <activity
             android:name=".view.activity.HomeActivity"
             android:label="@string/title_activity_home"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppTheme">
         </activity>
         <activity
             android:name=".view.activity.SignUpActivity"
@@ -41,7 +41,7 @@
             android:name=".view.activity.LoginActivity"
             android:label="@string/title_activity_login"
             android:parentActivityName=".view.activity.MainActivity"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.danielspeixoto.connect.view.activity.MainActivity"/>
