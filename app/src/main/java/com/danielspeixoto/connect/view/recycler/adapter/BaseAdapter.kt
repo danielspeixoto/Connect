@@ -41,7 +41,6 @@ abstract class BaseAdapter<H : BaseHolder<O>, O>
 
     override fun onBindViewHolder(holder: H, position: Int) {
         holder.item = data[position]
-        holder.itemPosition = position
         holder.onPostCreated()
     }
 

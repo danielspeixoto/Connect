@@ -30,7 +30,6 @@ class SignUpActivity : BaseActivity(), SignUp.View {
         super.onCreate(savedInstanceState)
         mPresenter = SignUpPresenter(this)
         coordinatorLayout {
-            lparams(width = matchParent, height = matchParent)
             padding = dip(ACTIVITY_BORDER)
             scrollView {
                 verticalLayout {

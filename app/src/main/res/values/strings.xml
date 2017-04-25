@@ -27,4 +27,8 @@
     <string name="manage_users">Manage Users</string>
     <string name="manage_tickets">Manage Tickets</string>
     <string name="no_internet">No Internet Connection</string>
+    <string name="phone">Phone</string>
+    <string name="observations">Observations</string>
+    <string name="visitor_saved">Visitor saved</string>
+    <string name="visitor_added">Visitor saved</string>
 </resources>
