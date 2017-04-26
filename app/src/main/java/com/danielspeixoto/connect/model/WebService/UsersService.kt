@@ -5,6 +5,7 @@ import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
+import retrofit2.http.PUT
 
 /**
  * Created by danielspeixoto on 4/21/17.
@@ -12,13 +13,13 @@ import retrofit2.http.POST
 
 interface UsersService {
 
-    @GET("users")
+    @GET("users/")
     fun getAll(): Call<List<User>>
 
     @POST("users")
     fun createADM(@Body user: User): Call<User>
 
-    @POST("users/login")
+    @PUT("users/login")
     fun logIn(@Body user: User): Call<User>
 
 }

@@ -21,11 +21,13 @@ class CreateVisitorPresenter(private val mView: CreateVisitor.View) : CreateVisi
             VisitorModel.create(visitor)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe { visitor1 ->
+                    .subscribe ({ visitor1 ->
                         //TODO Use a info dialog instead
                         App.showMessage(App.getStringResource(R.string.visitor_added))
                         mView.refresh()
-                    }
+                    }, { throwable ->
+                        App.showMessage(App.getStringResource(R.string.error_occurred))
+                    })
         } else {
             App.showMessage(result)
         }

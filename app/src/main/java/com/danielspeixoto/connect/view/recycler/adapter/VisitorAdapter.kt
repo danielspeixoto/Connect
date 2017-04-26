@@ -17,6 +17,9 @@ import org.jetbrains.anko.*
 class VisitorAdapter(activity : BaseActivity) : BaseAdapter<ItemUI.VisitorHolder, Visitor>(activity) {
 
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): ItemUI.VisitorHolder {
+        addItem(Visitor("SDFJISDFIDSF"))
+        addItem(Visitor("Dan"))
+        notifyDataSetChanged()
         return ItemUI.VisitorHolder(ItemUI().createView(AnkoContext.create(parent!!.context,
                                                                            parent)))
     }

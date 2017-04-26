@@ -19,4 +19,7 @@ fun TextView.clear() {
 val String.integer
     get() = Integer.valueOf(this)
 
+val Int.string
+    get() = Integer.toString(this)
+
 val ACTIVITY_BORDER = 8

@@ -29,6 +29,15 @@
             android:theme="@style/AppTheme">
         </activity>
         <activity
+            android:name=".view.activity.CreateVisitorActivity"
+            android:label="@string/title_activity_create_visitor"
+            android:parentActivityName=".view.activity.HomeActivity"
+            android:theme="@style/AppTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.danielspeixoto.connect.view.activity.HomeActivity"/>
+        </activity>
+        <activity
             android:name=".view.activity.SignUpActivity"
             android:label="@string/title_activity_sign_up"
             android:parentActivityName=".view.activity.MainActivity"

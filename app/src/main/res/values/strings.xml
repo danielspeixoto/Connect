@@ -31,4 +31,7 @@
     <string name="observations">Observations</string>
     <string name="visitor_saved">Visitor saved</string>
     <string name="visitor_added">Visitor saved</string>
+    <string name="title_activity_create_visitor">Create Visitor</string>
+    <string name="age">Age</string>
+    <string name="validation_failed">Your credentials have been changed</string>
 </resources>

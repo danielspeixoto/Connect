@@ -45,7 +45,7 @@ object Database {
 
     val isConnected : Boolean
         get() {
-            val info = App.context!!.connectivityManager.activeNetworkInfo
+            val info = App.context.connectivityManager.activeNetworkInfo
             return info != null && info.isConnected
         }
 }

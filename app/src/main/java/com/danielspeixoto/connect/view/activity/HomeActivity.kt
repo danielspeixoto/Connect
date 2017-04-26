@@ -24,7 +24,7 @@ class HomeActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         coordinatorLayout {
             padding = dip(ACTIVITY_BORDER)
-            list = recyclerView()
+            list = recyclerView().lparams(width = matchParent, height = matchParent)
             floatingButton {
                 //TODO Change resource
                 imageResource = R.drawable.ic_save_black_24dp

@@ -24,10 +24,15 @@ class LoginPresenter(private val mView: Login.View) : Login.Presenter {
             UserModel.logIn(username, password)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe { _ ->
+                    .subscribe ({ _ ->
                         mView.goToActivity(HomeActivity::class.java)
                         mView.activity.finish()
-                    }
+                    }, { throwable ->
+                        when(throwable.message) {
+                            "404" -> App.showMessage(App.getStringResource(R.string.incorrect_username_password))
+                            else -> App.showMessage(App.getStringResource(R.string.error_occurred))
+                        }
+                    })
         } else {
             App.showMessage(result)
         }

@@ -3,12 +3,16 @@ package com.danielspeixoto.connect.view.activity
 import android.os.Bundle
 import android.support.v4.view.GravityCompat
 import android.view.Gravity
+import android.view.inputmethod.EditorInfo
 import android.widget.EditText
 import com.danielspeixoto.connect.R
 import com.danielspeixoto.connect.model.pojo.Visitor
 import com.danielspeixoto.connect.module.CreateVisitor
 import com.danielspeixoto.connect.presenter.CreateVisitorPresenter
-import com.danielspeixoto.connect.util.*
+import com.danielspeixoto.connect.util.ACTIVITY_BORDER
+import com.danielspeixoto.connect.util.clear
+import com.danielspeixoto.connect.util.content
+import com.danielspeixoto.connect.util.integer
 import com.danielspeixoto.connect.view.custom.EditField
 import com.danielspeixoto.connect.view.custom.editField
 import com.danielspeixoto.connect.view.custom.floatingButton
@@ -33,39 +37,37 @@ class CreateVisitorActivity : BaseActivity(), CreateVisitor.View {
         coordinatorLayout {
             lparams(width = matchParent, height = matchParent)
             padding = dip(ACTIVITY_BORDER)
-            scrollView{
-                relativeLayout {
-                    verticalLayout {
-                        nameEdit = editField {
-                            hint = getString(R.string.name)
-                        }
-                        ageEdit = editField {
-                            hint = getString(R.string.password)
-                        }
-                        phoneEdit = editField {
-                            hint = getString(R.string.phone)
-                        }
-                        observationsEdit = editField {
-                            hint = getString(R.string.observations)
-                            height = dip(100)
-                        }
-                    }.lparams(width = matchParent, height = wrapContent) {
-                        centerInParent()
+            scrollView {
+                verticalLayout {
+                    nameEdit = editField {
+                        hint = getString(R.string.name)
                     }
-                }.lparams(width = matchParent, height = matchParent)
-            }
+                    ageEdit = editField {
+                        hint = getString(R.string.age)
+                        inputType = EditorInfo.TYPE_CLASS_NUMBER
+                    }
+                    phoneEdit = editField {
+                        hint = getString(R.string.phone)
+                        inputType = EditorInfo.TYPE_CLASS_NUMBER
+                    }
+                    observationsEdit = editField {
+                        // TEXT GRAVITY
+                        gravity = Gravity.START
+                        hint = getString(R.string.observations)
+                        height = dip(100)
+                    }
+                }.lparams(width = matchParent, height = wrapContent) {
+                    gravity = Gravity.CENTER
+                }
+            }.lparams(width = matchParent, height = wrapContent)
             floatingButton {
                 imageResource = android.R.drawable.ic_menu_save
                 onClick {
-                    if(nameEdit.content != EMPTY_STRING) {
-                        val visitor = Visitor(nameEdit.content)
-                        visitor.age = ageEdit.content.integer
-                        visitor.phone = phoneEdit.content.integer
-                        visitor.observations = observationsEdit.content
-                        presenter.create(visitor)
-                    } else {
-                        toast(getString(R.string.name_must_fill))
-                    }
+                    val visitor = Visitor(nameEdit.content)
+                    visitor.age = ageEdit.content.integer
+                    visitor.phone = phoneEdit.content.integer
+                    visitor.observations = observationsEdit.content
+                    presenter.create(visitor)
                 }
             }.lparams {
                 margin = resources.getDimensionPixelSize(R.dimen.fab_margin)

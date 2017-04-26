@@ -1,33 +1,24 @@
 package com.danielspeixoto.connect.model.pojo
 
-import android.os.Parcel
-import android.os.Parcelable
+import com.google.gson.annotations.Expose
+
+import com.google.gson.annotations.SerializedName
+
 
 /**
  * Created by danielspeixoto on 4/21/17.
  */
-data class User constructor(var username: String = "", var password: String = "") : Parcelable {
-    var name: String = ""
+data class User constructor(@SerializedName("_id") @Expose var username: String, var password: String) {
 
-    var group: String = ""
+    lateinit var name: String
 
-    var token: String = ""
+    var group: String? = null
+
+    var token: String? = null
 
     var permissions: HashMap<String, Boolean> = HashMap()
 
-    companion object {
-        @JvmField val CREATOR: Parcelable.Creator<User> = object : Parcelable.Creator<User> {
-            override fun createFromParcel(source: Parcel): User = User(source)
-            override fun newArray(size: Int): Array<User?> = arrayOfNulls(size)
-        }
-    }
+    val values
+     get() = "$group $name $username $password"
 
-    constructor(source: Parcel) : this(source.readString(), source.readString())
-
-    override fun describeContents() = 0
-
-    override fun writeToParcel(dest: Parcel?, flags: Int) {
-        dest?.writeString(username)
-        dest?.writeString(password)
-    }
 }

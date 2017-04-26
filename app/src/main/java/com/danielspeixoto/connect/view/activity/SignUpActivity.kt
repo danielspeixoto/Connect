@@ -23,12 +23,11 @@ class SignUpActivity : BaseActivity(), SignUp.View {
     lateinit var usernameEdit: EditText
     lateinit var passEdit: EditText
     lateinit var confirmPassEdit: EditText
-    lateinit private var mPresenter: SignUp.Presenter
-    private val user = User()
+    lateinit private var presenter: SignUp.Presenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        mPresenter = SignUpPresenter(this)
+        presenter = SignUpPresenter(this)
         coordinatorLayout {
             padding = dip(ACTIVITY_BORDER)
             scrollView {
@@ -69,10 +68,9 @@ class SignUpActivity : BaseActivity(), SignUp.View {
                         confirmPassEdit.requestFocus()
                         toast(getString(R.string.password_must_match))
                     } else {
+                        val user = User(usernameEdit.content, passEdit.content)
                         user.name = nameEdit.content
-                        user.username = usernameEdit.content
-                        user.password = passEdit.content
-                        mPresenter.signUp(user)
+                        presenter.signUp(user)
                     }
                 }
             }.lparams {
