@@ -2,7 +2,6 @@ package com.danielspeixoto.connect.model
 
 import android.content.Context
 import android.content.Intent
-import android.support.v4.content.ContextCompat.startActivity
 import com.danielspeixoto.connect.R
 import com.danielspeixoto.connect.model.pojo.User
 import com.danielspeixoto.connect.util.*
@@ -28,7 +27,6 @@ object UserModel : DatabaseContract {
                     .enqueue(object : Callback<User> {
                         override fun onResponse(call: Call<User>, response: Response<User>) {
                             if (response.isSuccessful) {
-                                App.log(response.body().values)
                                 currentUser = response.body()
                                 saveAccountOnDevice()
                                 subscriber.onSuccess(currentUser)
@@ -54,7 +52,6 @@ object UserModel : DatabaseContract {
                         override fun onResponse(call: Call<User>, response: Response<User>) {
                             if (response.isSuccessful) {
                                 currentUser = response.body()
-                                App.log(currentUser.toString())
                                 saveAccountOnDevice()
                                 subscriber.onSuccess(currentUser)
                             } else {
@@ -82,13 +79,8 @@ object UserModel : DatabaseContract {
                         { throwable ->
                             throwable.printStackTrace()
                             App.showMessage(App.getStringResource(R.string.validation_failed))
-                            // Reset app if  authentication fails
-                            val resetIntent = Intent(Intent.ACTION_MAIN)
-                            resetIntent.addCategory(Intent.CATEGORY_HOME)
-                            resetIntent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
-                            startActivity(App.context, resetIntent, null)
+                            forceLogOut()
                         })
-
             }
         }
         return isLogged
@@ -105,6 +97,17 @@ object UserModel : DatabaseContract {
     fun logOut() {
         currentUser = null
         App.context.getSharedPreferences(USER, Context.MODE_PRIVATE).edit().clear().apply()
+    }
+
+    // Used when the user obstructs the security
+    //TODO implement
+    fun forceLogOut() {
+        logOut()
+        // Reset app
+        val resetIntent = Intent(Intent.ACTION_MAIN)
+        resetIntent.addCategory(Intent.CATEGORY_HOME)
+        resetIntent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
+        //startActivity(App.context, resetIntent, null)
     }
 
     private val isLogged: Boolean

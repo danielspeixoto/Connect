@@ -6,13 +6,10 @@ import android.view.Gravity
 import android.view.inputmethod.EditorInfo
 import android.widget.EditText
 import com.danielspeixoto.connect.R
+import com.danielspeixoto.connect.contract.CreateVisitor
 import com.danielspeixoto.connect.model.pojo.Visitor
-import com.danielspeixoto.connect.module.CreateVisitor
 import com.danielspeixoto.connect.presenter.CreateVisitorPresenter
-import com.danielspeixoto.connect.util.ACTIVITY_BORDER
-import com.danielspeixoto.connect.util.clear
-import com.danielspeixoto.connect.util.content
-import com.danielspeixoto.connect.util.integer
+import com.danielspeixoto.connect.util.*
 import com.danielspeixoto.connect.view.custom.EditField
 import com.danielspeixoto.connect.view.custom.editField
 import com.danielspeixoto.connect.view.custom.floatingButton
@@ -36,7 +33,7 @@ class CreateVisitorActivity : BaseActivity(), CreateVisitor.View {
         presenter = CreateVisitorPresenter(this)
         coordinatorLayout {
             lparams(width = matchParent, height = matchParent)
-            padding = dip(ACTIVITY_BORDER)
+            padding = dip(PARAM_LAYOUT)
             scrollView {
                 verticalLayout {
                     nameEdit = editField {
@@ -51,21 +48,18 @@ class CreateVisitorActivity : BaseActivity(), CreateVisitor.View {
                         inputType = EditorInfo.TYPE_CLASS_NUMBER
                     }
                     observationsEdit = editField {
-                        // TEXT GRAVITY
                         gravity = Gravity.START
                         hint = getString(R.string.observations)
                         height = dip(100)
                     }
-                }.lparams(width = matchParent, height = wrapContent) {
-                    gravity = Gravity.CENTER
-                }
+                }.lparams(width = matchParent, height = wrapContent)
             }.lparams(width = matchParent, height = wrapContent)
             floatingButton {
-                imageResource = android.R.drawable.ic_menu_save
+                imageResource = R.drawable.ic_save_black_24dp
                 onClick {
                     val visitor = Visitor(nameEdit.content)
-                    visitor.age = ageEdit.content.integer
-                    visitor.phone = phoneEdit.content.integer
+                    if(!ageEdit.isEmpty()) visitor.age = ageEdit.content.integer
+                    if(!phoneEdit.isEmpty()) visitor.phone = phoneEdit.content.integer
                     visitor.observations = observationsEdit.content
                     presenter.create(visitor)
                 }

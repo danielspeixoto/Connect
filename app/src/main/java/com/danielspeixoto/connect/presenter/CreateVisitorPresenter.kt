@@ -1,9 +1,9 @@
 package com.danielspeixoto.connect.presenter
 
 import com.danielspeixoto.connect.R
+import com.danielspeixoto.connect.contract.CreateVisitor
 import com.danielspeixoto.connect.model.VisitorModel
 import com.danielspeixoto.connect.model.pojo.Visitor
-import com.danielspeixoto.connect.module.CreateVisitor
 import com.danielspeixoto.connect.util.App
 import com.danielspeixoto.connect.util.Validate
 import io.reactivex.android.schedulers.AndroidSchedulers

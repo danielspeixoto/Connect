@@ -1,11 +1,11 @@
-package com.danielspeixoto.connect.module
+package com.danielspeixoto.connect.contract
 
 import com.danielspeixoto.connect.model.pojo.Visitor
 
 /**
  * Created by danielspeixoto on 4/25/17.
  */
-class CreateVisitor {
+interface CreateVisitor {
 
     interface View : ActivityBase.View {
         fun refresh()

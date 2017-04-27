@@ -1,8 +1,6 @@
 package com.danielspeixoto.connect.model
 
-import com.danielspeixoto.connect.model.UserModel.currentUser
 import com.danielspeixoto.connect.model.pojo.Visitor
-import com.danielspeixoto.connect.util.App
 import com.danielspeixoto.connect.util.Database
 import com.danielspeixoto.connect.util.string
 import io.reactivex.Single
@@ -17,8 +15,7 @@ object VisitorModel {
 
     fun create(visitor: Visitor): Single<Visitor> {
         return Single.create<Visitor> { subscriber ->
-            App.log(currentUser.toString())
-            Database.visitorsService.create(UserModel.currentUser!!.group!!, visitor)
+            Database.visitorsService.create(UserModel.currentUser!!.token!!, UserModel.currentUser!!.group!!, visitor)
                     .enqueue(object : Callback<Visitor> {
                         override fun onResponse(call: Call<Visitor>, response: Response<Visitor>) {
                             if (response.isSuccessful) {
@@ -29,6 +26,26 @@ object VisitorModel {
                         }
 
                         override fun onFailure(call: Call<Visitor>, throwable: Throwable) {
+                            throwable.printStackTrace()
+                            subscriber.onError(throwable)
+                        }
+                    })
+        }
+    }
+
+    fun getVisitors() : Single<List<Visitor>> {
+        return Single.create<List<Visitor>> { subscriber ->
+            Database.visitorsService.getAll(UserModel.currentUser!!.token!!, UserModel.currentUser!!.group!!)
+                    .enqueue(object : Callback<List<Visitor>> {
+                        override fun onResponse(call: Call<List<Visitor>>, response: Response<List<Visitor>>) {
+                            if (response.isSuccessful) {
+                                subscriber.onSuccess(response.body())
+                            } else {
+                                subscriber.onError(Throwable(response.code().string))
+                            }
+                        }
+
+                        override fun onFailure(call: Call<List<Visitor>>, throwable: Throwable) {
                             throwable.printStackTrace()
                             subscriber.onError(throwable)
                         }

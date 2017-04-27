@@ -4,27 +4,27 @@ package com.danielspeixoto.connect.view.activity
 import android.graphics.Color
 import android.os.Bundle
 import com.danielspeixoto.connect.R
-import com.danielspeixoto.connect.model.UserModel
-import com.danielspeixoto.connect.util.ACTIVITY_BORDER
+import com.danielspeixoto.connect.contract.Main
+import com.danielspeixoto.connect.presenter.MainPresenter
 import com.danielspeixoto.connect.util.App
+import com.danielspeixoto.connect.util.PARAM_LAYOUT
 import com.danielspeixoto.connect.view.custom.iconView
 import org.jetbrains.anko.*
 
-class MainActivity : BaseActivity() {
+class MainActivity : BaseActivity(), Main.View {
 
     private val HAS_NO_ACCOUNT: Int = 1
     private val  HAS_ACCOUNT: Int = 2
 
+    lateinit private var mPresenter : Main.Presenter
+
     override fun onCreate(savedInstanceState: Bundle?) {
-        if (UserModel.hasAccountSavedOnDevice()) {
-            startActivity<HomeActivity>()
-            goToActivity(HomeActivity::class.java)
-            finish()
-        }
+        mPresenter = MainPresenter(this)
+        mPresenter.checkIfUserIsSaved()
         super.onCreate(savedInstanceState)
         relativeLayout {
             lparams(width = matchParent, height = matchParent)
-            padding = dip(ACTIVITY_BORDER)
+            padding = dip(PARAM_LAYOUT)
             button(App.getStringResource(R.string.has_no_account)) {
                 id = HAS_NO_ACCOUNT
                 onClick {
@@ -47,8 +47,10 @@ class MainActivity : BaseActivity() {
                 bottomMargin =  dip(8)
                 alignParentStart()
             }
-            iconView().lparams {
+            iconView().lparams(width = matchParent) {
+                //TODO Adjust aspect ratio
                 alignParentTop()
+                above(HAS_ACCOUNT)
                 centerHorizontally()
                 topMargin = dip(16)
             }

@@ -6,7 +6,6 @@ import android.view.ViewManager
 import android.widget.ImageView
 import com.danielspeixoto.connect.R
 import org.jetbrains.anko.custom.ankoView
-import org.jetbrains.anko.dip
 
 /**
  * Created by danielspeixoto on 4/23/17.
@@ -14,12 +13,9 @@ import org.jetbrains.anko.dip
 class IconView(ctx: Context) : ImageView(ctx) {
 
     init {
-        background = ContextCompat.getDrawable(context, R.mipmap.ic_launcher)
-        maxHeight = dip(200)
-        maxWidth = dip(200)
-        minimumHeight = dip(150)
-        minimumWidth = dip(150)
-        scaleType = ImageView.ScaleType.FIT_XY
+        background = ContextCompat.getDrawable(context, R.drawable.web_hi_res_512)
+        scaleType = ImageView.ScaleType.CENTER_CROP
+        adjustViewBounds = true
     }
 }
 

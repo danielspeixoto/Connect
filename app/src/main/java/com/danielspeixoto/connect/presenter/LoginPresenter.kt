@@ -1,9 +1,9 @@
 package com.danielspeixoto.connect.presenter
 
 import com.danielspeixoto.connect.R
+import com.danielspeixoto.connect.contract.Login
 import com.danielspeixoto.connect.model.UserModel
 import com.danielspeixoto.connect.model.pojo.User
-import com.danielspeixoto.connect.module.Login
 import com.danielspeixoto.connect.util.App
 import com.danielspeixoto.connect.util.Validate
 import com.danielspeixoto.connect.view.activity.HomeActivity
@@ -17,6 +17,7 @@ import io.reactivex.schedulers.Schedulers
 class LoginPresenter(private val mView: Login.View) : Login.Presenter {
 
     override fun logIn(username: String, password: String) {
+        // TODO Use Progress Bar
         App.showMessage(App.getStringResource(R.string.loading))
         val user = User(username, password)
         val result = Validate.User(user)

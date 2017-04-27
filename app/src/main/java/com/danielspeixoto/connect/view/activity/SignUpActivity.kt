@@ -7,10 +7,10 @@ import android.view.inputmethod.EditorInfo
 import android.widget.EditText
 import com.danielspeixoto.connect.R
 import com.danielspeixoto.connect.model.pojo.User
-import com.danielspeixoto.connect.module.SignUp
+import com.danielspeixoto.connect.contract.SignUp
 import com.danielspeixoto.connect.presenter.SignUpPresenter
-import com.danielspeixoto.connect.util.ACTIVITY_BORDER
-import com.danielspeixoto.connect.util.checkTextEmpty
+import com.danielspeixoto.connect.util.PARAM_LAYOUT
+import com.danielspeixoto.connect.util.isEmpty
 import com.danielspeixoto.connect.util.content
 import com.danielspeixoto.connect.view.custom.editField
 import com.danielspeixoto.connect.view.custom.floatingButton
@@ -29,7 +29,7 @@ class SignUpActivity : BaseActivity(), SignUp.View {
         super.onCreate(savedInstanceState)
         presenter = SignUpPresenter(this)
         coordinatorLayout {
-            padding = dip(ACTIVITY_BORDER)
+            padding = dip(PARAM_LAYOUT)
             scrollView {
                 verticalLayout {
                     nameEdit = editField {
@@ -55,21 +55,20 @@ class SignUpActivity : BaseActivity(), SignUp.View {
             floatingButton {
                 imageResource = R.drawable.ic_save_black_24dp
                 onClick {
-                    if (nameEdit.checkTextEmpty()) {
+                    if (nameEdit.isEmpty()) {
                         nameEdit.requestFocus()
                         toast(getString(R.string.name_must_fill))
-                    } else if (usernameEdit.checkTextEmpty()) {
+                    } else if (usernameEdit.isEmpty()) {
                         usernameEdit.requestFocus()
                         toast(getString(R.string.username_must_fill))
-                    } else if (passEdit.checkTextEmpty()) {
+                    } else if (passEdit.isEmpty()) {
                         passEdit.requestFocus()
                         toast(getString(R.string.password_must_fill))
                     } else if (passEdit.content != confirmPassEdit.content) {
                         confirmPassEdit.requestFocus()
                         toast(getString(R.string.password_must_match))
                     } else {
-                        val user = User(usernameEdit.content, passEdit.content)
-                        user.name = nameEdit.content
+                        val user = User(usernameEdit.content, passEdit.content, nameEdit.content)
                         presenter.signUp(user)
                     }
                 }

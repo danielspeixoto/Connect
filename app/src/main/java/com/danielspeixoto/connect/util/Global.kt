@@ -7,7 +7,7 @@ import android.widget.TextView
  */
 val EMPTY_STRING = ""
 
-fun TextView.checkTextEmpty() = this.text.toString() == EMPTY_STRING
+fun TextView.isEmpty() = this.text.toString() == EMPTY_STRING
 
 val TextView.content
  get() = this.text.toString()
@@ -22,4 +22,4 @@ val String.integer
 val Int.string
     get() = Integer.toString(this)
 
-val ACTIVITY_BORDER = 8
+val PARAM_LAYOUT = 8

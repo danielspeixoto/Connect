@@ -1,10 +1,10 @@
-package com.danielspeixoto.connect.module
+package com.danielspeixoto.connect.contract
 
 /**
  * Created by danielspeixoto on 2/15/17.
  */
 
-class Base {
+interface Base {
 
     interface View
 

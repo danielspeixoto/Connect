@@ -3,7 +3,7 @@ package com.danielspeixoto.connect.presenter
 import com.danielspeixoto.connect.R
 import com.danielspeixoto.connect.model.UserModel
 import com.danielspeixoto.connect.model.pojo.User
-import com.danielspeixoto.connect.module.SignUp
+import com.danielspeixoto.connect.contract.SignUp
 import com.danielspeixoto.connect.util.App
 import com.danielspeixoto.connect.util.Validate
 import com.danielspeixoto.connect.view.activity.HomeActivity

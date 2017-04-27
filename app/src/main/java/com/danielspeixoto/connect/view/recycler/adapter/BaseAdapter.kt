@@ -1,6 +1,7 @@
 package com.danielspeixoto.connect.view.recycler.adapter
 
 import android.support.v7.widget.RecyclerView
+import com.danielspeixoto.connect.contract.Source
 import com.danielspeixoto.connect.view.activity.BaseActivity
 import com.danielspeixoto.connect.view.recycler.holder.BaseHolder
 
@@ -9,13 +10,13 @@ import com.danielspeixoto.connect.view.recycler.holder.BaseHolder
  */
 abstract class BaseAdapter<H : BaseHolder<O>, O>
     (var activity : BaseActivity) :
-        RecyclerView.Adapter<H>() {
+        RecyclerView.Adapter<H>(), Source.View<O> {
 
     private var data : ArrayList<O> = ArrayList()
         get set
 
-    protected fun addItem(o : O) {
-        data.add(o)
+    override fun addItem(t: O) {
+        data.add(t)
         notifyDataSetChanged()
     }
 
