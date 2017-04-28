@@ -18,26 +18,27 @@ import org.jetbrains.anko.recyclerview.v7.recyclerView
 
 class HomeActivity : BaseActivity(), Home.View {
 
-    lateinit var list : RecyclerView
-    lateinit private var mPresenter : Home.Presenter
+    lateinit var list: RecyclerView
+    lateinit private var mPresenter: Home.Presenter
     private var mAdapter = VisitorAdapter(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         coordinatorLayout {
-            list = recyclerView().lparams(width = matchParent, height = matchParent)
+            list = recyclerView {
+                layoutManager = LinearLayoutManager(this@HomeActivity)
+                adapter = mAdapter
+            }.lparams(width = matchParent, height = matchParent)
             floatingButton {
                 imageResource = R.drawable.ic_person_add_white_24dp
                 onClick {
-                   startActivity<CreateVisitorActivity>()
+                    startActivity<CreateVisitorActivity>()
                 }
             }.lparams {
                 margin = resources.getDimensionPixelSize(R.dimen.fab_margin)
                 gravity = Gravity.BOTTOM or GravityCompat.END
             }
         }
-        list.layoutManager = LinearLayoutManager(this)
-        list.adapter = mAdapter
         mPresenter = HomePresenter(this)
         mPresenter.mAdapter = mAdapter
     }

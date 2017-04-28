@@ -35,4 +35,8 @@
     <string name="age">Age</string>
     <string name="validation_failed">Your credentials have been changed</string>
     <string name="years">years old</string>
+    <string name="no_visitors">Seems that you haven\'t any new visitors</string>
+    <string name="no_activities">No activities done</string>
+    <string name="is_connected">Connected!</string>
+    <string name="is_not_connected">He is not connected :(</string>
 </resources>

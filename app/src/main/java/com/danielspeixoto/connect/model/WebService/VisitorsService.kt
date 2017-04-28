@@ -10,9 +10,16 @@ import retrofit2.http.*
 interface VisitorsService {
 
     @GET("visitors/{group}")
-    fun getAll(@Header("Authorization") authorization: String, @Path("group") group : String): Call<List<Visitor>>
+    fun getAll(@Header("Authorization") authorization: String,
+               @Path("group") group: String): Call<List<Visitor>>
 
     @POST("visitors/{group}")
-    fun create(@Header("Authorization") authorization: String, @Path("group") group : String, @Body visitor: Visitor): Call<Visitor>
+    fun create(@Header("Authorization") authorization: String,
+               @Path("group") group: String,
+               @Body visitor: Visitor): Call<Visitor>
 
+    @PUT("visitors/{group}/{_id}")
+    fun toggleConnected(@Header("Authorization") authorization: String,
+                        @Path("group") group: String,
+                        @Path("_id") id: String): Call<Visitor>
 }
