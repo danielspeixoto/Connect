@@ -3,6 +3,7 @@ package com.danielspeixoto.connect.view.activity
 
 import android.graphics.Color
 import android.os.Bundle
+import android.util.TypedValue
 import com.danielspeixoto.connect.R
 import com.danielspeixoto.connect.contract.Main
 import com.danielspeixoto.connect.presenter.MainPresenter
@@ -14,9 +15,9 @@ import org.jetbrains.anko.*
 class MainActivity : BaseActivity(), Main.View {
 
     private val HAS_NO_ACCOUNT: Int = 1
-    private val  HAS_ACCOUNT: Int = 2
+    private val HAS_ACCOUNT: Int = 2
 
-    lateinit private var mPresenter : Main.Presenter
+    lateinit private var mPresenter: Main.Presenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         mPresenter = MainPresenter(this)
@@ -25,34 +26,36 @@ class MainActivity : BaseActivity(), Main.View {
         relativeLayout {
             lparams(width = matchParent, height = matchParent)
             padding = dip(PARAM_LAYOUT)
+            val typedValue = TypedValue()
+            theme.resolveAttribute(R.attr.colorAccent, typedValue, true)
             button(App.getStringResource(R.string.has_no_account)) {
+                textColor = Color.WHITE
                 id = HAS_NO_ACCOUNT
                 onClick {
                     startActivity<SignUpActivity>()
                 }
-                backgroundColor = Color.WHITE
+                backgroundColor = typedValue.data
             }.lparams(width = matchParent) {
-                bottomMargin =  dip(8)
+                bottomMargin = dip(8)
                 alignParentBottom()
                 alignParentStart()
             }
             button(App.getStringResource(R.string.has_account)) {
+                textColor = Color.WHITE
                 id = HAS_ACCOUNT
                 onClick {
                     startActivity<LoginActivity>()
                 }
-                backgroundColor = Color.WHITE
+                backgroundColor = typedValue.data
             }.lparams(width = matchParent) {
                 above(HAS_NO_ACCOUNT)
-                bottomMargin =  dip(8)
+                bottomMargin = dip(8)
                 alignParentStart()
             }
-            iconView().lparams(width = matchParent) {
-                //TODO Adjust aspect ratio
+            iconView().lparams {
                 alignParentTop()
                 above(HAS_ACCOUNT)
                 centerHorizontally()
-                topMargin = dip(16)
             }
         }
     }

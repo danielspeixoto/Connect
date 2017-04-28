@@ -39,6 +39,12 @@ class HomeActivity : BaseActivity(), Home.View {
         list.layoutManager = LinearLayoutManager(this)
         list.adapter = mAdapter
         mPresenter = HomePresenter(this)
+        mPresenter.mAdapter = mAdapter
+    }
+
+    override fun onResume() {
+        super.onResume()
+        mPresenter.syncItems()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

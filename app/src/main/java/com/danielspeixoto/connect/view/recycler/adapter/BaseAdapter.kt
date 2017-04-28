@@ -1,7 +1,6 @@
 package com.danielspeixoto.connect.view.recycler.adapter
 
 import android.support.v7.widget.RecyclerView
-import com.danielspeixoto.connect.contract.Source
 import com.danielspeixoto.connect.view.activity.BaseActivity
 import com.danielspeixoto.connect.view.recycler.holder.BaseHolder
 
@@ -10,29 +9,28 @@ import com.danielspeixoto.connect.view.recycler.holder.BaseHolder
  */
 abstract class BaseAdapter<H : BaseHolder<O>, O>
     (var activity : BaseActivity) :
-        RecyclerView.Adapter<H>(), Source.View<O> {
+        RecyclerView.Adapter<H>() {
 
     private var data : ArrayList<O> = ArrayList()
-        get set
 
-    override fun addItem(t: O) {
+    fun addItem(t: O) {
         data.add(t)
         notifyDataSetChanged()
     }
 
-    protected fun getItem(position : Int) = data.get(position)
+    fun getItem(position : Int) = data.get(position)
 
-    protected fun removeItem(position : Int) {
+    fun removeItem(position : Int) {
         data.removeAt(position)
         notifyDataSetChanged()
     }
 
-    protected fun clearData() {
+    fun clearData() {
         data.clear()
         notifyDataSetChanged()
     }
 
-    protected fun getIterator(): Iterator<O> {
+    fun getIterator(): Iterator<O> {
         return data.iterator()
     }
 
@@ -42,6 +40,7 @@ abstract class BaseAdapter<H : BaseHolder<O>, O>
 
     override fun onBindViewHolder(holder: H, position: Int) {
         holder.item = data[position]
+        holder.adapter = this
         holder.onPostCreated()
     }
 

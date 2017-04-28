@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="com.danielspeixoto.connect">
 
+    <uses-permission android:name="android.permission.CALL_PHONE"/>
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
 
@@ -54,6 +55,13 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.danielspeixoto.connect.view.activity.MainActivity"/>
+        </activity>
+        <activity android:name=".view.activity.InfoVisitorActivity"
+                  android:parentActivityName=".view.activity.HomeActivity"
+                  android:theme="@style/AppTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.danielspeixoto.connect.view.activity.HomeActivity"/>>
         </activity>
     </application>
 

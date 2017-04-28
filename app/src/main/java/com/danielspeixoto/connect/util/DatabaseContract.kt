@@ -21,5 +21,6 @@ interface DatabaseContract {
         val SUCCESS = "success"
         val ERROR = "error"
         val MESSAGE = "msg"
+        val VISITOR = "visitor"
     }
 }
