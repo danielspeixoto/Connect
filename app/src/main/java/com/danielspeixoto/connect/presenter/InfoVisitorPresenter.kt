@@ -16,7 +16,7 @@ class InfoVisitorPresenter(private val mView: InfoVisitor.View) : InfoVisitor.Pr
     override var visitor: Visitor? = null
 
     override fun toggleVisitorConnected() {
-        VisitorModel.toggleConnected(visitor!!._id!!).subscribeOn(Schedulers.io()).observeOn(
+        VisitorModel.toggleConnected(visitor!!._id!!, visitor!!.isConnected!!).subscribeOn(Schedulers.io()).observeOn(
                 AndroidSchedulers.mainThread()).subscribe({ visitor1 ->
                                                               mView.onVisitorConnected(visitor1.isConnected)
                                                           },

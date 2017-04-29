@@ -17,7 +17,7 @@ import java.util.concurrent.TimeUnit
 
 object Database {
 
-    val END_POINT = "http://192.168.0.22:8080/"
+    val END_POINT = "http://192.168.43.222:8080/"
 
     val gson = Gson()
 

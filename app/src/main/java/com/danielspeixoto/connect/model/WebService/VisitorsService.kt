@@ -18,8 +18,8 @@ interface VisitorsService {
                @Path("group") group: String,
                @Body visitor: Visitor): Call<Visitor>
 
-    @PUT("visitors/{group}/{_id}")
+    @PUT("visitors/{_id}/isConnected")
     fun toggleConnected(@Header("Authorization") authorization: String,
-                        @Path("group") group: String,
-                        @Path("_id") id: String): Call<Visitor>
+                        @Path("_id") id: String,
+                        @Body isConnected: Boolean): Call<Visitor>
 }
