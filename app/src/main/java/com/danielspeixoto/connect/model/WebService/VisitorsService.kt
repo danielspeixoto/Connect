@@ -18,8 +18,9 @@ interface VisitorsService {
                @Path("group") group: String,
                @Body visitor: Visitor): Call<Visitor>
 
-    @PUT("visitors/{_id}/isConnected")
+    @FormUrlEncoded
+    @PUT("visitors/isConnected/{id}")
     fun toggleConnected(@Header("Authorization") authorization: String,
-                        @Path("_id") id: String,
-                        @Body isConnected: Boolean): Call<Visitor>
+                        @Path("id") id: String,
+                        @Field("isConnected") isConnected: HashMap<String, Boolean>): Call<Visitor>
 }

@@ -13,7 +13,7 @@ data class Visitor(var _id: String? = null,
                    var age: Int? = null,
                    var activities: ArrayList<String> = arrayListOf<String>(),
                    var observers: ArrayList<String> = arrayListOf<String>(),
-                   var isConnected: Boolean) : Parcelable {
+                   var isConnected: Boolean = false) : Parcelable {
 
     companion object {
         @JvmField val CREATOR: Parcelable.Creator<Visitor> = object : Parcelable.Creator<Visitor> {
@@ -21,6 +21,8 @@ data class Visitor(var _id: String? = null,
             override fun newArray(size: Int): Array<Visitor?> = arrayOfNulls(size)
         }
     }
+
+    constructor(names : String) : this (name = names)
 
     constructor(source: Parcel) : this(
             source.readString(),

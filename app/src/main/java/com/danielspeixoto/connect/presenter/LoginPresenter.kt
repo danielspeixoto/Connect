@@ -16,24 +16,28 @@ import io.reactivex.schedulers.Schedulers
 
 class LoginPresenter(private val mView: Login.View) : Login.Presenter {
 
-    override fun logIn(username: String, password: String) {
+    override fun logIn(username: String,
+                       password: String) {
         // TODO Use Progress Bar
         App.showMessage(App.getStringResource(R.string.loading))
-        val user = User(username, password)
+        val user = User(username,
+                        password)
         val result = Validate.User(user)
         if (result == Validate.OK) {
-            UserModel.logIn(username, password)
+            UserModel.logIn(username,
+                            password)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe ({ _ ->
-                        mView.goToActivity(HomeActivity::class.java)
-                        mView.activity.finish()
-                    }, { throwable ->
-                        when(throwable.message) {
-                            "404" -> App.showMessage(App.getStringResource(R.string.incorrect_username_password))
-                            else -> App.showMessage(App.getStringResource(R.string.error_occurred))
-                        }
-                    })
+                    .subscribe({ _ ->
+                                   mView.goToActivity(HomeActivity::class.java)
+                                   mView.activity.finish()
+                               },
+                               { throwable ->
+                                   when (throwable.message) {
+                                       "404" -> App.showMessage(App.getStringResource(R.string.incorrect_username_password))
+                                       else  -> App.showMessage(App.getStringResource(R.string.error_occurred))
+                                   }
+                               })
         } else {
             App.showMessage(result)
         }

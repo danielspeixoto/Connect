@@ -43,7 +43,7 @@ object UserModel : DatabaseContract {
         }
     }
 
-    fun logIn(user: User) = logIn(user.username, user.password)
+    fun logIn(user: User) = logIn(user!!.username!!, user!!.password!!)
 
     fun createADM(user: User): Single<User> {
         return Single.create<User> { subscriber ->

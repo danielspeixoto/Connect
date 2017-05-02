@@ -3,7 +3,6 @@ package com.danielspeixoto.connect.util
 import com.danielspeixoto.connect.model.WebService.UsersService
 import com.danielspeixoto.connect.model.WebService.VisitorsService
 import com.google.gson.Gson
-import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import okhttp3.OkHttpClient
 import org.jetbrains.anko.connectivityManager
 import retrofit2.Retrofit
@@ -17,7 +16,7 @@ import java.util.concurrent.TimeUnit
 
 object Database {
 
-    val END_POINT = "http://192.168.43.222:8080/"
+    val END_POINT = "http://192.168.0.22:8080/"
 
     val gson = Gson()
 
@@ -28,9 +27,9 @@ object Database {
                 .readTimeout(30, TimeUnit.SECONDS)
                 .build()
 
-        Retrofit.Builder().baseUrl(END_POINT)
+        Retrofit.Builder()
                 .addConverterFactory(GsonConverterFactory.create())
-                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                .baseUrl(END_POINT)
                 .client(client)
                 .build()
     }

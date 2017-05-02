@@ -2,7 +2,6 @@ package com.danielspeixoto.connect.model
 
 import com.danielspeixoto.connect.model.pojo.Visitor
 import com.danielspeixoto.connect.util.Database
-import com.danielspeixoto.connect.util.Database.isConnected
 import com.danielspeixoto.connect.util.string
 import io.reactivex.Single
 import retrofit2.Call
@@ -56,7 +55,7 @@ object VisitorModel {
 
     fun toggleConnected(id : String, isConnected : Boolean) : Single<Visitor> {
         return Single.create<Visitor> { subscriber ->
-            Database.visitorsService.toggleConnected(UserModel.currentUser!!.token!!, id, isConnected)
+            Database.visitorsService.toggleConnected(UserModel.currentUser!!.token!!, id, hashMapOf("isConnected" to isConnected))
                     .enqueue(object : Callback<Visitor> {
                         override fun onResponse(call: Call<Visitor>, response: Response<Visitor>) {
                             if (response.isSuccessful) {

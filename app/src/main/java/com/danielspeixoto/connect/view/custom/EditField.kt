@@ -5,6 +5,7 @@ import android.support.v4.content.ContextCompat
 import android.view.ViewGroup
 import android.view.ViewManager
 import android.widget.EditText
+import com.danielspeixoto.connect.util.PARAM_LAYOUT
 import org.jetbrains.anko.custom.ankoView
 import org.jetbrains.anko.dip
 import org.jetbrains.anko.padding
@@ -16,7 +17,7 @@ class EditField(ctx: Context) : EditText(ctx) {
 
     init {
         background = ContextCompat.getDrawable(context, android.R.drawable.editbox_background)
-        padding = dip(16)
+        padding = dip(PARAM_LAYOUT * 2)
         layoutParams = ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                                               ViewGroup.LayoutParams.WRAP_CONTENT)
     }

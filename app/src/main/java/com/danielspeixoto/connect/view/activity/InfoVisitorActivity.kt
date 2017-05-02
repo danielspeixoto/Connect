@@ -47,8 +47,18 @@ class InfoVisitorActivity : BaseActivity(), InfoVisitor.View {
         title = visitor.name
         verticalLayout {
             relativeLayout {
-                val mainView = scrollView {
-                    lparams(width = matchParent, height = wrapContent)
+                connectedButton = button {
+                    textColor = Color.WHITE
+                    onClick {
+                        mPresenter.toggleVisitorConnected()
+                    }
+                    val typedValue = TypedValue()
+                    theme.resolveAttribute(R.attr.colorAccent, typedValue, true)
+                    backgroundColor = typedValue.data
+                }.lparams(width = matchParent) {
+                    alignParentBottom()
+                }
+                scrollView {
                     verticalLayout {
                         if (visitor.age != null) {
                             textView(visitor.age!!.string + " " + App.getStringResource(R.string.years)) {
@@ -58,28 +68,29 @@ class InfoVisitorActivity : BaseActivity(), InfoVisitor.View {
                         }
                         if (visitor.phone != null) {
                             relativeLayout {
-                                onClick {
-                                    val permissionCheck = ContextCompat.checkSelfPermission(this@InfoVisitorActivity,
-                                                                                            Manifest.permission.CALL_PHONE)
-                                    if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
-                                        callEnabled = false
-                                        ActivityCompat.requestPermissions(this@InfoVisitorActivity,
-                                                                          arrayOf(Manifest.permission.CALL_PHONE),
-                                                                          REQUEST_CALL)
-                                    }
-                                    if (callEnabled) {
-                                        makeCall(visitor.phone!!.string)
-                                    }
-                                }
                                 textView(visitor.phone!!.string) {
                                     textSize = 26f
                                     padding = dip(PARAM_LAYOUT * 2)
                                 }
-                                imageView {
+                                imageButton {
                                     imageResource = R.drawable.ic_call
                                     scaleType = ImageView.ScaleType.FIT_CENTER
                                     adjustViewBounds = true
-                                }.lparams(height = PARAM_LAYOUT * 10) {
+                                    backgroundColor = Color.WHITE
+                                    onClick {
+                                        val permissionCheck = ContextCompat.checkSelfPermission(this@InfoVisitorActivity,
+                                                                                                Manifest.permission.CALL_PHONE)
+                                        if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
+                                            callEnabled = false
+                                            ActivityCompat.requestPermissions(this@InfoVisitorActivity,
+                                                                              arrayOf(Manifest.permission.CALL_PHONE),
+                                                                              REQUEST_CALL)
+                                        }
+                                        if (callEnabled) {
+                                            makeCall(visitor.phone!!.string)
+                                        }
+                                    }
+                                }.lparams(height = PARAM_LAYOUT * 20) {
                                     rightMargin = dip(PARAM_LAYOUT * 2)
                                     alignParentRight()
                                     centerVertically()
@@ -90,8 +101,30 @@ class InfoVisitorActivity : BaseActivity(), InfoVisitor.View {
                             textSize = 26f
                             padding = dip(PARAM_LAYOUT * 2)
                         }
+                        relativeLayout {
+                            val activityField = imageButton {
+                                imageResource = R.drawable.ic_add_black_24dp
+                                scaleType = ImageView.ScaleType.FIT_CENTER
+                                adjustViewBounds = true
+                                backgroundColor = Color.TRANSPARENT
+
+                            }.lparams {
+                                alignParentRight()
+                                centerVertically()
+                                padding = dip(PARAM_LAYOUT * 3)
+                            }
+                            editText {
+                                background = ContextCompat.getDrawable(context, android.R.drawable.editbox_background)
+                                padding = dip(PARAM_LAYOUT * 2)
+                                hint = getString(R.string.add_activity)
+                                weightSum = 1f
+                            }.lparams {
+                                alignParentLeft()
+                                rightOf(activityField)
+                            }
+                        }
                         activitiesList = recyclerView {
-                            layoutManager = LinearLayoutManager(this@InfoVisitorActivity)
+                            layoutManager = LinearLayoutManager(this@InfoVisitorActivity) as RecyclerView.LayoutManager?
                             adapter = mAdapter
                             visitor.activities.forEach {
                                 mAdapter.addItem(it)
@@ -101,21 +134,11 @@ class InfoVisitorActivity : BaseActivity(), InfoVisitor.View {
                     }.lparams(width = matchParent, height = wrapContent) {
                         padding = dip(PARAM_LAYOUT)
                     }
+                }.lparams(width = matchParent, height = wrapContent) {
+                    above(connectedButton)
                 }
-                connectedButton = button(App.getStringResource(R.string.is_connected)) {
-                    textColor = Color.WHITE
-                    onClick {
-                        mPresenter.toggleVisitorConnected()
-                    }
-                    val typedValue = TypedValue()
-                    theme.resolveAttribute(R.attr.colorAccent, typedValue, true)
-                    backgroundColor = typedValue.data
-                }.lparams(width = matchParent) {
-                    below(mainView)
-                    alignParentBottom()
-                }
+                onVisitorConnected(visitor.isConnected)
             }
-
         }
     }
 

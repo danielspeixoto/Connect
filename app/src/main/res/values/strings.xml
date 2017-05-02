@@ -39,4 +39,5 @@
     <string name="no_activities">No activities done</string>
     <string name="is_connected">Connected!</string>
     <string name="is_not_connected">He is not connected :(</string>
+    <string name="add_activity">Add activity</string>
 </resources>
