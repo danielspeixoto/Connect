@@ -3,7 +3,7 @@ package com.danielspeixoto.connect.presenter
 import com.danielspeixoto.connect.R
 import com.danielspeixoto.connect.model.UserModel
 import com.danielspeixoto.connect.model.pojo.User
-import com.danielspeixoto.connect.module.SignUp
+import com.danielspeixoto.connect.contract.SignUp
 import com.danielspeixoto.connect.util.App
 import com.danielspeixoto.connect.util.Validate
 import com.danielspeixoto.connect.view.activity.HomeActivity
@@ -23,11 +23,13 @@ class SignUpPresenter(private val mView: SignUp.View) : SignUp.Presenter {
             UserModel.createADM(user)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe { user1 ->
+                    .subscribe ({ user1 ->
                         App.showMessage(App.getStringResource(R.string.user_added))
                         mView.goToActivity(HomeActivity::class.java)
                         mView.activity.finish()
-                    }
+                    }, { _ ->
+                        App.showMessage(App.getStringResource(R.string.error_occurred))
+                    })
         } else {
             App.showMessage(result)
         }

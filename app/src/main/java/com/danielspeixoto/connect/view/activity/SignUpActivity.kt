@@ -6,12 +6,12 @@ import android.view.Gravity
 import android.view.inputmethod.EditorInfo
 import android.widget.EditText
 import com.danielspeixoto.connect.R
+import com.danielspeixoto.connect.contract.SignUp
 import com.danielspeixoto.connect.model.pojo.User
-import com.danielspeixoto.connect.module.SignUp
 import com.danielspeixoto.connect.presenter.SignUpPresenter
-import com.danielspeixoto.connect.util.ACTIVITY_BORDER
-import com.danielspeixoto.connect.util.checkTextEmpty
+import com.danielspeixoto.connect.util.PARAM_LAYOUT
 import com.danielspeixoto.connect.util.content
+import com.danielspeixoto.connect.util.isEmpty
 import com.danielspeixoto.connect.view.custom.editField
 import com.danielspeixoto.connect.view.custom.floatingButton
 import org.jetbrains.anko.*
@@ -23,15 +23,13 @@ class SignUpActivity : BaseActivity(), SignUp.View {
     lateinit var usernameEdit: EditText
     lateinit var passEdit: EditText
     lateinit var confirmPassEdit: EditText
-    lateinit private var mPresenter: SignUp.Presenter
-    private val user = User()
+    lateinit private var presenter: SignUp.Presenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        mPresenter = SignUpPresenter(this)
+        presenter = SignUpPresenter(this)
         coordinatorLayout {
-            lparams(width = matchParent, height = matchParent)
-            padding = dip(ACTIVITY_BORDER)
+            padding = dip(PARAM_LAYOUT)
             scrollView {
                 verticalLayout {
                     nameEdit = editField {
@@ -57,23 +55,21 @@ class SignUpActivity : BaseActivity(), SignUp.View {
             floatingButton {
                 imageResource = R.drawable.ic_save_black_24dp
                 onClick {
-                    if (nameEdit.checkTextEmpty()) {
+                    if (nameEdit.isEmpty()) {
                         nameEdit.requestFocus()
                         toast(getString(R.string.name_must_fill))
-                    } else if (usernameEdit.checkTextEmpty()) {
+                    } else if (usernameEdit.isEmpty()) {
                         usernameEdit.requestFocus()
                         toast(getString(R.string.username_must_fill))
-                    } else if (passEdit.checkTextEmpty()) {
+                    } else if (passEdit.isEmpty()) {
                         passEdit.requestFocus()
                         toast(getString(R.string.password_must_fill))
                     } else if (passEdit.content != confirmPassEdit.content) {
                         confirmPassEdit.requestFocus()
                         toast(getString(R.string.password_must_match))
                     } else {
-                        user.name = nameEdit.content
-                        user.username = usernameEdit.content
-                        user.password = passEdit.content
-                        mPresenter.signUp(user)
+                        val user = User(usernameEdit.content, passEdit.content, nameEdit.content)
+                        presenter.signUp(user)
                     }
                 }
             }.lparams {

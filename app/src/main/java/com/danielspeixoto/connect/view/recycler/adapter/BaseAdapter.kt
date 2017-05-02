@@ -7,31 +7,33 @@ import com.danielspeixoto.connect.view.recycler.holder.BaseHolder
 /**
  * Created by danielspeixoto on 4/21/17.
  */
-abstract class BaseAdapter<H : BaseHolder<O>, O>
+abstract class BaseAdapter<O>
     (var activity : BaseActivity) :
-        RecyclerView.Adapter<H>() {
+        RecyclerView.Adapter<BaseHolder<*>>() {
 
-    private var data : ArrayList<O> = ArrayList()
-        get set
+    val EMPTY_VIEW = 0
+    val ITEM_VIEW = 1
 
-    protected fun addItem(o : O) {
-        data.add(o)
+    var data : ArrayList<O> = ArrayList()
+
+    fun addItem(t: O) {
+        data.add(t)
         notifyDataSetChanged()
     }
 
-    protected fun getItem(position : Int) = data.get(position)
+    fun getItem(position : Int) = data.get(position)
 
-    protected fun removeItem(position : Int) {
+    fun removeItem(position : Int) {
         data.removeAt(position)
         notifyDataSetChanged()
     }
 
-    protected fun clearData() {
+    fun clearData() {
         data.clear()
         notifyDataSetChanged()
     }
 
-    protected fun getIterator(): Iterator<O> {
+    fun getIterator(): Iterator<O> {
         return data.iterator()
     }
 
@@ -39,11 +41,14 @@ abstract class BaseAdapter<H : BaseHolder<O>, O>
         activity.goToActivity(clazz)
     }
 
-    override fun onBindViewHolder(holder: H, position: Int) {
-        holder.item = data[position]
-        holder.itemPosition = position
-        holder.onPostCreated()
+    override fun getItemCount() : Int {
+        if(data.size == 0) return 1 else return data.size
     }
 
-    override fun getItemCount() = data.size
+    override fun getItemViewType(position: Int): Int {
+        if(data.size == 0) {
+            return EMPTY_VIEW
+        }
+        return ITEM_VIEW
+    }
 }

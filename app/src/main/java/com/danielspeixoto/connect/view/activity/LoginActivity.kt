@@ -6,10 +6,10 @@ import android.text.InputType
 import android.view.Gravity
 import android.view.inputmethod.EditorInfo
 import com.danielspeixoto.connect.R
-import com.danielspeixoto.connect.module.Login
+import com.danielspeixoto.connect.contract.Login
 import com.danielspeixoto.connect.presenter.LoginPresenter
-import com.danielspeixoto.connect.util.ACTIVITY_BORDER
 import com.danielspeixoto.connect.util.App
+import com.danielspeixoto.connect.util.PARAM_LAYOUT
 import com.danielspeixoto.connect.util.content
 import com.danielspeixoto.connect.view.custom.EditField
 import com.danielspeixoto.connect.view.custom.editField
@@ -27,7 +27,7 @@ class LoginActivity : BaseActivity(), Login.View {
         super.onCreate(savedInstanceState)
         coordinatorLayout {
             lparams(width = matchParent, height = matchParent)
-            padding = dip(ACTIVITY_BORDER)
+            padding = dip(PARAM_LAYOUT)
             relativeLayout {
                 verticalLayout {
                     usernameEdit = editField {

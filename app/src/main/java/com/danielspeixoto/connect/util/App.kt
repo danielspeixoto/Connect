@@ -20,14 +20,14 @@ class App : MultiDexApplication() {
 
     companion object {
 
-        var context: Context? = null
+        lateinit var context: Context
 
-        fun getStringResource(resId: Int) = context!!.getString(resId)
+        fun getStringResource(resId: Int) = context.getString(resId)
 
-        fun getDimenResource(resId: Int) = context!!.resources.getDimension(resId)
+        fun getDimenResource(resId: Int) = context.resources.getDimension(resId)
 
         fun showMessage(message: String) {
-            context!!.runOnUiThread {
+            context.runOnUiThread {
                 Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
             }
         }

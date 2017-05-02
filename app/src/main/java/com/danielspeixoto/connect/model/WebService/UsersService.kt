@@ -12,13 +12,13 @@ import retrofit2.http.POST
 
 interface UsersService {
 
-    @GET("users/get-all")
-    fun getUsers(): Call<List<User>>
+    @GET("users")
+    fun getAll(): Call<List<User>>
 
-    @POST("users/register")
+    @POST("users")
     fun createADM(@Body user: User): Call<User>
 
-    @POST("users/authenticate")
+    @POST("users/login")
     fun logIn(@Body user: User): Call<User>
 
 }

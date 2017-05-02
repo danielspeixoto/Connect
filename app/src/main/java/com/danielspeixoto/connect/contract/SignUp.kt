@@ -1,4 +1,4 @@
-package com.danielspeixoto.connect.module
+package com.danielspeixoto.connect.contract
 
 import com.danielspeixoto.connect.model.pojo.User
 
@@ -7,7 +7,7 @@ import com.danielspeixoto.connect.model.pojo.User
  * Created by danielspeixoto on 2/14/17.
  */
 
-class SignUp {
+interface SignUp {
 
     interface View : ActivityBase.View
 

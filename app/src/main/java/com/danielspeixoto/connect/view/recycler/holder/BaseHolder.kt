@@ -11,8 +11,8 @@ abstract class BaseHolder<O>(itemView: View) :
         RecyclerView.ViewHolder(itemView) {
 
     var item: O? = null
-    var itemPosition: Int = 0
-    var adapter : BaseAdapter<*,O>? = null
+    lateinit var adapter : BaseAdapter<O>
 
     abstract fun onPostCreated()
+
 }
