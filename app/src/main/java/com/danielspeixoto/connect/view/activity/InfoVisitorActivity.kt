@@ -87,8 +87,6 @@ class InfoVisitorActivity : BaseActivity(), InfoVisitor.View {
                                         val uri = Uri.parse("smsto:" + visitor.phone!!.string)
                                         val i = Intent(Intent.ACTION_SENDTO,
                                                        uri)
-//                                        i.putExtra("sms_body",
-//                                                   "")
                                         i.`package` = "com.whatsapp"
                                         startActivity(i)
                                     }
@@ -121,7 +119,7 @@ class InfoVisitorActivity : BaseActivity(), InfoVisitor.View {
 
                         }
                     }
-                    if(visitor.observations != null) {
+                    if(visitor.observations !== EMPTY_STRING) {
                         textView(visitor.observations) {
                             textSize = 26f
                             padding = dip(PARAM_LAYOUT * 2)
