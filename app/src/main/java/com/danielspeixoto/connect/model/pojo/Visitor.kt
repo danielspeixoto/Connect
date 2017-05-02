@@ -47,4 +47,8 @@ data class Visitor(var _id: String? = null,
         dest?.writeStringList(observers)
         dest?.writeInt((if (isConnected) 1 else 0))
     }
+
+    fun  addActivity(activity: String) {
+        activities.add(activity)
+    }
 }

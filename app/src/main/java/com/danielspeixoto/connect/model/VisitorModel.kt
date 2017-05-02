@@ -72,4 +72,24 @@ object VisitorModel {
                     })
         }
     }
+
+    fun addActivity(id : String, activity: String) : Single<Visitor> {
+        return Single.create<Visitor> { subscriber ->
+            Database.visitorsService.addActivity(UserModel.currentUser!!.token!!, id, hashMapOf("activity" to activity))
+                    .enqueue(object : Callback<Visitor> {
+                        override fun onResponse(call: Call<Visitor>, response: Response<Visitor>) {
+                            if (response.isSuccessful) {
+                                subscriber.onSuccess(response.body())
+                            } else {
+                                subscriber.onError(Throwable(response.code().string))
+                            }
+                        }
+
+                        override fun onFailure(call: Call<Visitor>, throwable: Throwable) {
+                            throwable.printStackTrace()
+                            subscriber.onError(throwable)
+                        }
+                    })
+        }
+    }
 }

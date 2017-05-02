@@ -6,12 +6,12 @@ import android.view.Gravity
 import android.view.inputmethod.EditorInfo
 import android.widget.EditText
 import com.danielspeixoto.connect.R
-import com.danielspeixoto.connect.model.pojo.User
 import com.danielspeixoto.connect.contract.SignUp
+import com.danielspeixoto.connect.model.pojo.User
 import com.danielspeixoto.connect.presenter.SignUpPresenter
 import com.danielspeixoto.connect.util.PARAM_LAYOUT
-import com.danielspeixoto.connect.util.isEmpty
 import com.danielspeixoto.connect.util.content
+import com.danielspeixoto.connect.util.isEmpty
 import com.danielspeixoto.connect.view.custom.editField
 import com.danielspeixoto.connect.view.custom.floatingButton
 import org.jetbrains.anko.*

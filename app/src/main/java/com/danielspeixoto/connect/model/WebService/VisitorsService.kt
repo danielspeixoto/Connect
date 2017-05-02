@@ -19,8 +19,13 @@ interface VisitorsService {
                @Body visitor: Visitor): Call<Visitor>
 
     @FormUrlEncoded
-    @PUT("visitors/isConnected/{id}")
+    @PUT("visitors/{id}/isConnected/")
     fun toggleConnected(@Header("Authorization") authorization: String,
                         @Path("id") id: String,
                         @Field("isConnected") isConnected: HashMap<String, Boolean>): Call<Visitor>
+
+    @POST("visitors/{id}/activities")
+    fun addActivity(@Header("Authorization") authorization: String,
+                        @Path("id") id: String,
+                        @Body activity: HashMap<String, String>): Call<Visitor>
 }
