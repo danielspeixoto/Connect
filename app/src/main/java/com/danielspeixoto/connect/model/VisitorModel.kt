@@ -1,5 +1,6 @@
 package com.danielspeixoto.connect.model
 
+import com.danielspeixoto.connect.model.pojo.User
 import com.danielspeixoto.connect.model.pojo.Visitor
 import com.danielspeixoto.connect.util.Database
 import com.danielspeixoto.connect.util.string
@@ -126,6 +127,26 @@ object VisitorModel {
                         }
 
                         override fun onFailure(call: Call<Visitor>, throwable: Throwable) {
+                            throwable.printStackTrace()
+                            subscriber.onError(throwable)
+                        }
+                    })
+        }
+    }
+
+    fun retrieveObservers(id : String) : Single<List<User>> {
+        return Single.create<List<User>> { subscriber ->
+            Database.visitorsService.retrieveObservers(UserModel.currentUser!!.token!!, id)
+                    .enqueue(object : Callback<List<User>> {
+                        override fun onResponse(call: Call<List<User>>, response: Response<List<User>>) {
+                            if (response.isSuccessful) {
+                                subscriber.onSuccess(response.body())
+                            } else {
+                                subscriber.onError(Throwable(response.code().string))
+                            }
+                        }
+
+                        override fun onFailure(call: Call<List<User>>, throwable: Throwable) {
                             throwable.printStackTrace()
                             subscriber.onError(throwable)
                         }

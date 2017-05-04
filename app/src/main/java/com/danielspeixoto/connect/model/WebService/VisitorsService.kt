@@ -1,5 +1,6 @@
 package com.danielspeixoto.connect.model.WebService
 
+import com.danielspeixoto.connect.model.pojo.User
 import com.danielspeixoto.connect.model.pojo.Visitor
 import retrofit2.Call
 import retrofit2.http.*
@@ -23,6 +24,10 @@ interface VisitorsService {
     fun create(@Header("Authorization") authorization: String,
                @Query("group") group: String,
                @Body visitor: Visitor): Call<Visitor>
+
+    @GET("visitors/{id}/observers")
+    fun retrieveObservers(@Header("Authorization") authorization: String,
+                        @Path("id") id: String): Call<List<User>>
 
     @FormUrlEncoded
     @PUT("visitors/{id}/isConnected/")
