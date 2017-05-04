@@ -17,15 +17,15 @@ class HomePresenter(private val mView: Home.View) : Home.Presenter {
 
     override var mAdapter: VisitorAdapter? = null
 
-    override fun onMenuItemSelected(id: Int) {
-        when (id) {
-            R.id.logout -> {
-                UserModel.logOut()
-                mView.goToActivity(MainActivity::class.java)
-                mView.activity.finish()
-            }
-        }
-    }
+//    override fun onMenuItemSelected(id: Int) {
+//        when (id) {
+//            R.id.logout -> {
+//                UserModel.logOut()
+//                mView.goToActivity(MainActivity::class.java)
+//                mView.activity.finish()
+//            }
+//        }
+//    }
 
     override fun syncItems() {
         if(mAdapter != null) {

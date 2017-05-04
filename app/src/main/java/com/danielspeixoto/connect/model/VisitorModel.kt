@@ -53,6 +53,26 @@ object VisitorModel {
         }
     }
 
+    fun getMyVisitors() : Single<List<Visitor>> {
+        return Single.create<List<Visitor>> { subscriber ->
+            Database.visitorsService.getMyVisitors(UserModel.currentUser!!.token!!, UserModel.currentUser!!.group!!, UserModel.currentUser!!.username!!)
+                    .enqueue(object : Callback<List<Visitor>> {
+                        override fun onResponse(call: Call<List<Visitor>>, response: Response<List<Visitor>>) {
+                            if (response.isSuccessful) {
+                                subscriber.onSuccess(response.body())
+                            } else {
+                                subscriber.onError(Throwable(response.code().string))
+                            }
+                        }
+
+                        override fun onFailure(call: Call<List<Visitor>>, throwable: Throwable) {
+                            throwable.printStackTrace()
+                            subscriber.onError(throwable)
+                        }
+                    })
+        }
+    }
+
     fun toggleConnected(id : String, isConnected : Boolean) : Single<Visitor> {
         return Single.create<Visitor> { subscriber ->
             Database.visitorsService.toggleConnected(UserModel.currentUser!!.token!!, id, hashMapOf("isConnected" to isConnected))
@@ -76,6 +96,26 @@ object VisitorModel {
     fun addActivity(id : String, activity: String) : Single<Visitor> {
         return Single.create<Visitor> { subscriber ->
             Database.visitorsService.addActivity(UserModel.currentUser!!.token!!, id, hashMapOf("activity" to activity))
+                    .enqueue(object : Callback<Visitor> {
+                        override fun onResponse(call: Call<Visitor>, response: Response<Visitor>) {
+                            if (response.isSuccessful) {
+                                subscriber.onSuccess(response.body())
+                            } else {
+                                subscriber.onError(Throwable(response.code().string))
+                            }
+                        }
+
+                        override fun onFailure(call: Call<Visitor>, throwable: Throwable) {
+                            throwable.printStackTrace()
+                            subscriber.onError(throwable)
+                        }
+                    })
+        }
+    }
+
+    fun addObserver(id : String, username: String) : Single<Visitor> {
+        return Single.create<Visitor> { subscriber ->
+            Database.visitorsService.addObserver(UserModel.currentUser!!.token!!, id, hashMapOf("username" to username))
                     .enqueue(object : Callback<Visitor> {
                         override fun onResponse(call: Call<Visitor>, response: Response<Visitor>) {
                             if (response.isSuccessful) {

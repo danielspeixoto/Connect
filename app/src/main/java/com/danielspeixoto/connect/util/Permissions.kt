@@ -12,18 +12,10 @@ object Permissions {
     val permissions = ArrayList<String>()
     val permissionsHash = HashMap<String, Boolean>()
 
-    val MANAGE_TICKET = "MANAGE_TICKET"
-    val MANAGE_USERS = "MANAGE_USERS"
-    val VIEW_HISTORY = "VIEW_HISTORY"
-    val MANAGE_OFFERS = "MANAGE_OFFERS"
-    val MANAGE_PAYMENT = "MANAGE_PAYMENT"
+    val MANAGE_USERS = "manageUsers"
 
     init {
-        permissions.add(MANAGE_TICKET)
         permissions.add(MANAGE_USERS)
-        permissions.add(VIEW_HISTORY)
-        permissions.add(MANAGE_OFFERS)
-        permissions.add(MANAGE_PAYMENT)
         for (string in permissions) {
             permissionsHash.put(string, false)
         }

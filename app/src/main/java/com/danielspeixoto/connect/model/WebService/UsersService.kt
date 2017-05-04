@@ -2,9 +2,7 @@ package com.danielspeixoto.connect.model.WebService
 
 import com.danielspeixoto.connect.model.pojo.User
 import retrofit2.Call
-import retrofit2.http.Body
-import retrofit2.http.GET
-import retrofit2.http.POST
+import retrofit2.http.*
 
 /**
  * Created by danielspeixoto on 4/21/17.
@@ -12,13 +10,16 @@ import retrofit2.http.POST
 
 interface UsersService {
 
-    @GET("users")
-    fun getAll(): Call<List<User>>
-
     @POST("users")
     fun createADM(@Body user: User): Call<User>
 
+    @POST("users/{group}")
+    fun createWorker(@Header("Authorization") authorization: String, @Body user: User): Call<User>
+
     @POST("users/login")
     fun logIn(@Body user: User): Call<User>
+
+    @GET("users/{group}")
+    fun getCoWorkers(@Header("Authorization") authorization: String, @Path("group") group: String): Call<List<User>>
 
 }

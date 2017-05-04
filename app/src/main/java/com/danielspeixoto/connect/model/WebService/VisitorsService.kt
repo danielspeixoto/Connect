@@ -9,13 +9,19 @@ import retrofit2.http.*
  */
 interface VisitorsService {
 
-    @GET("visitors/{group}")
+    @GET("visitors")
     fun getAll(@Header("Authorization") authorization: String,
-               @Path("group") group: String): Call<List<Visitor>>
+               @Query("group") group: String): Call<List<Visitor>>
 
-    @POST("visitors/{group}")
+    //TODO MAKE HAVE A DIFFERENCE
+    @GET("visitors")
+    fun getMyVisitors(@Header("Authorization") authorization: String,
+                      @Query("group") group: String,
+                      @Query("user") username: String): Call<List<Visitor>>
+
+    @POST("visitors")
     fun create(@Header("Authorization") authorization: String,
-               @Path("group") group: String,
+               @Query("group") group: String,
                @Body visitor: Visitor): Call<Visitor>
 
     @FormUrlEncoded
@@ -24,8 +30,15 @@ interface VisitorsService {
                         @Path("id") id: String,
                         @Field("isConnected") isConnected: HashMap<String, Boolean>): Call<Visitor>
 
-    @POST("visitors/{id}/activities")
+    @PUT("visitors/{id}/activities")
     fun addActivity(@Header("Authorization") authorization: String,
-                        @Path("id") id: String,
-                        @Body activity: HashMap<String, String>): Call<Visitor>
+                    @Path("id") id: String,
+                    @Body activity: HashMap<String, String>): Call<Visitor>
+
+    @PUT("visitors/{id}/observers")
+    fun addObserver(@Header("Authorization") authorization: String,
+                    @Path("id") id: String,
+                    @Body username: HashMap<String, String>): Call<Visitor>
+
+
 }

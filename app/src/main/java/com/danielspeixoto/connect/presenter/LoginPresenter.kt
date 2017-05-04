@@ -22,7 +22,7 @@ class LoginPresenter(private val mView: Login.View) : Login.Presenter {
         App.showMessage(App.getStringResource(R.string.loading))
         val user = User(username,
                         password)
-        val result = Validate.User(user)
+        val result = Validate.user(user)
         if (result == Validate.OK) {
             UserModel.logIn(username,
                             password)

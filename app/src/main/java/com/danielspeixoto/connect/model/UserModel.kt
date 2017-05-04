@@ -67,6 +67,46 @@ object UserModel : DatabaseContract {
         }
     }
 
+    fun createWorker(user: User): Single<User> {
+        return Single.create<User> { subscriber ->
+            Database.usersService.createWorker(currentUser!!.token!!, user)
+                    .enqueue(object : Callback<User> {
+                        override fun onResponse(call: Call<User>, response: Response<User>) {
+                            if (response.isSuccessful) {
+                                subscriber.onSuccess(currentUser)
+                            } else {
+                                subscriber.onError(Throwable(response.code().string))
+                            }
+                        }
+
+                        override fun onFailure(call: Call<User>, throwable: Throwable) {
+                            subscriber.onError(throwable)
+                            throwable.printStackTrace()
+                        }
+                    })
+        }
+    }
+
+    fun getUsers() : Single<List<User>> {
+        return Single.create<List<User>> { subscriber ->
+            Database.usersService.getCoWorkers(UserModel.currentUser!!.token!!, UserModel.currentUser!!.group!!)
+                    .enqueue(object : Callback<List<User>> {
+                        override fun onResponse(call: Call<List<User>>, response: Response<List<User>>) {
+                            if (response.isSuccessful) {
+                                subscriber.onSuccess(response.body())
+                            } else {
+                                subscriber.onError(Throwable(response.code().string))
+                            }
+                        }
+
+                        override fun onFailure(call: Call<List<User>>, throwable: Throwable) {
+                            throwable.printStackTrace()
+                            subscriber.onError(throwable)
+                        }
+                    })
+        }
+    }
+
     fun hasAccountSavedOnDevice(): Boolean {
         if (!isLogged) {
             val editor = App.context.getSharedPreferences(USER, Context.MODE_PRIVATE)

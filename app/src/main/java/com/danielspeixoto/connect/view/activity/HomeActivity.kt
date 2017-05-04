@@ -13,6 +13,7 @@ import com.danielspeixoto.connect.R
 import com.danielspeixoto.connect.contract.Home
 import com.danielspeixoto.connect.presenter.HomePresenter
 import com.danielspeixoto.connect.view.custom.floatingButton
+import com.danielspeixoto.connect.view.recycler.adapter.DrawerAdapter
 import com.danielspeixoto.connect.view.recycler.adapter.VisitorAdapter
 import org.jetbrains.anko.*
 import org.jetbrains.anko.design.coordinatorLayout
@@ -22,18 +23,20 @@ import org.jetbrains.anko.support.v4.drawerLayout
 class HomeActivity : BaseActivity(), Home.View {
 
     lateinit var list: RecyclerView
-    lateinit var drawer : DrawerLayout
+    lateinit var drawer: RecyclerView
+    private var visitorAdapter = VisitorAdapter(this)
+    private var drawerAdapter = DrawerAdapter(this)
+    lateinit var drawerLayout: DrawerLayout
     lateinit var drawerToggle : ActionBarDrawerToggle
-    lateinit private var mPresenter: Home.Presenter
-    private var mAdapter = VisitorAdapter(this)
+    lateinit private var presenter: Home.Presenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        drawer = drawerLayout {
+        drawerLayout = drawerLayout {
             coordinatorLayout {
                 list = recyclerView {
                     layoutManager = LinearLayoutManager(this@HomeActivity)
-                    adapter = mAdapter
+                    adapter = adapter
                 }.lparams(width = matchParent, height = matchParent)
                 floatingButton {
                     imageResource = R.drawable.ic_person_add_white_24dp
@@ -45,19 +48,23 @@ class HomeActivity : BaseActivity(), Home.View {
                     gravity = Gravity.BOTTOM or GravityCompat.END
                 }
             }
+            drawer = recyclerView {
+                layoutManager = LinearLayoutManager(this@HomeActivity)
+                adapter = drawerAdapter
+            }.lparams(width = matchParent, height = matchParent)
         }
         drawerToggle = ActionBarDrawerToggle(this,
-                                             drawer,
+                                             drawerLayout,
                                              R.string.accept,
                                              R.string.decline)
-        drawer.addDrawerListener(drawerToggle)
-        mPresenter = HomePresenter(this)
-        mPresenter.mAdapter = mAdapter
+        drawerLayout.addDrawerListener(drawerToggle)
+        presenter = HomePresenter(this)
+        presenter.mAdapter = visitorAdapter
     }
 
     override fun onResume() {
         super.onResume()
-        mPresenter.syncItems()
+        presenter.syncItems()
     }
 
     override fun onPostCreate(savedInstanceState: Bundle?) {
