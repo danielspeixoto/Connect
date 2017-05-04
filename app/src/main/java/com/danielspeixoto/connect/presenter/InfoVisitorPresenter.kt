@@ -7,7 +7,7 @@ import com.danielspeixoto.connect.model.VisitorModel
 import com.danielspeixoto.connect.model.pojo.Visitor
 import com.danielspeixoto.connect.util.App
 import com.danielspeixoto.connect.view.recycler.adapter.ActivityAdapter
-import com.danielspeixoto.connect.view.recycler.adapter.UserAdapter
+import com.danielspeixoto.connect.view.recycler.adapter.ObserverAdapter
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
@@ -18,7 +18,7 @@ class InfoVisitorPresenter(private val mView: InfoVisitor.View) : InfoVisitor.Pr
 
     override var visitor: Visitor? = null
     override var activitiesAdapter: ActivityAdapter? = null
-    override var observersAdapter: UserAdapter? = null
+    override var observersAdapter: ObserverAdapter? = null
 
     override fun toggleVisitorConnected() {
         VisitorModel.toggleConnected(visitor!!._id!!,
@@ -50,7 +50,7 @@ class InfoVisitorPresenter(private val mView: InfoVisitor.View) : InfoVisitor.Pr
 
     override fun observe() {
         val username = UserModel.currentUser!!.username!!
-        VisitorModel.addActivity(visitor!!._id!!,
+        VisitorModel.addObserver(visitor!!._id!!,
                                  username).subscribeOn(Schedulers.io()).observeOn(
                 AndroidSchedulers.mainThread()).subscribe({ visitor1 ->
                                                               visitor!!.observers.add(username)

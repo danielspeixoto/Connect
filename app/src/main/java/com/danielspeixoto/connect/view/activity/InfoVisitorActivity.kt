@@ -23,7 +23,7 @@ import com.danielspeixoto.connect.util.*
 import com.danielspeixoto.connect.view.custom.EditField
 import com.danielspeixoto.connect.view.custom.editField
 import com.danielspeixoto.connect.view.recycler.adapter.ActivityAdapter
-import com.danielspeixoto.connect.view.recycler.adapter.UserAdapter
+import com.danielspeixoto.connect.view.recycler.adapter.ObserverAdapter
 import org.jetbrains.anko.*
 import org.jetbrains.anko.recyclerview.v7.recyclerView
 import org.jetbrains.anko.support.v4.nestedScrollView
@@ -37,7 +37,7 @@ class InfoVisitorActivity : BaseActivity(), InfoVisitor.View {
     lateinit private var presenter: InfoVisitor.Presenter
     private var activityAdapter = ActivityAdapter(this)
     //TODO Create observer adapter
-    private var observerAdapter = UserAdapter(this)
+    private var observerAdapter = ObserverAdapter(this)
 
     lateinit var connectedButton: Button
     lateinit var observeButton: Button
@@ -175,6 +175,10 @@ class InfoVisitorActivity : BaseActivity(), InfoVisitor.View {
                                                    true)
                             backgroundColor = typedValue.data
                         }
+                    }
+                    textView(App.getStringResource(R.string.observers)) {
+                        textSize = 26f
+                        padding = dip(PARAM_LAYOUT)
                     }
                     observersList = recyclerView {
                         layoutManager = LinearLayoutManager(this@InfoVisitorActivity) as RecyclerView.LayoutManager?

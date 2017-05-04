@@ -46,4 +46,7 @@
     <string name="my_visitors">My Visitors</string>
     <string name="title_activity_create_user">Create User</string>
     <string name="observe">Observe</string>
+    <string name="title_activity_my_visitors">My visitors</string>
+    <string name="observers">Observers</string>
+    <string name="no_observers">Nobody is observing</string>
 </resources>

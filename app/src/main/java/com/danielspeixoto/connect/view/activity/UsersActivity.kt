@@ -21,22 +21,22 @@ import org.jetbrains.anko.recyclerview.v7.recyclerView
 class UsersActivity : BaseActivity(), Users.View {
 
     lateinit var list: RecyclerView
-    private var adapter = UserAdapter(this)
+    private var usersAdapter = UserAdapter(this)
     lateinit private var presenter: Users.Presenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         presenter = UsersPresenter(this)
         coordinatorLayout {
-            padding = dip(PARAM_LAYOUT)
             list = recyclerView {
+                padding = dip(PARAM_LAYOUT)
                 layoutManager = LinearLayoutManager(this@UsersActivity)
-                adapter = adapter
+                adapter = usersAdapter
             }.lparams(width = matchParent, height = matchParent)
             floatingButton {
                 imageResource = R.drawable.ic_save_black_24dp
                 onClick {
-                   // TODO Sent to create users
+                   startActivity<CreateUserActivity>()
                 }
             }.lparams {
                 margin = resources.getDimensionPixelSize(R.dimen.fab_margin)
@@ -44,7 +44,7 @@ class UsersActivity : BaseActivity(), Users.View {
             }
         }
         presenter = UsersPresenter(this)
-        presenter.adapter = adapter
+        presenter.adapter = usersAdapter
     }
 
     override fun onResume() {

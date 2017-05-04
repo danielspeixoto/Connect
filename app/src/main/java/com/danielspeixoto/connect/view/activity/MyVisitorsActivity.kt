@@ -16,6 +16,7 @@ class MyVisitorsActivity : BaseActivity() {
     lateinit var list: RecyclerView
     private var adapter = LinksAdapter(this)
 
+    //TODO Add implementation
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         coordinatorLayout {

@@ -14,9 +14,9 @@ interface UsersService {
     fun createADM(@Body user: User): Call<User>
 
     @POST("users/{group}")
-    fun createWorker(@Header("Authorization") authorization: String, @Body user: User): Call<User>
+    fun createWorker(@Header("Authorization") authorization: String, @Path("group") group: String, @Body user: User): Call<User>
 
-    @POST("users/login")
+    @PUT("users/login")
     fun logIn(@Body user: User): Call<User>
 
     @GET("users/{group}")

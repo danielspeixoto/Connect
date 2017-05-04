@@ -43,7 +43,7 @@ object UserModel : DatabaseContract {
         }
     }
 
-    fun logIn(user: User) = logIn(user!!.username!!, user!!.password!!)
+    fun logIn(user: User) = logIn(user.username!!, user.password!!)
 
     fun createADM(user: User): Single<User> {
         return Single.create<User> { subscriber ->
@@ -69,7 +69,7 @@ object UserModel : DatabaseContract {
 
     fun createWorker(user: User): Single<User> {
         return Single.create<User> { subscriber ->
-            Database.usersService.createWorker(currentUser!!.token!!, user)
+            Database.usersService.createWorker(currentUser!!.token!!, currentUser!!.group!!, user)
                     .enqueue(object : Callback<User> {
                         override fun onResponse(call: Call<User>, response: Response<User>) {
                             if (response.isSuccessful) {

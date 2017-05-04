@@ -39,7 +39,6 @@ open class LinksAdapter(activity: BaseActivity) :
     class ItemUI : AnkoComponent<ViewGroup> {
 
         lateinit var nameText: TextView
-        lateinit var containerView: LinearLayout
 
         override fun createView(ui: AnkoContext<ViewGroup>): View {
             return with(ui) {
@@ -65,7 +64,6 @@ open class LinksAdapter(activity: BaseActivity) :
         fun createHolder(ui: AnkoContext<ViewGroup>): DrawerHolder {
             val holder = DrawerHolder(createView(ui))
             holder.nameText = nameText
-            holder.containerView = containerView
             return holder
         }
 
@@ -74,11 +72,10 @@ open class LinksAdapter(activity: BaseActivity) :
     class DrawerHolder(itemView: View) : BaseHolder<Link>(itemView) {
 
         lateinit var nameText: TextView
-        lateinit var containerView: LinearLayout
 
         override fun onPostCreated() {
             nameText.text = item!!.name
-            containerView.onClick {
+            itemView.onClick {
                 item!!.direction.run()
             }
 

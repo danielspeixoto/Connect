@@ -10,7 +10,7 @@ interface Home {
     interface View : ActivityBase.View
 
     interface Presenter : ActivityBase.Presenter {
-        var mAdapter: VisitorAdapter?
+        var adapter: VisitorAdapter?
         fun syncItems()
     }
 

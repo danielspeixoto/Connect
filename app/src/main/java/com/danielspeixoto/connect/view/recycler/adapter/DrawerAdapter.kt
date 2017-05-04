@@ -20,6 +20,7 @@ class DrawerAdapter(activity: BaseActivity) :
         addItem(Link(App.getStringResource(R.string.my_visitors),
                      Runnable { activity.goToActivity(MyVisitorsActivity::class.java) }))
         val permissions = UserModel.currentUser!!.permissions
+        //TODO Link to already connected visitors
         if(permissions.containsKey(Permissions.MANAGE_USERS)) {
             addItem(Link(App.getStringResource(R.string.manage_users),
                          Runnable { activity.goToActivity(UsersActivity::class.java) }))

@@ -1,6 +1,5 @@
 package com.danielspeixoto.connect.view.recycler.adapter
 
-import android.support.v7.widget.CardView
 import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
@@ -20,7 +19,7 @@ import org.jetbrains.anko.cardview.v7.cardView
 /**
  * Created by danielspeixoto on 5/3/17.
  */
-class UserAdapter(activity: BaseActivity) :
+open class UserAdapter(activity: BaseActivity) :
         BaseAdapter<User>(activity) {
 
     override fun onCreateViewHolder(parent: ViewGroup?,
@@ -50,13 +49,12 @@ class UserAdapter(activity: BaseActivity) :
     class ItemUI : AnkoComponent<ViewGroup> {
 
         lateinit var nameText: TextView
-        lateinit var cardView: CardView
 
         override fun createView(ui: AnkoContext<ViewGroup>): View {
             return with(ui) {
                 linearLayout {
                     lparams(width = matchParent)
-                    cardView = cardView {
+                    cardView {
                         linearLayout {
                             lparams(width = matchParent) {
                                 padding = dip(PARAM_LAYOUT * 2)
@@ -76,7 +74,6 @@ class UserAdapter(activity: BaseActivity) :
         fun createHolder(ui: AnkoContext<ViewGroup>): UserHolder {
             val holder = UserHolder(createView(ui))
             holder.nameText = nameText
-            holder.cardView = cardView
             return holder
         }
 
@@ -117,7 +114,6 @@ class UserAdapter(activity: BaseActivity) :
     class UserHolder(itemView: View) : BaseHolder<User>(itemView) {
 
         lateinit var nameText: TextView
-        lateinit var cardView: CardView
 
         override fun onPostCreated() {
             nameText.text = item!!.name
@@ -130,9 +126,11 @@ class UserAdapter(activity: BaseActivity) :
         lateinit var messageText: TextView
 
         override fun onPostCreated() {
-            if (!Database.isConnected) {
+           if (!Database.isConnected) {
                 messageText.text = App.getStringResource(R.string.no_internet)
-            }
+           } else {
+               messageText.text = App.getStringResource(R.string.error_occurred)
+           }
         }
     }
 }

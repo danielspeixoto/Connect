@@ -36,7 +36,7 @@ class HomeActivity : BaseActivity(), Home.View {
             coordinatorLayout {
                 list = recyclerView {
                     layoutManager = LinearLayoutManager(this@HomeActivity)
-                    adapter = adapter
+                    adapter = visitorAdapter
                 }.lparams(width = matchParent, height = matchParent)
                 floatingButton {
                     imageResource = R.drawable.ic_person_add_white_24dp
@@ -51,15 +51,19 @@ class HomeActivity : BaseActivity(), Home.View {
             drawer = recyclerView {
                 layoutManager = LinearLayoutManager(this@HomeActivity)
                 adapter = drawerAdapter
-            }.lparams(width = matchParent, height = matchParent)
+            }.lparams(width = matchParent, height = matchParent) {
+                gravity = Gravity.START
+            }
+
         }
+        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
         drawerToggle = ActionBarDrawerToggle(this,
                                              drawerLayout,
                                              R.string.accept,
                                              R.string.decline)
         drawerLayout.addDrawerListener(drawerToggle)
         presenter = HomePresenter(this)
-        presenter.mAdapter = visitorAdapter
+        presenter.adapter = visitorAdapter
     }
 
     override fun onResume() {
