@@ -43,10 +43,10 @@ class LoginActivity : BaseActivity(), Login.View {
                 }
             }.lparams(width = matchParent, height = matchParent)
             floatingButton {
-                imageResource = android.R.drawable.ic_dialog_email
+                imageResource = R.drawable.ic_send_white_24dp
                 onClick {
                     toast(App.getStringResource(R.string.loading))
-                    mPresenter.logIn(usernameEdit.content, passEdit.content)
+                    mPresenter.logIn(usernameEdit.content.trim(), passEdit.content)
                 }
             }.lparams {
                 margin = resources.getDimensionPixelSize(R.dimen.fab_margin)

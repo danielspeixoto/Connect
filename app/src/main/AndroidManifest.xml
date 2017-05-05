@@ -58,11 +58,7 @@
         </activity>
         <activity
             android:name=".view.activity.InfoVisitorActivity"
-            android:parentActivityName=".view.activity.HomeActivity"
             android:theme="@style/AppTheme">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.danielspeixoto.connect.view.activity.HomeActivity"/>>
         </activity>
         <activity
             android:name=".view.activity.UsersActivity"
@@ -94,6 +90,15 @@
         <activity
             android:name=".view.activity.MyVisitorsActivity"
             android:label="@string/title_activity_my_visitors"
+            android:parentActivityName=".view.activity.HomeActivity"
+            android:theme="@style/AppTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.danielspeixoto.connect.view.activity.HomeActivity"/>>
+        </activity>
+        <activity
+            android:name=".view.activity.ConnectedActivity"
+            android:label="@string/connected_visitors"
             android:parentActivityName=".view.activity.HomeActivity"
             android:theme="@style/AppTheme">
             <meta-data

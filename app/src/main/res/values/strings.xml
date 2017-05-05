@@ -9,7 +9,6 @@
     <string name="has_no_account">I don\'t have an account</string>
     <string name="has_account">I already have an account</string>
     <string name="title_activity_users">Users</string>
-    <string name="title_activity_user_data">Create User</string>
     <string name="name">Name</string>
     <string name="username">Username</string>
     <string name="password">Password</string>
@@ -22,18 +21,13 @@
     <string name="title_activity_sign_up">Sign Up</string>
     <string name="username_lowercase">Cannot use uppercase on username</string>
     <string name="history">History</string>
-    <string name="manage_offers">Manage Offers</string>
-    <string name="manage_payment">Manage Payment</string>
     <string name="manage_users">Manage Users</string>
-    <string name="manage_tickets">Manage Tickets</string>
     <string name="no_internet">No Internet Connection</string>
     <string name="phone">Phone</string>
     <string name="observations">Observations</string>
-    <string name="visitor_saved">Visitor saved</string>
     <string name="visitor_added">Visitor saved</string>
     <string name="title_activity_create_visitor">Create Visitor</string>
     <string name="age">Age</string>
-    <string name="validation_failed">Your credentials have been changed</string>
     <string name="years">years old</string>
     <string name="no_visitors">Seems that you haven\'t any new visitors</string>
     <string name="no_activities">No activities done</string>
@@ -49,4 +43,13 @@
     <string name="title_activity_my_visitors">My visitors</string>
     <string name="observers">Observers</string>
     <string name="no_observers">Nobody is observing</string>
+    <string name="connected_visitors">Connected</string>
+    <string name="user_added">User added</string>
+    <string name="username_already_exists">Username already exists</string>
+    <string name="username_must_fill">Username must fill</string>
+    <string name="password_must_fill">Must fill password</string>
+    <string name="password_must_match">Password must match</string>
+    <string name="save">Save</string>
+    <string name="name_must_fill">Must fill name</string>
+    <string name="incorrect_username_password">Incorrect username or password</string>
 </resources>

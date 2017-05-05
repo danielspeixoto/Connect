@@ -71,7 +71,7 @@ class CreateUserActivity : BaseActivity(), CreateUser.View {
                         confirmPassEdit.requestFocus()
                         toast(getString(R.string.password_must_match))
                     } else {
-                        val user = User(usernameEdit.content, passEdit.content, nameEdit.content)
+                        val user = User(usernameEdit.content.trim(), passEdit.content, nameEdit.content.trim())
                         presenter.create(user)
                     }
                 }

@@ -8,7 +8,6 @@ import android.view.Gravity
 import com.danielspeixoto.connect.R
 import com.danielspeixoto.connect.contract.Users
 import com.danielspeixoto.connect.presenter.UsersPresenter
-import com.danielspeixoto.connect.util.PARAM_LAYOUT
 import com.danielspeixoto.connect.view.custom.floatingButton
 import com.danielspeixoto.connect.view.recycler.adapter.UserAdapter
 import org.jetbrains.anko.*
@@ -29,12 +28,11 @@ class UsersActivity : BaseActivity(), Users.View {
         presenter = UsersPresenter(this)
         coordinatorLayout {
             list = recyclerView {
-                padding = dip(PARAM_LAYOUT)
-                layoutManager = LinearLayoutManager(this@UsersActivity)
+                layoutManager = LinearLayoutManager(this@UsersActivity) as RecyclerView.LayoutManager?
                 adapter = usersAdapter
             }.lparams(width = matchParent, height = matchParent)
             floatingButton {
-                imageResource = R.drawable.ic_save_black_24dp
+                imageResource = R.drawable.ic_person_add_white_24dp
                 onClick {
                    startActivity<CreateUserActivity>()
                 }

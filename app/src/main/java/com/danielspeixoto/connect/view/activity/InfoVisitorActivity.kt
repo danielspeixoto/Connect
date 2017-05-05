@@ -36,7 +36,6 @@ class InfoVisitorActivity : BaseActivity(), InfoVisitor.View {
 
     lateinit private var presenter: InfoVisitor.Presenter
     private var activityAdapter = ActivityAdapter(this)
-    //TODO Create observer adapter
     private var observerAdapter = ObserverAdapter(this)
 
     lateinit var connectedButton: Button
@@ -126,7 +125,7 @@ class InfoVisitorActivity : BaseActivity(), InfoVisitor.View {
 
                         }
                     }
-                    if(visitor.observations !== EMPTY_STRING) {
+                    if(!visitor.observations.equals(EMPTY_STRING)) {
                         textView(visitor.observations) {
                             textSize = 26f
                             padding = dip(PARAM_LAYOUT * 2)
@@ -145,7 +144,9 @@ class InfoVisitorActivity : BaseActivity(), InfoVisitor.View {
                             adjustViewBounds = true
                             backgroundColor = Color.TRANSPARENT
                             onClick {
-                                presenter.addActivity(activityField.content)
+                                if(!activityField.content.equals(EMPTY_STRING)) {
+                                    presenter.addActivity(activityField.content)
+                                }
                             }
 
                         }.lparams {
@@ -163,6 +164,10 @@ class InfoVisitorActivity : BaseActivity(), InfoVisitor.View {
                         }
                     }
                     activitiesList.setNestedScrollingEnabled(false)
+                    textView(App.getStringResource(R.string.observers)) {
+                        textSize = 26f
+                        padding = dip(PARAM_LAYOUT)
+                    }
                     if(!visitor!!.observers.contains(UserModel.currentUser!!.username!!)) {
                         observeButton = button(App.getStringResource(R.string.observe)) {
                             textColor = Color.WHITE
@@ -175,10 +180,6 @@ class InfoVisitorActivity : BaseActivity(), InfoVisitor.View {
                                                    true)
                             backgroundColor = typedValue.data
                         }
-                    }
-                    textView(App.getStringResource(R.string.observers)) {
-                        textSize = 26f
-                        padding = dip(PARAM_LAYOUT)
                     }
                     observersList = recyclerView {
                         layoutManager = LinearLayoutManager(this@InfoVisitorActivity) as RecyclerView.LayoutManager?

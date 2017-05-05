@@ -2,6 +2,7 @@ package com.danielspeixoto.connect.presenter
 
 import com.danielspeixoto.connect.R
 import com.danielspeixoto.connect.contract.InfoVisitor
+import com.danielspeixoto.connect.model.ObserverModel
 import com.danielspeixoto.connect.model.UserModel
 import com.danielspeixoto.connect.model.VisitorModel
 import com.danielspeixoto.connect.model.pojo.Visitor
@@ -14,7 +15,7 @@ import io.reactivex.schedulers.Schedulers
 /**
  * Created by danielspeixoto on 4/27/17.
  */
-class InfoVisitorPresenter(private val mView: InfoVisitor.View) : InfoVisitor.Presenter {
+class InfoVisitorPresenter(private val view: InfoVisitor.View) : InfoVisitor.Presenter {
 
     override var visitor: Visitor? = null
     override var activitiesAdapter: ActivityAdapter? = null
@@ -25,7 +26,7 @@ class InfoVisitorPresenter(private val mView: InfoVisitor.View) : InfoVisitor.Pr
                                      visitor!!.isConnected).subscribeOn(Schedulers.io()).observeOn(
                 AndroidSchedulers.mainThread()).subscribe({ visitor1 ->
                                                               visitor!!.isConnected = !visitor!!.isConnected
-                                                              mView.onVisitorConnected(visitor!!.isConnected)
+                                                              view.onVisitorConnected(visitor!!.isConnected)
                                                           },
                                                           { throwable ->
                                                               throwable.printStackTrace()
@@ -40,6 +41,7 @@ class InfoVisitorPresenter(private val mView: InfoVisitor.View) : InfoVisitor.Pr
                 AndroidSchedulers.mainThread()).subscribe({ visitor1 ->
                                                               visitor!!.addActivity(activity)
                                                               activitiesAdapter!!.addItem(activity)
+                                                              view.onActivityAdded(activity)
                                                           },
                                                           { throwable ->
                                                               throwable.printStackTrace()
@@ -50,12 +52,13 @@ class InfoVisitorPresenter(private val mView: InfoVisitor.View) : InfoVisitor.Pr
 
     override fun observe() {
         val username = UserModel.currentUser!!.username!!
-        VisitorModel.addObserver(visitor!!._id!!,
-                                 username).subscribeOn(Schedulers.io()).observeOn(
-                AndroidSchedulers.mainThread()).subscribe({ visitor1 ->
+        ObserverModel.addObserver(
+                username,
+                visitor!!._id!!).subscribeOn(Schedulers.io()).observeOn(
+                AndroidSchedulers.mainThread()).subscribe({ _ ->
                                                               visitor!!.observers.add(username)
                                                               observersAdapter!!.addItem(UserModel.currentUser!!)
-                                                              mView.onObserved()
+                                                              view.onObserved()
                                                           },
                                                           { throwable ->
                                                               throwable.printStackTrace()

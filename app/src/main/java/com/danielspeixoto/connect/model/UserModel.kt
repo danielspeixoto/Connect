@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import com.danielspeixoto.connect.R
 import com.danielspeixoto.connect.model.pojo.User
+import com.danielspeixoto.connect.model.pojo.Visitor
 import com.danielspeixoto.connect.util.*
 import com.danielspeixoto.connect.util.DatabaseContract.Companion.USER
 import io.reactivex.Single
@@ -107,6 +108,26 @@ object UserModel : DatabaseContract {
         }
     }
 
+    fun getVisitors() : Single<List<Visitor>> {
+        return Single.create<List<Visitor>> { subscriber ->
+            Database.usersService.getVisitors()
+                    .enqueue(object : Callback<List<Visitor>> {
+                        override fun onResponse(call: Call<List<Visitor>>, response: Response<List<Visitor>>) {
+                            if (response.isSuccessful) {
+                                subscriber.onSuccess(response.body())
+                            } else {
+                                subscriber.onError(Throwable(response.code().string))
+                            }
+                        }
+
+                        override fun onFailure(call: Call<List<Visitor>>, throwable: Throwable) {
+                            throwable.printStackTrace()
+                            subscriber.onError(throwable)
+                        }
+                    })
+        }
+    }
+
     fun hasAccountSavedOnDevice(): Boolean {
         if (!isLogged) {
             val editor = App.context.getSharedPreferences(USER, Context.MODE_PRIVATE)
@@ -118,7 +139,7 @@ object UserModel : DatabaseContract {
                         { user -> },
                         { throwable ->
                             throwable.printStackTrace()
-                            App.showMessage(App.getStringResource(R.string.validation_failed))
+                            App.showMessage(App.getStringResource(R.string.incorrect_username_password))
                             forceLogOut()
                         })
             }
