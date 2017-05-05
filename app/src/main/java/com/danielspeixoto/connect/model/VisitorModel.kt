@@ -1,5 +1,6 @@
 package com.danielspeixoto.connect.model
 
+import com.danielspeixoto.connect.model.pojo.User
 import com.danielspeixoto.connect.model.pojo.Visitor
 import com.danielspeixoto.connect.util.Database
 import com.danielspeixoto.connect.util.string
@@ -33,9 +34,29 @@ object VisitorModel {
         }
     }
 
-    fun getVisitors() : Single<List<Visitor>> {
+    fun getNonConnected() : Single<List<Visitor>> {
         return Single.create<List<Visitor>> { subscriber ->
-            Database.visitorsService.getAll(UserModel.currentUser!!.token!!, UserModel.currentUser!!.group!!)
+            Database.visitorsService.getNotConnected(UserModel.currentUser!!.token!!, UserModel.currentUser!!.group!!)
+                    .enqueue(object : Callback<List<Visitor>> {
+                        override fun onResponse(call: Call<List<Visitor>>, response: Response<List<Visitor>>) {
+                            if (response.isSuccessful) {
+                                subscriber.onSuccess(response.body())
+                            } else {
+                                subscriber.onError(Throwable(response.code().string))
+                            }
+                        }
+
+                        override fun onFailure(call: Call<List<Visitor>>, throwable: Throwable) {
+                            throwable.printStackTrace()
+                            subscriber.onError(throwable)
+                        }
+                    })
+        }
+    }
+
+    fun getConnected() : Single<List<Visitor>> {
+        return Single.create<List<Visitor>> { subscriber ->
+            Database.visitorsService.getConnected()
                     .enqueue(object : Callback<List<Visitor>> {
                         override fun onResponse(call: Call<List<Visitor>>, response: Response<List<Visitor>>) {
                             if (response.isSuccessful) {
@@ -86,6 +107,26 @@ object VisitorModel {
                         }
 
                         override fun onFailure(call: Call<Visitor>, throwable: Throwable) {
+                            throwable.printStackTrace()
+                            subscriber.onError(throwable)
+                        }
+                    })
+        }
+    }
+
+    fun retrieveObservers(id : String) : Single<List<User>> {
+        return Single.create<List<User>> { subscriber ->
+            Database.visitorsService.retrieveObservers(UserModel.currentUser!!.token!!, id)
+                    .enqueue(object : Callback<List<User>> {
+                        override fun onResponse(call: Call<List<User>>, response: Response<List<User>>) {
+                            if (response.isSuccessful) {
+                                subscriber.onSuccess(response.body())
+                            } else {
+                                subscriber.onError(Throwable(response.code().string))
+                            }
+                        }
+
+                        override fun onFailure(call: Call<List<User>>, throwable: Throwable) {
                             throwable.printStackTrace()
                             subscriber.onError(throwable)
                         }

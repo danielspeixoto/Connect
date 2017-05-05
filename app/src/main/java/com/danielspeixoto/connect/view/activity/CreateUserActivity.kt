@@ -6,9 +6,9 @@ import android.view.Gravity
 import android.view.inputmethod.EditorInfo
 import android.widget.EditText
 import com.danielspeixoto.connect.R
-import com.danielspeixoto.connect.contract.SignUp
+import com.danielspeixoto.connect.contract.CreateUser
 import com.danielspeixoto.connect.model.pojo.User
-import com.danielspeixoto.connect.presenter.SignUpPresenter
+import com.danielspeixoto.connect.presenter.CreateUserPresenter
 import com.danielspeixoto.connect.util.PARAM_LAYOUT
 import com.danielspeixoto.connect.util.content
 import com.danielspeixoto.connect.util.isEmpty
@@ -17,17 +17,20 @@ import com.danielspeixoto.connect.view.custom.floatingButton
 import org.jetbrains.anko.*
 import org.jetbrains.anko.design.coordinatorLayout
 
-class SignUpActivity : BaseActivity(), SignUp.View {
+/**
+ * Created by danielspeixoto on 5/3/17.
+ */
+class CreateUserActivity : BaseActivity(), CreateUser.View {
 
     lateinit var nameEdit: EditText
     lateinit var usernameEdit: EditText
     lateinit var passEdit: EditText
     lateinit var confirmPassEdit: EditText
-    lateinit private var presenter: SignUp.Presenter
+    lateinit private var presenter: CreateUser.Presenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        presenter = SignUpPresenter(this)
+        presenter = CreateUserPresenter(this)
         coordinatorLayout {
             padding = dip(PARAM_LAYOUT)
             scrollView {
@@ -69,7 +72,7 @@ class SignUpActivity : BaseActivity(), SignUp.View {
                         toast(getString(R.string.password_must_match))
                     } else {
                         val user = User(usernameEdit.content.trim(), passEdit.content, nameEdit.content.trim())
-                        presenter.signUp(user)
+                        presenter.create(user)
                     }
                 }
             }.lparams {

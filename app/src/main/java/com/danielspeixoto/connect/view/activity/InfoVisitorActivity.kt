@@ -11,16 +11,19 @@ import android.support.v4.content.ContextCompat
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.util.TypedValue
+import android.view.View
 import android.widget.Button
 import android.widget.ImageView
 import com.danielspeixoto.connect.R
 import com.danielspeixoto.connect.contract.InfoVisitor
+import com.danielspeixoto.connect.model.UserModel
 import com.danielspeixoto.connect.model.pojo.Visitor
 import com.danielspeixoto.connect.presenter.InfoVisitorPresenter
 import com.danielspeixoto.connect.util.*
 import com.danielspeixoto.connect.view.custom.EditField
 import com.danielspeixoto.connect.view.custom.editField
 import com.danielspeixoto.connect.view.recycler.adapter.ActivityAdapter
+import com.danielspeixoto.connect.view.recycler.adapter.ObserverAdapter
 import org.jetbrains.anko.*
 import org.jetbrains.anko.recyclerview.v7.recyclerView
 import org.jetbrains.anko.support.v4.nestedScrollView
@@ -31,12 +34,15 @@ import org.jetbrains.anko.support.v4.nestedScrollView
  */
 class InfoVisitorActivity : BaseActivity(), InfoVisitor.View {
 
-    lateinit private var mPresenter: InfoVisitor.Presenter
+    lateinit private var presenter: InfoVisitor.Presenter
     private var activityAdapter = ActivityAdapter(this)
+    private var observerAdapter = ObserverAdapter(this)
 
     lateinit var connectedButton: Button
+    lateinit var observeButton: Button
     lateinit var activityField: EditField
     lateinit var activitiesList: RecyclerView
+    lateinit var observersList: RecyclerView
 
     val REQUEST_CALL = 1
     var callEnabled = true
@@ -44,14 +50,14 @@ class InfoVisitorActivity : BaseActivity(), InfoVisitor.View {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val visitor = intent.getParcelableExtra<Visitor>(DatabaseContract.VISITOR)
-        mPresenter = InfoVisitorPresenter(this)
-        mPresenter.visitor = visitor
+        presenter = InfoVisitorPresenter(this)
+        presenter.visitor = visitor
         title = visitor.name
         relativeLayout {
             connectedButton = button {
                 textColor = Color.WHITE
                 onClick {
-                    mPresenter.toggleVisitorConnected()
+                    presenter.toggleVisitorConnected()
                 }
                 val typedValue = TypedValue()
                 theme.resolveAttribute(R.attr.colorAccent,
@@ -119,7 +125,7 @@ class InfoVisitorActivity : BaseActivity(), InfoVisitor.View {
 
                         }
                     }
-                    if(visitor.observations !== EMPTY_STRING) {
+                    if(!visitor.observations.equals(EMPTY_STRING)) {
                         textView(visitor.observations) {
                             textSize = 26f
                             padding = dip(PARAM_LAYOUT * 2)
@@ -138,7 +144,9 @@ class InfoVisitorActivity : BaseActivity(), InfoVisitor.View {
                             adjustViewBounds = true
                             backgroundColor = Color.TRANSPARENT
                             onClick {
-                                mPresenter.addActivity(activityField.content)
+                                if(!activityField.content.equals(EMPTY_STRING)) {
+                                    presenter.addActivity(activityField.content)
+                                }
                             }
 
                         }.lparams {
@@ -156,7 +164,29 @@ class InfoVisitorActivity : BaseActivity(), InfoVisitor.View {
                         }
                     }
                     activitiesList.setNestedScrollingEnabled(false)
-                    //TODO Add observers list also
+                    textView(App.getStringResource(R.string.observers)) {
+                        textSize = 26f
+                        padding = dip(PARAM_LAYOUT)
+                    }
+                    if(!visitor!!.observers.contains(UserModel.currentUser!!.username!!)) {
+                        observeButton = button(App.getStringResource(R.string.observe)) {
+                            textColor = Color.WHITE
+                            onClick {
+                                presenter.observe()
+                            }
+                            val typedValue = TypedValue()
+                            theme.resolveAttribute(R.attr.colorAccent,
+                                                   typedValue,
+                                                   true)
+                            backgroundColor = typedValue.data
+                        }
+                    }
+                    observersList = recyclerView {
+                        layoutManager = LinearLayoutManager(this@InfoVisitorActivity) as RecyclerView.LayoutManager?
+                        adapter = observerAdapter
+                        padding = dip(PARAM_LAYOUT)
+                    }
+                    observersList.setNestedScrollingEnabled(false)
                 }.lparams(width = matchParent) {
                     margin = dip(PARAM_LAYOUT)
                 }
@@ -167,7 +197,9 @@ class InfoVisitorActivity : BaseActivity(), InfoVisitor.View {
             }
             onVisitorConnected(visitor.isConnected)
         }
-        mPresenter.activitiesAdapter = activityAdapter
+        presenter.activitiesAdapter = activityAdapter
+        presenter.observersAdapter = observerAdapter
+        presenter.retrieveObservers()
     }
 
 
@@ -182,6 +214,10 @@ class InfoVisitorActivity : BaseActivity(), InfoVisitor.View {
 
     override fun onActivityAdded(activity: String) {
         activityField.clear()
+    }
+
+    override fun onObserved() {
+        observeButton.visibility = View.GONE
     }
 
     override fun onRequestPermissionsResult(requestCode: Int,

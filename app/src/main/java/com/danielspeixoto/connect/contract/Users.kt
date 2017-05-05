@@ -1,16 +1,17 @@
 package com.danielspeixoto.connect.contract
 
+import com.danielspeixoto.connect.view.recycler.adapter.UserAdapter
 import com.danielspeixoto.connect.view.recycler.adapter.VisitorAdapter
 
 /**
- * Created by danielspeixoto on 4/27/17.
+ * Created by danielspeixoto on 5/3/17.
  */
-interface Home {
+interface Users {
 
     interface View : ActivityBase.View
 
     interface Presenter : ActivityBase.Presenter {
-        var adapter: VisitorAdapter?
+        var adapter: UserAdapter?
         fun syncItems()
     }
 

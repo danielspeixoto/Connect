@@ -1,35 +1,32 @@
 package com.danielspeixoto.connect.presenter
 
 import com.danielspeixoto.connect.R
+import com.danielspeixoto.connect.contract.CreateUser
 import com.danielspeixoto.connect.model.UserModel
 import com.danielspeixoto.connect.model.pojo.User
-import com.danielspeixoto.connect.contract.SignUp
 import com.danielspeixoto.connect.util.App
 import com.danielspeixoto.connect.util.Validate
-import com.danielspeixoto.connect.view.activity.HomeActivity
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
 /**
- * Created by danielspeixoto on 2/14/17.
+ * Created by danielspeixoto on 5/3/17.
  */
+class CreateUserPresenter(private val view: CreateUser.View) : CreateUser.Presenter {
 
-class SignUpPresenter(private val mView: SignUp.View) : SignUp.Presenter {
-
-    override fun signUp(user: User) {
+    override fun create(user: User) {
         App.showMessage(App.getStringResource(R.string.loading))
         val result = Validate.user(user)
         if (result == Validate.OK) {
-            UserModel.createADM(user)
+            UserModel.createWorker(user)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe ({ user1 ->
-                        App.showMessage(App.getStringResource(R.string.user_added))
-                        mView.goToActivity(HomeActivity::class.java)
-                        mView.activity.finish()
-                    }, { _ ->
-                        App.showMessage(App.getStringResource(R.string.error_occurred))
-                    })
+                                    App.showMessage(App.getStringResource(R.string.user_added))
+                                    view.activity.finish()
+                                }, { throwable ->
+                                    App.showMessage(App.getStringResource(R.string.error_occurred))
+                                })
         } else {
             App.showMessage(result)
         }
