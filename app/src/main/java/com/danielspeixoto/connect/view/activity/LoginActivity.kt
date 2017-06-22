@@ -43,7 +43,7 @@ class LoginActivity : BaseActivity(), Login.View {
                 }
             }.lparams(width = matchParent, height = matchParent)
             floatingButton {
-                imageResource = R.drawable.ic_send_white_24dp
+                imageResource = R.drawable.ic_send_black_24dp
                 onClick {
                     toast(App.getStringResource(R.string.loading))
                     mPresenter.logIn(usernameEdit.content.trim(), passEdit.content)

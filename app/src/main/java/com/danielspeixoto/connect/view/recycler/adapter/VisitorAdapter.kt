@@ -36,7 +36,7 @@ class VisitorAdapter(activity: BaseActivity) :
                                                                          parent))
 
             else      -> return EmptyUI().createHolder(AnkoContext.create(parent!!.context,
-                                                                          parent))
+                                                                          parent), status)
         }
 
     }
@@ -48,6 +48,10 @@ class VisitorAdapter(activity: BaseActivity) :
                 holder as VisitorHolder
                 holder.item = data[position]
                 holder.adapter = this
+            }
+            EMPTY_VIEW -> {
+                holder as EmptyHolder
+                holder.status = status
             }
         }
         holder.onPostCreated()
@@ -112,7 +116,7 @@ class VisitorAdapter(activity: BaseActivity) :
 
         }
 
-        fun createHolder(ui: AnkoContext<ViewGroup>): EmptyHolder {
+        fun createHolder(ui: AnkoContext<ViewGroup>, status : String): EmptyHolder {
             val holder = EmptyHolder(createView(ui))
             holder.messageText = messageText
             return holder
@@ -144,10 +148,13 @@ class VisitorAdapter(activity: BaseActivity) :
     class EmptyHolder(itemView: View) : BaseHolder<String>(itemView) {
 
         lateinit var messageText: TextView
+        var status = "idle"
 
         override fun onPostCreated() {
             if (!Database.isConnected) {
                 messageText.text = App.getStringResource(R.string.no_internet)
+            } else if(status == "idle") {
+                messageText.text = App.getStringResource(R.string.loading)
             } else {
                 messageText.text = App.getStringResource(R.string.no_visitors)
             }

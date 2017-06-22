@@ -23,31 +23,31 @@ class InfoVisitorPresenter(private val view: InfoVisitor.View) : InfoVisitor.Pre
 
     override fun toggleVisitorConnected() {
         VisitorModel.toggleConnected(visitor!!._id!!,
-                                     visitor!!.isConnected).subscribeOn(Schedulers.io()).observeOn(
+                visitor!!.isConnected).subscribeOn(Schedulers.io()).observeOn(
                 AndroidSchedulers.mainThread()).subscribe({ visitor1 ->
-                                                              visitor!!.isConnected = !visitor!!.isConnected
-                                                              view.onVisitorConnected(visitor!!.isConnected)
-                                                          },
-                                                          { throwable ->
-                                                              throwable.printStackTrace()
-                                                              App.showMessage(App.getStringResource(
-                                                                      R.string.error_occurred))
-                                                          })
+            visitor!!.isConnected = !visitor!!.isConnected
+            view.onVisitorConnected(visitor!!.isConnected)
+        },
+                { throwable ->
+                    throwable.printStackTrace()
+                    App.showMessage(App.getStringResource(
+                            R.string.error_occurred))
+                })
     }
 
     override fun addActivity(activity: String) {
         VisitorModel.addActivity(visitor!!._id!!,
-                                 activity).subscribeOn(Schedulers.io()).observeOn(
+                activity).subscribeOn(Schedulers.io()).observeOn(
                 AndroidSchedulers.mainThread()).subscribe({ visitor1 ->
-                                                              visitor!!.addActivity(activity)
-                                                              activitiesAdapter!!.addItem(activity)
-                                                              view.onActivityAdded(activity)
-                                                          },
-                                                          { throwable ->
-                                                              throwable.printStackTrace()
-                                                              App.showMessage(App.getStringResource(
-                                                                      R.string.error_occurred))
-                                                          })
+            visitor!!.addActivity(activity)
+            activitiesAdapter!!.addItem(activity)
+            view.onActivityAdded(activity)
+        },
+                { throwable ->
+                    throwable.printStackTrace()
+                    App.showMessage(App.getStringResource(
+                            R.string.error_occurred))
+                })
     }
 
     override fun observe() {
@@ -56,26 +56,26 @@ class InfoVisitorPresenter(private val view: InfoVisitor.View) : InfoVisitor.Pre
                 username,
                 visitor!!._id!!).subscribeOn(Schedulers.io()).observeOn(
                 AndroidSchedulers.mainThread()).subscribe({ _ ->
-                                                              visitor!!.observers.add(username)
-                                                              observersAdapter!!.addItem(UserModel.currentUser!!)
-                                                              view.onObserved()
-                                                          },
-                                                          { throwable ->
-                                                              throwable.printStackTrace()
-                                                              App.showMessage(App.getStringResource(
-                                                                      R.string.error_occurred))
-                                                          })
+            visitor!!.observers.add(username)
+            observersAdapter!!.addItem(UserModel.currentUser!!)
+            view.onObserved()
+        },
+                { throwable ->
+                    throwable.printStackTrace()
+                    App.showMessage(App.getStringResource(
+                            R.string.error_occurred))
+                })
     }
 
     override fun retrieveObservers() {
         VisitorModel.retrieveObservers(visitor!!._id!!).subscribeOn(Schedulers.io()).observeOn(
                 AndroidSchedulers.mainThread()).subscribe({ users ->
-                                                              users.forEach { observersAdapter!!.addItem(it) }
-                                                          },
-                                                          { throwable ->
-                                                              throwable.printStackTrace()
-                                                              App.showMessage(App.getStringResource(
-                                                                      R.string.error_occurred))
-                                                          })
+            users.forEach { observersAdapter!!.addItem(it) }
+        },
+                { throwable ->
+                    throwable.printStackTrace()
+                    App.showMessage(App.getStringResource(
+                            R.string.error_occurred))
+                })
     }
 }

@@ -11,6 +11,12 @@ abstract class BaseAdapter<O>
     (var activity : BaseActivity) :
         RecyclerView.Adapter<BaseHolder<*>>() {
 
+    var status = "idle"
+        set(update) {
+            field = update
+            notifyDataSetChanged()
+        }
+
     val EMPTY_VIEW = 0
     val ITEM_VIEW = 1
 

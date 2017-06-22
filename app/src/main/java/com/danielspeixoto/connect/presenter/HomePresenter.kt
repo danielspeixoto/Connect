@@ -22,9 +22,9 @@ class HomePresenter(private val mView: Home.View) : Home.Presenter {
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe { list, throwable ->
+                        adapter!!.status = "loaded"
                         if (throwable != null) {
                             when (throwable.message) {
-                            //"404" -> App.showMessage(App.getStringResource(R.string.incorrect_username_password))
                                 else -> App.showMessage(App.getStringResource(R.string.error_occurred))
                             }
                         } else {

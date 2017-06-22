@@ -61,8 +61,8 @@ class InfoVisitorActivity : BaseActivity(), InfoVisitor.View {
                 }
                 val typedValue = TypedValue()
                 theme.resolveAttribute(R.attr.colorAccent,
-                                       typedValue,
-                                       true)
+                        typedValue,
+                        true)
                 backgroundColor = typedValue.data
             }.lparams(width = matchParent) {
                 alignParentBottom()
@@ -92,7 +92,7 @@ class InfoVisitorActivity : BaseActivity(), InfoVisitor.View {
                                     onClick {
                                         val uri = Uri.parse("smsto:" + visitor.phone!!.string)
                                         val i = Intent(Intent.ACTION_SENDTO,
-                                                       uri)
+                                                uri)
                                         i.`package` = "com.whatsapp"
                                         startActivity(i)
                                     }
@@ -105,12 +105,12 @@ class InfoVisitorActivity : BaseActivity(), InfoVisitor.View {
                                     padding = dip(PARAM_LAYOUT)
                                     onClick {
                                         val permissionCheck = ContextCompat.checkSelfPermission(this@InfoVisitorActivity,
-                                                                                                Manifest.permission.CALL_PHONE)
+                                                Manifest.permission.CALL_PHONE)
                                         if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
                                             callEnabled = false
                                             ActivityCompat.requestPermissions(this@InfoVisitorActivity,
-                                                                              arrayOf(Manifest.permission.CALL_PHONE),
-                                                                              REQUEST_CALL)
+                                                    arrayOf(Manifest.permission.CALL_PHONE),
+                                                    REQUEST_CALL)
                                         }
                                         if (callEnabled) {
                                             makeCall(visitor.phone!!.string)
@@ -176,8 +176,8 @@ class InfoVisitorActivity : BaseActivity(), InfoVisitor.View {
                             }
                             val typedValue = TypedValue()
                             theme.resolveAttribute(R.attr.colorAccent,
-                                                   typedValue,
-                                                   true)
+                                    typedValue,
+                                    true)
                             backgroundColor = typedValue.data
                         }
                     }
