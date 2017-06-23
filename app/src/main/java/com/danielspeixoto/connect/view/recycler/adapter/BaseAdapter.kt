@@ -40,6 +40,7 @@ abstract class BaseAdapter<O>
 
     fun clearData() {
         data.clear()
+        status = "idle"
         notifyDataSetChanged()
     }
 

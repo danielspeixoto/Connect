@@ -30,13 +30,18 @@ interface VisitorsService {
 
     @FormUrlEncoded
     @PUT("visitors/{id}/isConnected/")
-    fun deleteVisitor(@Header("Authorization") authorization: String,
-                      @Path("id") id: String,
-                      @Field("isConnected") isConnected: HashMap<String, Boolean>): Call<Visitor>
+    fun toggleConnected(@Header("Authorization") authorization: String,
+                        @Path("id") id: String,
+                        @Field("isConnected") isConnected: HashMap<String, Boolean>): Call<Visitor>
 
     @PUT("visitors/{id}/activities")
     fun addActivity(@Header("Authorization") authorization: String,
                     @Path("id") id: String,
                     @Body activity: HashMap<String, String>): Call<Visitor>
+
+    @PUT("visitors/{id}")
+    fun deleteVisitor(@Path("id") id: String,
+                      @Header("Authorization") authorization: String = UserModel.currentUser!!.token!!)
+                        : Call<Any>
 
 }

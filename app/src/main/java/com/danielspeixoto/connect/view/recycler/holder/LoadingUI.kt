@@ -4,6 +4,7 @@ import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.RecyclerView.ViewHolder
 import android.view.View
 import android.view.ViewGroup
+import com.danielspeixoto.connect.util.PARAM_LAYOUT
 import org.jetbrains.anko.*
 
 /**
@@ -14,7 +15,7 @@ class LoadingUI : AnkoComponent<ViewGroup> {
     override fun createView(ui: AnkoContext<ViewGroup>): View {
         return with(ui) {
             linearLayout {
-                padding = 16
+                padding = PARAM_LAYOUT * 2
                 lparams(width = matchParent)
                 progressBar().lparams(width = matchParent)
             }

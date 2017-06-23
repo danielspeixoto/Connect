@@ -2,13 +2,12 @@ package com.danielspeixoto.connect.contract
 
 import com.danielspeixoto.connect.view.recycler.adapter.VisitorAdapter
 
-interface MyVisitors {
+interface Connected {
 
-    interface View : ActivityBase.View {
-    }
+    interface View : ActivityBase.View
 
     interface Presenter : ActivityBase.Presenter {
         var adapter: VisitorAdapter?
-        fun getVisitors()
+        fun syncItems()
     }
 }

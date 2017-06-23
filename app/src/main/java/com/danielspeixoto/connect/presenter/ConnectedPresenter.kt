@@ -1,7 +1,7 @@
 package com.danielspeixoto.connect.presenter
 
 import com.danielspeixoto.connect.R
-import com.danielspeixoto.connect.contract.Home
+import com.danielspeixoto.connect.contract.Connected
 import com.danielspeixoto.connect.model.VisitorModel
 import com.danielspeixoto.connect.util.App
 import com.danielspeixoto.connect.view.recycler.adapter.BaseAdapter
@@ -9,17 +9,14 @@ import com.danielspeixoto.connect.view.recycler.adapter.VisitorAdapter
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
-/**
- * Created by danielspeixoto on 4/27/17.
- */
-class HomePresenter(private val view: Home.View) : Home.Presenter {
+class ConnectedPresenter(private val view: Connected.View) : Connected.Presenter {
 
     override var adapter: VisitorAdapter? = null
 
     override fun syncItems() {
         if(adapter != null) {
             adapter!!.clearData()
-            VisitorModel.getNonConnected()
+            VisitorModel.getConnected()
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe { list, throwable ->

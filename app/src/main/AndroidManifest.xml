@@ -79,6 +79,15 @@
                 android:value="com.danielspeixoto.connect.view.activity.UsersActivity"/>>
         </activity>
         <activity
+            android:name=".view.activity.ConnectedActivity"
+            android:label="@string/title_activity_connected"
+            android:parentActivityName=".view.activity.HomeActivity"
+            android:theme="@style/AppTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.danielspeixoto.connect.view.activity.HomeActivity"/>>
+        </activity>
+        <activity
             android:name=".view.activity.SettingsActivity"
             android:label="@string/settings"
             android:parentActivityName=".view.activity.HomeActivity"

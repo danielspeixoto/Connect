@@ -50,4 +50,6 @@
     <string name="username_password_changed">Usuário ou senha foram trocados</string>
     <string name="visitor_added">Visitante Salvo</string>
     <string name="years">anos</string>
+    <string name="empty">A lista está vazia</string>
+    <string name="title_activity_connected">Conectados</string>
 </resources>

@@ -23,6 +23,7 @@ interface InfoVisitor {
         fun addActivity(activity : String)
         fun observe()
         fun retrieveObservers()
+        fun deleteVisitor()
     }
 
 }

@@ -11,6 +11,9 @@ import android.support.v4.content.ContextCompat
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.util.TypedValue
+import android.view.Gravity
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import android.widget.Button
 import android.widget.ImageView
@@ -53,20 +56,7 @@ class InfoVisitorActivity : BaseActivity(), InfoVisitor.View {
         presenter = InfoVisitorPresenter(this)
         presenter.visitor = visitor
         title = visitor.name
-        relativeLayout {
-            connectedButton = button {
-                textColor = Color.WHITE
-                onClick {
-                    presenter.toggleConnected()
-                }
-                val typedValue = TypedValue()
-                theme.resolveAttribute(R.attr.colorAccent,
-                        typedValue,
-                        true)
-                backgroundColor = typedValue.data
-            }.lparams(width = matchParent) {
-                alignParentBottom()
-            }
+        verticalLayout {
             nestedScrollView {
                 verticalLayout {
                     if (visitor.age != null) {
@@ -78,7 +68,7 @@ class InfoVisitorActivity : BaseActivity(), InfoVisitor.View {
                     if (visitor.phone != null) {
                         relativeLayout {
                             textView(visitor.phone!!.string) {
-                                textSize = 26f
+                                textSize = (PARAM_LAYOUT * 3).toFloat()
                                 padding = dip(PARAM_LAYOUT * 2)
                                 isSelectable = true
                             }
@@ -131,15 +121,15 @@ class InfoVisitorActivity : BaseActivity(), InfoVisitor.View {
                             padding = dip(PARAM_LAYOUT * 2)
                         }
                     }
-                    relativeLayout {
+                    linearLayout {
                         activityField = editField {
                             hint = getString(R.string.add_activity)
-                            rightPadding = dip(PARAM_LAYOUT * 4)
-                        }.lparams(width = matchParent) {
-                            alignParentLeft()
+                        }.lparams {
+                            weight = 1f
+                            gravity = Gravity.CENTER
                         }
                         imageButton {
-                            imageResource = R.drawable.ic_add_black_24dp
+                            imageResource = R.drawable.ic_add_circle
                             scaleType = ImageView.ScaleType.FIT_CENTER
                             adjustViewBounds = true
                             backgroundColor = Color.TRANSPARENT
@@ -148,11 +138,9 @@ class InfoVisitorActivity : BaseActivity(), InfoVisitor.View {
                                     presenter.addActivity(activityField.content)
                                 }
                             }
-
+                            padding = PARAM_LAYOUT * 2
                         }.lparams {
-                            alignParentRight()
-                            centerVertically()
-                            padding = dip(PARAM_LAYOUT)
+                            gravity = Gravity.CENTER
                         }
                     }.lparams(width = matchParent)
                     activitiesList = recyclerView {
@@ -191,10 +179,19 @@ class InfoVisitorActivity : BaseActivity(), InfoVisitor.View {
                     margin = dip(PARAM_LAYOUT)
                 }
             }.lparams(width = matchParent) {
-                // TODO make it work
-                above(connectedButton)
-                bottomMargin = dip(50)
+                weight = 1f
             }
+            connectedButton = button {
+                textColor = Color.WHITE
+                onClick {
+                    presenter.toggleConnected()
+                }
+                val typedValue = TypedValue()
+                theme.resolveAttribute(R.attr.colorAccent,
+                        typedValue,
+                        true)
+                backgroundColor = typedValue.data
+            }.lparams(width = matchParent)
             onVisitorConnected(visitor.isConnected)
         }
         // Remove focus from activity field when it starts
@@ -204,7 +201,27 @@ class InfoVisitorActivity : BaseActivity(), InfoVisitor.View {
         presenter.retrieveObservers()
     }
 
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_visitor, menu)
+        return true
+    }
 
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        when(item!!.itemId) {
+            R.id.delete -> {
+                alert(getString(R.string.are_you_sure)) {
+                    yesButton {
+                        presenter.deleteVisitor()
+                        finish()
+                    }
+                    noButton {
+
+                    }
+                }.show()
+            }
+        }
+        return super.onOptionsItemSelected(item)
+    }
 
     override fun onVisitorConnected(isConnected: Boolean) {
         if (!isConnected) {

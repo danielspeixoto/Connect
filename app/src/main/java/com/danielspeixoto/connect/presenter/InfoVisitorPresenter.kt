@@ -79,4 +79,16 @@ class InfoVisitorPresenter(private val view: InfoVisitor.View) : InfoVisitor.Pre
                             R.string.error_occurred))
                 })
     }
+
+    override fun deleteVisitor() {
+        VisitorModel.deleteVisitor(visitor!!._id!!)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({ _ -> },
+                { throwable ->
+                    throwable.printStackTrace()
+                    App.showMessage(App.getStringResource(
+                            R.string.error_occurred))
+                })
+    }
 }

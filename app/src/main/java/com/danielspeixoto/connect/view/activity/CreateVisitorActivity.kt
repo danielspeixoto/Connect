@@ -55,7 +55,7 @@ class CreateVisitorActivity : BaseActivity(), CreateVisitor.View {
                 }.lparams(width = matchParent, height = wrapContent)
             }.lparams(width = matchParent, height = wrapContent)
             floatingButton {
-                imageResource = R.drawable.ic_save_black_24dp
+                imageResource = R.drawable.ic_save
                 onClick {
                     val visitor = Visitor(nameEdit.content.trim())
                     if(!ageEdit.isEmpty()) visitor.age = ageEdit.content.integer

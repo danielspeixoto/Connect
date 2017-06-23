@@ -56,7 +56,7 @@ class CreateUserActivity : BaseActivity(), CreateUser.View {
                 }
             }.lparams(width = matchParent, height = matchParent)
             floatingButton {
-                imageResource = R.drawable.ic_save_black_24dp
+                imageResource = R.drawable.ic_save
                 onClick {
                     if (nameEdit.isEmpty()) {
                         nameEdit.requestFocus()
