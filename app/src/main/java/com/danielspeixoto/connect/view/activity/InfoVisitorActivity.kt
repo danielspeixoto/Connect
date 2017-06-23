@@ -57,7 +57,7 @@ class InfoVisitorActivity : BaseActivity(), InfoVisitor.View {
             connectedButton = button {
                 textColor = Color.WHITE
                 onClick {
-                    presenter.toggleVisitorConnected()
+                    presenter.toggleConnected()
                 }
                 val typedValue = TypedValue()
                 theme.resolveAttribute(R.attr.colorAccent,
@@ -168,6 +168,12 @@ class InfoVisitorActivity : BaseActivity(), InfoVisitor.View {
                         textSize = 26f
                         padding = dip(PARAM_LAYOUT)
                     }
+                    observersList = recyclerView {
+                        layoutManager = LinearLayoutManager(this@InfoVisitorActivity) as RecyclerView.LayoutManager?
+                        adapter = observerAdapter
+                        padding = dip(PARAM_LAYOUT)
+                    }
+                    observersList.setNestedScrollingEnabled(false)
                     if(!visitor!!.observers.contains(UserModel.currentUser!!.username!!)) {
                         observeButton = button(App.getStringResource(R.string.observe)) {
                             textColor = Color.WHITE
@@ -181,12 +187,6 @@ class InfoVisitorActivity : BaseActivity(), InfoVisitor.View {
                             backgroundColor = typedValue.data
                         }
                     }
-                    observersList = recyclerView {
-                        layoutManager = LinearLayoutManager(this@InfoVisitorActivity) as RecyclerView.LayoutManager?
-                        adapter = observerAdapter
-                        padding = dip(PARAM_LAYOUT)
-                    }
-                    observersList.setNestedScrollingEnabled(false)
                 }.lparams(width = matchParent) {
                     margin = dip(PARAM_LAYOUT)
                 }
@@ -197,6 +197,8 @@ class InfoVisitorActivity : BaseActivity(), InfoVisitor.View {
             }
             onVisitorConnected(visitor.isConnected)
         }
+        // Remove focus from activity field when it starts
+        activitiesList.requestFocus()
         presenter.activitiesAdapter = activityAdapter
         presenter.observersAdapter = observerAdapter
         presenter.retrieveObservers()

@@ -2,15 +2,18 @@ package com.danielspeixoto.connect.view.recycler.adapter
 
 import android.support.v7.widget.RecyclerView
 import com.danielspeixoto.connect.view.activity.BaseActivity
-import com.danielspeixoto.connect.view.recycler.holder.BaseHolder
 
 /**
  * Created by danielspeixoto on 4/21/17.
  */
 abstract class BaseAdapter<O>
     (var activity : BaseActivity) :
-        RecyclerView.Adapter<BaseHolder<*>>() {
+        RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
+    companion object {
+        val IDLE = "idle"
+        val LOADED = "loaded"
+    }
     var status = "idle"
         set(update) {
             field = update
@@ -19,6 +22,7 @@ abstract class BaseAdapter<O>
 
     val EMPTY_VIEW = 0
     val ITEM_VIEW = 1
+    val LOADING_VIEW = 2
 
     var data : ArrayList<O> = ArrayList()
 
@@ -53,6 +57,9 @@ abstract class BaseAdapter<O>
 
     override fun getItemViewType(position: Int): Int {
         if(data.size == 0) {
+            if(status == IDLE) {
+                return LOADING_VIEW
+            }
             return EMPTY_VIEW
         }
         return ITEM_VIEW

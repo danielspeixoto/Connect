@@ -1,5 +1,6 @@
 package com.danielspeixoto.connect.view.activity
 
+import android.app.ProgressDialog
 import android.content.res.Configuration
 import android.os.Bundle
 import android.support.v4.view.GravityCompat
@@ -13,6 +14,7 @@ import com.danielspeixoto.connect.R
 import com.danielspeixoto.connect.contract.Home
 import com.danielspeixoto.connect.presenter.HomePresenter
 import com.danielspeixoto.connect.view.custom.floatingButton
+import com.danielspeixoto.connect.view.recycler.adapter.BaseAdapter
 import com.danielspeixoto.connect.view.recycler.adapter.DrawerAdapter
 import com.danielspeixoto.connect.view.recycler.adapter.VisitorAdapter
 import org.jetbrains.anko.*
@@ -29,6 +31,14 @@ class HomeActivity : BaseActivity(), Home.View {
     lateinit var drawerLayout: DrawerLayout
     lateinit var drawerToggle : ActionBarDrawerToggle
     lateinit private var presenter: Home.Presenter
+
+
+    lateinit var progressDialog: ProgressDialog
+    var isLoading = true
+        set(value) {
+            field = value
+            progressDialog.dismiss()
+        }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -68,6 +78,7 @@ class HomeActivity : BaseActivity(), Home.View {
 
     override fun onResume() {
         super.onResume()
+        visitorAdapter.status = BaseAdapter.IDLE
         presenter.syncItems()
     }
 

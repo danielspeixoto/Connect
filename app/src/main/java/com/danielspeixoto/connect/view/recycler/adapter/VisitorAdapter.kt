@@ -3,21 +3,19 @@ package com.danielspeixoto.connect.view.recycler.adapter
 import android.content.Intent
 import android.graphics.Color
 import android.support.v7.widget.CardView
-import android.view.Gravity
+import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
-import com.danielspeixoto.connect.R
 import com.danielspeixoto.connect.model.pojo.Visitor
-import com.danielspeixoto.connect.util.App
-import com.danielspeixoto.connect.util.Database
 import com.danielspeixoto.connect.util.DatabaseContract
 import com.danielspeixoto.connect.util.PARAM_LAYOUT
 import com.danielspeixoto.connect.view.activity.BaseActivity
 import com.danielspeixoto.connect.view.activity.InfoVisitorActivity
 import com.danielspeixoto.connect.view.recycler.holder.BaseHolder
+import com.danielspeixoto.connect.view.recycler.holder.EmptyUI
+import com.danielspeixoto.connect.view.recycler.holder.LoadingUI
 import org.jetbrains.anko.*
 import org.jetbrains.anko.cardview.v7.cardView
 
@@ -30,31 +28,35 @@ class VisitorAdapter(activity: BaseActivity) :
         BaseAdapter<Visitor>(activity) {
 
     override fun onCreateViewHolder(parent: ViewGroup?,
-                                    viewType: Int): BaseHolder<*> {
+                                    viewType: Int): RecyclerView.ViewHolder {
+
         when (viewType) {
             ITEM_VIEW -> return ItemUI().createHolder(AnkoContext.create(parent!!.context,
                                                                          parent))
-
+            LOADING_VIEW -> return LoadingUI().createHolder(AnkoContext.create(parent!!.context,
+                                    parent))
             else      -> return EmptyUI().createHolder(AnkoContext.create(parent!!.context,
-                                                                          parent), status)
+                                                                          parent))
         }
 
     }
 
-    override fun onBindViewHolder(holder: BaseHolder<*>,
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder,
                                   position: Int) {
         when (holder.getItemViewType()) {
             ITEM_VIEW -> {
                 holder as VisitorHolder
                 holder.item = data[position]
                 holder.adapter = this
+                holder.onPostCreated()
             }
             EMPTY_VIEW -> {
-                holder as EmptyHolder
+                holder as EmptyUI.EmptyHolder
                 holder.status = status
+                holder.onPostCreated()
             }
         }
-        holder.onPostCreated()
+
     }
 
     class ItemUI : AnkoComponent<ViewGroup> {
@@ -92,38 +94,6 @@ class VisitorAdapter(activity: BaseActivity) :
 
     }
 
-    class EmptyUI : AnkoComponent<ViewGroup> {
-
-        lateinit var messageText: TextView
-
-        override fun createView(ui: AnkoContext<ViewGroup>): View {
-            return with(ui) {
-                verticalLayout {
-                    lparams(width = matchParent)
-                    imageView {
-                        imageResource = R.drawable.ic_sentiment_very_dissatisfied
-                        padding = dip(PARAM_LAYOUT / 2)
-                        scaleType = ImageView.ScaleType.FIT_CENTER
-                    }
-                    messageText = textView {
-                        textSize = 26f
-                        horizontalPadding = dip(PARAM_LAYOUT * 2)
-                        bottomPadding = dip(PARAM_LAYOUT * 2)
-                        gravity = Gravity.CENTER
-                    }
-                }
-            }
-
-        }
-
-        fun createHolder(ui: AnkoContext<ViewGroup>, status : String): EmptyHolder {
-            val holder = EmptyHolder(createView(ui))
-            holder.messageText = messageText
-            return holder
-        }
-
-    }
-
     class VisitorHolder(itemView: View) : BaseHolder<Visitor>(itemView) {
 
         lateinit var nameText: TextView
@@ -131,8 +101,10 @@ class VisitorAdapter(activity: BaseActivity) :
 
         override fun onPostCreated() {
             nameText.text = item!!.name
-            if (item!!.observers.size == 0) {
+            if (item!!.observers.isEmpty()) {
                 nameText.setTextColor(Color.RED)
+            } else {
+                nameText.setTextColor(Color.GRAY)
             }
             itemView.onClick {
                 val intent = Intent(adapter.activity,
@@ -144,21 +116,5 @@ class VisitorAdapter(activity: BaseActivity) :
         }
     }
 
-
-    class EmptyHolder(itemView: View) : BaseHolder<String>(itemView) {
-
-        lateinit var messageText: TextView
-        var status = "idle"
-
-        override fun onPostCreated() {
-            if (!Database.isConnected) {
-                messageText.text = App.getStringResource(R.string.no_internet)
-            } else if(status == "idle") {
-                messageText.text = App.getStringResource(R.string.loading)
-            } else {
-                messageText.text = App.getStringResource(R.string.no_visitors)
-            }
-        }
-    }
 }
 

@@ -1,5 +1,6 @@
 package com.danielspeixoto.connect.util
 
+import com.danielspeixoto.connect.model.WebService.ObserversService
 import com.danielspeixoto.connect.model.WebService.UsersService
 import com.danielspeixoto.connect.model.WebService.VisitorsService
 import com.google.gson.Gson
@@ -44,9 +45,14 @@ object Database {
         Database.retrofit.create(VisitorsService::class.java)
     }
 
+    val  observersService by lazy {
+        Database.retrofit.create(ObserversService::class.java)
+    }
+
     val isConnected: Boolean
         get() {
             val info = App.context.connectivityManager.activeNetworkInfo
             return info != null && info.isConnected
         }
+
 }

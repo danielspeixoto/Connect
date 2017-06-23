@@ -3,7 +3,6 @@ package com.danielspeixoto.connect.contract
 import com.danielspeixoto.connect.model.pojo.Visitor
 import com.danielspeixoto.connect.view.recycler.adapter.ActivityAdapter
 import com.danielspeixoto.connect.view.recycler.adapter.ObserverAdapter
-import com.danielspeixoto.connect.view.recycler.adapter.UserAdapter
 
 /**
  * Created by danielspeixoto on 4/27/17.
@@ -20,7 +19,7 @@ interface InfoVisitor {
         var activitiesAdapter: ActivityAdapter?
         var observersAdapter: ObserverAdapter?
         var visitor  : Visitor?
-        fun toggleVisitorConnected()
+        fun toggleConnected()
         fun addActivity(activity : String)
         fun observe()
         fun retrieveObservers()

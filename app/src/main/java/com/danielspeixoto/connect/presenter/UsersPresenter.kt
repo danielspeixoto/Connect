@@ -4,6 +4,7 @@ import com.danielspeixoto.connect.R
 import com.danielspeixoto.connect.contract.Users
 import com.danielspeixoto.connect.model.UserModel
 import com.danielspeixoto.connect.util.App
+import com.danielspeixoto.connect.view.recycler.adapter.BaseAdapter
 import com.danielspeixoto.connect.view.recycler.adapter.UserAdapter
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -28,6 +29,7 @@ class UsersPresenter(private val view: Users.View) : Users.Presenter {
                             }
                         } else {
                             list.forEach { adapter!!.addItem(it) }
+                            adapter!!.status = BaseAdapter.LOADED
                         }
                     }
         }
