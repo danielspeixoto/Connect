@@ -1,9 +1,7 @@
 package com.danielspeixoto.connect.presenter
 
-import com.danielspeixoto.connect.R
 import com.danielspeixoto.connect.contract.Users
 import com.danielspeixoto.connect.model.UserModel
-import com.danielspeixoto.connect.util.App
 import com.danielspeixoto.connect.view.recycler.adapter.BaseAdapter
 import com.danielspeixoto.connect.view.recycler.adapter.UserAdapter
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -25,7 +23,7 @@ class UsersPresenter(private val view: Users.View) : Users.Presenter {
                     .subscribe { list, throwable ->
                         if (throwable != null) {
                             when (throwable.message) {
-                                else -> App.showMessage(App.getStringResource(R.string.error_occurred))
+                                else -> view.showErrorDialog()
                             }
                         } else {
                             list.forEach { adapter!!.addItem(it) }

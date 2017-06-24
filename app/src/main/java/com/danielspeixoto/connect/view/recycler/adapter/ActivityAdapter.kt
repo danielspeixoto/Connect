@@ -22,6 +22,11 @@ class ActivityAdapter(activity: BaseActivity) :
         status = BaseAdapter.LOADED
     }
 
+    override fun addItem(t: String) {
+        data.add(0, t)
+        notifyDataSetChanged()
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup?,
                                     viewType: Int): RecyclerView.ViewHolder {
         when (viewType) {

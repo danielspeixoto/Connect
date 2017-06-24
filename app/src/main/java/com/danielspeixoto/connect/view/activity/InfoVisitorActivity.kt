@@ -35,7 +35,7 @@ import org.jetbrains.anko.support.v4.nestedScrollView
 /**
  * Created by danielspeixoto on 4/27/17.
  */
-class InfoVisitorActivity : BaseActivity(), InfoVisitor.View {
+class InfoVisitorActivity : LoggedActivity(), InfoVisitor.View {
 
     lateinit private var presenter: InfoVisitor.Presenter
     private var activityAdapter = ActivityAdapter(this)
@@ -134,7 +134,7 @@ class InfoVisitorActivity : BaseActivity(), InfoVisitor.View {
                             adjustViewBounds = true
                             backgroundColor = Color.TRANSPARENT
                             onClick {
-                                if(!activityField.content.equals(EMPTY_STRING)) {
+                                if(activityField.content != EMPTY_STRING) {
                                     presenter.addActivity(activityField.content)
                                 }
                             }
@@ -176,7 +176,7 @@ class InfoVisitorActivity : BaseActivity(), InfoVisitor.View {
                         }
                     }
                 }.lparams(width = matchParent) {
-                    margin = dip(PARAM_LAYOUT)
+                    margin = dip(PARAM_LAYOUT * 2)
                 }
             }.lparams(width = matchParent) {
                 weight = 1f
@@ -191,7 +191,9 @@ class InfoVisitorActivity : BaseActivity(), InfoVisitor.View {
                         typedValue,
                         true)
                 backgroundColor = typedValue.data
-            }.lparams(width = matchParent)
+            }.lparams(width = matchParent) {
+                topMargin = PARAM_LAYOUT * 2
+            }
             onVisitorConnected(visitor.isConnected)
         }
         // Remove focus from activity field when it starts

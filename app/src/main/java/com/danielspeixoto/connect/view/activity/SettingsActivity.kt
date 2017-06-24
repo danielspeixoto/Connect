@@ -15,7 +15,7 @@ import org.jetbrains.anko.recyclerview.v7.recyclerView
 /**
  * Created by danielspeixoto on 5/3/17.
  */
-class SettingsActivity : BaseActivity() {
+class SettingsActivity : LoggedActivity() {
 
     lateinit var list: RecyclerView
     private var linksAdapter = LinksAdapter(this)

@@ -15,7 +15,7 @@ import org.jetbrains.anko.verticalLayout
 /**
  * Created by daniel on 22/06/17.
  */
-class ConnectedActivity : BaseActivity(), Connected.View {
+class ConnectedActivity : LoggedActivity(), Connected.View {
 
     lateinit var list: RecyclerView
     private var visitorAdapter = VisitorAdapter(this)

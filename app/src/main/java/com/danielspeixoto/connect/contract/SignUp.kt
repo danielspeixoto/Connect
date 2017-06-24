@@ -9,7 +9,9 @@ import com.danielspeixoto.connect.model.pojo.User
 
 interface SignUp {
 
-    interface View : ActivityBase.View
+    interface View : ActivityBase.View {
+        fun setMessageViewText(message: String)
+    }
 
     interface Presenter : ActivityBase.Presenter {
         fun signUp(user: User)

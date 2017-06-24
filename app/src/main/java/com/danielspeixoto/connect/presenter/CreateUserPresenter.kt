@@ -22,13 +22,12 @@ class CreateUserPresenter(private val view: CreateUser.View) : CreateUser.Presen
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe ({ user1 ->
-                                    App.showMessage(App.getStringResource(R.string.user_added))
                                     view.activity.finish()
                                 }, { throwable ->
-                                    App.showMessage(App.getStringResource(R.string.error_occurred))
+                                    view.showErrorDialog()
                                 })
         } else {
-            App.showMessage(result)
+            view.setMessageViewText(result)
         }
     }
 }

@@ -1,9 +1,7 @@
 package com.danielspeixoto.connect.presenter
 
-import com.danielspeixoto.connect.R
 import com.danielspeixoto.connect.contract.Connected
 import com.danielspeixoto.connect.model.VisitorModel
-import com.danielspeixoto.connect.util.App
 import com.danielspeixoto.connect.view.recycler.adapter.BaseAdapter
 import com.danielspeixoto.connect.view.recycler.adapter.VisitorAdapter
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -23,7 +21,7 @@ class ConnectedPresenter(private val view: Connected.View) : Connected.Presenter
                         adapter!!.status = BaseAdapter.LOADED
                         if (throwable != null) {
                             when (throwable.message) {
-                                else -> App.showMessage(App.getStringResource(R.string.error_occurred))
+                                else -> view.showErrorDialog()
                             }
                         } else {
                             list.forEach { adapter!!.addItem(it) }

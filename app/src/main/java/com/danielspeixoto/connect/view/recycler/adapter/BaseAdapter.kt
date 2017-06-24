@@ -26,7 +26,7 @@ abstract class BaseAdapter<O>
 
     var data : ArrayList<O> = ArrayList()
 
-    fun addItem(t: O) {
+    open fun addItem(t: O) {
         data.add(t)
         notifyDataSetChanged()
     }

@@ -18,6 +18,7 @@ import java.util.concurrent.TimeUnit
 object Database {
 
     val END_POINT = "https://connect-rest.herokuapp.com/"
+    //val END_POINT = "http://192.168.0.22:8080/"
 
     val gson = Gson()
 

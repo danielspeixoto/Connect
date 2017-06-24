@@ -35,5 +35,6 @@ class App : MultiDexApplication() {
         fun log(s: String) {
             Log.d("Testing", s)
         }
+
     }
 }

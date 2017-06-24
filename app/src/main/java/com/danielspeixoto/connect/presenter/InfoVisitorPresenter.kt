@@ -1,11 +1,9 @@
 package com.danielspeixoto.connect.presenter
 
-import com.danielspeixoto.connect.R
 import com.danielspeixoto.connect.contract.InfoVisitor
 import com.danielspeixoto.connect.model.UserModel
 import com.danielspeixoto.connect.model.VisitorModel
 import com.danielspeixoto.connect.model.pojo.Visitor
-import com.danielspeixoto.connect.util.App
 import com.danielspeixoto.connect.view.recycler.adapter.ActivityAdapter
 import com.danielspeixoto.connect.view.recycler.adapter.BaseAdapter
 import com.danielspeixoto.connect.view.recycler.adapter.ObserverAdapter
@@ -23,30 +21,29 @@ class InfoVisitorPresenter(private val view: InfoVisitor.View) : InfoVisitor.Pre
 
     override fun toggleConnected() {
         VisitorModel.toggleConnected(visitor!!._id!!, visitor!!.isConnected).subscribeOn(Schedulers.io()).observeOn(
-                AndroidSchedulers.mainThread()).subscribe({ visitor1 ->
+                AndroidSchedulers.mainThread()).subscribe({ _ ->
                     visitor!!.isConnected = !visitor!!.isConnected
                     view.onVisitorConnected(visitor!!.isConnected)
                 },
                 { throwable ->
                     throwable.printStackTrace()
-                    App.showMessage(App.getStringResource(
-                            R.string.error_occurred))
+                    view.showErrorDialog()
                 })
     }
 
     override fun addActivity(activity: String) {
+        activitiesAdapter!!.addItem(activity)
         VisitorModel.addActivity(visitor!!._id!!, activity)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({ visitor1 ->
+                .subscribe({ _ ->
                     visitor!!.addActivity(activity)
-                    activitiesAdapter!!.addItem(activity)
                     view.onActivityAdded(activity)
                 },
                 { throwable ->
+                    //TODO Specify which activity couldn't been sent
                     throwable.printStackTrace()
-                    App.showMessage(App.getStringResource(
-                            R.string.error_occurred))
+                    view.showErrorDialog()
                 })
     }
 
@@ -62,8 +59,7 @@ class InfoVisitorPresenter(private val view: InfoVisitor.View) : InfoVisitor.Pre
                 },
                 { throwable ->
                     throwable.printStackTrace()
-                    App.showMessage(App.getStringResource(
-                            R.string.error_occurred))
+                    view.showErrorDialog()
                 })
     }
 
@@ -75,8 +71,7 @@ class InfoVisitorPresenter(private val view: InfoVisitor.View) : InfoVisitor.Pre
                 },
                 { throwable ->
                     throwable.printStackTrace()
-                    App.showMessage(App.getStringResource(
-                            R.string.error_occurred))
+                    view.showErrorDialog()
                 })
     }
 
@@ -87,8 +82,7 @@ class InfoVisitorPresenter(private val view: InfoVisitor.View) : InfoVisitor.Pre
                 .subscribe({ _ -> },
                 { throwable ->
                     throwable.printStackTrace()
-                    App.showMessage(App.getStringResource(
-                            R.string.error_occurred))
+                    view.showErrorDialog()
                 })
     }
 }

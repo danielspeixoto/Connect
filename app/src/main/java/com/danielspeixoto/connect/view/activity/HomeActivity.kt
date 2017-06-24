@@ -22,7 +22,7 @@ import org.jetbrains.anko.design.coordinatorLayout
 import org.jetbrains.anko.recyclerview.v7.recyclerView
 import org.jetbrains.anko.support.v4.drawerLayout
 
-class HomeActivity : BaseActivity(), Home.View {
+class HomeActivity : LoggedActivity(), Home.View {
 
     lateinit var list: RecyclerView
     lateinit var drawer: RecyclerView

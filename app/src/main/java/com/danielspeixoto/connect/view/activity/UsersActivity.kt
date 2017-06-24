@@ -17,7 +17,7 @@ import org.jetbrains.anko.recyclerview.v7.recyclerView
 /**
  * Created by danielspeixoto on 5/3/17.
  */
-class UsersActivity : BaseActivity(), Users.View {
+class UsersActivity : LoggedActivity(), Users.View {
 
     lateinit var list: RecyclerView
     private var usersAdapter = UserAdapter(this)

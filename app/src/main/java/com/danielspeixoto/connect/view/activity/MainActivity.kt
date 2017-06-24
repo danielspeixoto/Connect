@@ -54,7 +54,6 @@ class MainActivity : BaseActivity(), Main.View {
             }
             iconView().lparams {
                 alignParentTop()
-                above(HAS_ACCOUNT)
                 centerHorizontally()
             }
         }
