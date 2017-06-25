@@ -9,6 +9,7 @@ import com.danielspeixoto.connect.util.Validate
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
+
 /**
  * Created by danielspeixoto on 4/25/17.
  */

@@ -25,7 +25,7 @@ import org.jetbrains.anko.cardview.v7.cardView
  */
 
 class VisitorAdapter(activity: BaseActivity) :
-        BaseAdapter<Visitor>(activity) {
+        MutableAdapter<Visitor>(activity) {
 
     override fun onCreateViewHolder(parent: ViewGroup?,
                                     viewType: Int): RecyclerView.ViewHolder {
@@ -46,12 +46,7 @@ class VisitorAdapter(activity: BaseActivity) :
         when (holder.getItemViewType()) {
             ITEM_VIEW -> {
                 holder as VisitorHolder
-                var index = position
-                // When loading view is created it pushes the other view
-                if(status == BaseAdapter.LOADING) {
-                    index--
-                }
-                holder.item = data[index]
+                holder.item = data[position]
                 holder.adapter = this
                 holder.onPostCreated()
             }

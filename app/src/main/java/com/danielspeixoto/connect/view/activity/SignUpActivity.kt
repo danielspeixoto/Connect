@@ -21,7 +21,7 @@ import com.danielspeixoto.connect.view.custom.floatingButton
 import org.jetbrains.anko.*
 import org.jetbrains.anko.design.coordinatorLayout
 
-class SignUpActivity : LoggedActivity(), SignUp.View, MessageView {
+class SignUpActivity : BaseActivity(), SignUp.View, MessageView {
 
     override var messageView: TextView? = null
     lateinit var nameEdit: EditText

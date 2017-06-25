@@ -56,4 +56,6 @@
     <string name="title_activity_connected">Connected</string>
     <string name="search_bar">Search here</string>
     <string name="search_results">Results</string>
+    <string name="added_in">Added in</string>
+    <string name="date_format">MM/dd/yy</string>
 </resources>

@@ -10,22 +10,6 @@ abstract class BaseAdapter<O>
     (var activity : BaseActivity) :
         RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    companion object {
-        val LOADED = "loaded"
-        val IDLE = "idle"
-        val LOADING = "loading"
-        val RELOADING = "reloading"
-    }
-    var status = LOADING
-        set(update) {
-            field = update
-            notifyDataSetChanged()
-        }
-
-    val EMPTY_VIEW = 0
-    val ITEM_VIEW = 1
-    val LOADING_VIEW = 2
-
     var data : ArrayList<O> = ArrayList()
 
     open fun addItem(t: O) {
@@ -54,16 +38,7 @@ abstract class BaseAdapter<O>
     }
 
     override fun getItemCount() : Int {
-        if(status == LOADING) return data.size + 1
-        if(data.size == 0 && status == LOADED) return 1
         return data.size
-    }
-
-    override fun getItemViewType(position: Int): Int {
-        if(position == data.size && status == LOADING)
-            return LOADING_VIEW
-        if(status == LOADED && data.size == 0) return EMPTY_VIEW
-        return ITEM_VIEW
     }
 
 }

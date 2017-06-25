@@ -3,7 +3,7 @@ package com.danielspeixoto.connect.presenter
 import android.support.v4.widget.SwipeRefreshLayout
 import com.danielspeixoto.connect.contract.Home
 import com.danielspeixoto.connect.model.VisitorModel
-import com.danielspeixoto.connect.view.recycler.adapter.BaseAdapter
+import com.danielspeixoto.connect.view.recycler.adapter.MutableAdapter
 import com.danielspeixoto.connect.view.recycler.adapter.VisitorAdapter
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -23,16 +23,13 @@ class HomePresenter(private val view: Home.View) : Home.Presenter {
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe { list, throwable ->
-                        adapter!!.status = BaseAdapter.LOADED
                         if (throwable != null) {
-                            refreshLayout!!.isRefreshing = false
-                            when (throwable.message) {
-                                else -> view.showErrorDialog()
-                            }
+                            adapter!!.status = MutableAdapter.ERROR
                         } else {
-                            refreshLayout!!.isRefreshing = false
                             list.forEach { adapter!!.addItem(it) }
+                            adapter!!.status = MutableAdapter.LOADED
                         }
+                        refreshLayout!!.isRefreshing = false
                     }
         }
     }

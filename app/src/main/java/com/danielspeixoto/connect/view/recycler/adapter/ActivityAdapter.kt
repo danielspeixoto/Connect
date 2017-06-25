@@ -17,19 +17,22 @@ import org.jetbrains.anko.cardview.v7.cardView
  * Created by danielspeixoto on 4/28/17.
  */
 class ActivityAdapter(activity: BaseActivity) :
-        BaseAdapter<String>(activity) {
+        MutableAdapter<String>(activity) {
 
     init {
-        status = BaseAdapter.LOADED
+        status = MutableAdapter.LOADED
     }
 
     override fun getItemViewType(position: Int): Int {
-        if(status == LOADING && position == 0) {
-            return LOADING_VIEW
+        if(position == 0) {
+            if(status == MutableAdapter.LOADING) {
+                return LOADING_VIEW
+            } else if(status == MutableAdapter.ERROR) {
+                return EMPTY_VIEW
+            }
         }
-        if(data.size == 0) {
+        if(status == MutableAdapter.LOADED && data.size == 0)
             return EMPTY_VIEW
-        }
         return ITEM_VIEW
     }
 
@@ -59,7 +62,7 @@ class ActivityAdapter(activity: BaseActivity) :
                 holder as ActivityAdapter.ActivityHolder
                 var index = position
                 // When loading view is created it pushes the other views
-                if(status == BaseAdapter.LOADING) {
+                if(status == MutableAdapter.LOADING || status == MutableAdapter.ERROR) {
                     index--
                 }
                 holder.item = data[index]

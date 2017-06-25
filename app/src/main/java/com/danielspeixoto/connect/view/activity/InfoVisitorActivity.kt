@@ -30,6 +30,8 @@ import com.danielspeixoto.connect.view.recycler.adapter.ObserverAdapter
 import org.jetbrains.anko.*
 import org.jetbrains.anko.recyclerview.v7.recyclerView
 import org.jetbrains.anko.support.v4.nestedScrollView
+import java.text.SimpleDateFormat
+import java.util.*
 
 
 /**
@@ -59,6 +61,12 @@ class InfoVisitorActivity : LoggedActivity(), InfoVisitor.View {
         verticalLayout {
             nestedScrollView {
                 verticalLayout {
+                    val formatter = SimpleDateFormat(getString(R.string.date_format))
+                    var str = formatter.format(Date(visitor.timestamp!!).getTime())
+                    textView(getString(R.string.added_in) + " " + str) {
+                        textSize = 26f
+                        padding = dip(PARAM_LAYOUT * 2)
+                    }
                     if (visitor.age != null) {
                         textView(visitor.age!!.string + " " + App.getStringResource(R.string.years)) {
                             textSize = 26f

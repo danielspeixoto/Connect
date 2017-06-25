@@ -9,7 +9,6 @@ import com.danielspeixoto.connect.model.pojo.Link
 import com.danielspeixoto.connect.util.PARAM_LAYOUT
 import com.danielspeixoto.connect.view.activity.BaseActivity
 import com.danielspeixoto.connect.view.recycler.holder.BaseHolder
-import com.danielspeixoto.connect.view.recycler.holder.EmptyUI
 import org.jetbrains.anko.*
 
 /**
@@ -27,19 +26,10 @@ open class LinksAdapter(activity: BaseActivity) :
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder,
                                   position: Int) {
-        when (holder.getItemViewType()) {
-            ITEM_VIEW -> {
-                holder as LinksAdapter.DrawerHolder
-                holder.item = data[position]
-                holder.adapter = this
-                holder.onPostCreated()
-            }
-            EMPTY_VIEW -> {
-                holder as EmptyUI.EmptyHolder
-                holder.status = status
-                holder.onPostCreated()
-            }
-        }
+        holder as LinksAdapter.DrawerHolder
+        holder.item = data[position]
+        holder.adapter = this
+        holder.onPostCreated()
 
     }
 

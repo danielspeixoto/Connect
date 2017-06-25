@@ -26,18 +26,19 @@ class LoginPresenter(private val view: Login.View) : Login.Presenter {
         if (result == Validate.OK) {
             UserModel.logIn(username,
                             password)
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe({ _ ->
-                                   view.goToActivityClearPrevious(HomeActivity::class.java)
-                               },
-                               { throwable ->
-                                   view.closeLoadingDialog()
-                                   when (throwable.message) {
-                                       "404" -> view.setMessageViewText(App.getStringResource(R.string.incorrect_username_password))
-                                       else  -> view.showErrorDialog()
-                                   }
-                               })
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({ _ ->
+                    view.closeLoadingDialog()
+                    view.goToActivityClearPrevious(HomeActivity::class.java)
+                },
+                { throwable ->
+                   view.closeLoadingDialog()
+                   when (throwable.message) {
+                       "404" -> view.setMessageViewText(App.getStringResource(R.string.incorrect_username_password))
+                       else  -> view.showErrorDialog()
+                   }
+                })
         } else {
             view.setMessageViewText(result)
         }

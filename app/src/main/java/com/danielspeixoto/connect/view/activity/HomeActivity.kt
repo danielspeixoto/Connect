@@ -23,8 +23,8 @@ import com.danielspeixoto.connect.contract.Home
 import com.danielspeixoto.connect.presenter.HomePresenter
 import com.danielspeixoto.connect.util.EMPTY_STRING
 import com.danielspeixoto.connect.view.custom.floatingButton
-import com.danielspeixoto.connect.view.recycler.adapter.BaseAdapter
 import com.danielspeixoto.connect.view.recycler.adapter.DrawerAdapter
+import com.danielspeixoto.connect.view.recycler.adapter.MutableAdapter
 import com.danielspeixoto.connect.view.recycler.adapter.VisitorAdapter
 import org.jetbrains.anko.*
 import org.jetbrains.anko.appcompat.v7.toolbar
@@ -95,10 +95,6 @@ class HomeActivity : LoggedActivity(), Home.View {
                 gravity = Gravity.START
             }
         }
-        refreshLayout.setOnRefreshListener {
-            presenter.syncItems()
-            visitorAdapter.status = BaseAdapter.RELOADING
-        }
         drawerToggle = ActionBarDrawerToggle(this,
                                              drawerLayout,
                                              R.string.accept,
@@ -107,6 +103,10 @@ class HomeActivity : LoggedActivity(), Home.View {
         presenter = HomePresenter(this)
         presenter.adapter = visitorAdapter
         presenter.refreshLayout = refreshLayout
+        refreshLayout.setOnRefreshListener {
+            presenter.syncItems()
+            visitorAdapter.status = MutableAdapter.RELOADING
+        }
         presenter.syncItems()
     }
 

@@ -1,8 +1,9 @@
 package com.danielspeixoto.connect.presenter
 
+import android.support.v4.widget.SwipeRefreshLayout
 import com.danielspeixoto.connect.contract.MyVisitors
 import com.danielspeixoto.connect.model.UserModel
-import com.danielspeixoto.connect.view.recycler.adapter.BaseAdapter
+import com.danielspeixoto.connect.view.recycler.adapter.MutableAdapter
 import com.danielspeixoto.connect.view.recycler.adapter.VisitorAdapter
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -10,6 +11,7 @@ import io.reactivex.schedulers.Schedulers
 class MyVisitorsPresenter(private val view: MyVisitors.View) : MyVisitors.Presenter {
 
     override var adapter: VisitorAdapter? = null
+    override var refreshLayout: SwipeRefreshLayout? = null
 
     override fun getVisitors() {
         if(adapter != null) {
@@ -18,15 +20,13 @@ class MyVisitorsPresenter(private val view: MyVisitors.View) : MyVisitors.Presen
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe { list, throwable ->
-                        adapter!!.status = "loaded"
                         if (throwable != null) {
-                            when (throwable.message) {
-                                else -> view.showErrorDialog()
-                            }
+                            adapter!!.status = MutableAdapter.ERROR
                         } else {
                             list.forEach { adapter!!.addItem(it) }
-                            adapter!!.status = BaseAdapter.LOADED
+                            adapter!!.status = MutableAdapter.LOADED
                         }
+                        refreshLayout!!.isRefreshing = false
                     }
         }
     }

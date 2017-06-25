@@ -44,9 +44,7 @@ abstract class BaseActivity : AppCompatActivity(), ActivityBase.View {
     }
 
     override fun closeLoadingDialog() {
-        if(loadingDialog != null) {
-            loadingDialog.dismiss()
-        }
+        loadingDialog.dismiss()
     }
 
     override fun showSavedDialog(message : String) {

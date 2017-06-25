@@ -18,7 +18,7 @@ import org.jetbrains.anko.cardview.v7.cardView
  * Created by danielspeixoto on 5/3/17.
  */
 open class UserAdapter(activity: BaseActivity) :
-        BaseAdapter<User>(activity) {
+        MutableAdapter<User>(activity) {
 
     override fun onCreateViewHolder(parent: ViewGroup?,
                                     viewType: Int): RecyclerView.ViewHolder {
@@ -39,12 +39,7 @@ open class UserAdapter(activity: BaseActivity) :
         when (holder.getItemViewType()) {
             ITEM_VIEW -> {
                 holder as UserHolder
-                var index = position
-                // When loading view is created it pushes the other views
-                if(status == BaseAdapter.LOADING) {
-                    index--
-                }
-                holder.item = data[index]
+                holder.item = data[position]
                 holder.adapter = this
                 holder.onPostCreated()
             }

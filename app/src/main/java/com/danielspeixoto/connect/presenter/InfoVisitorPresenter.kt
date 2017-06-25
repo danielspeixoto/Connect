@@ -5,7 +5,7 @@ import com.danielspeixoto.connect.model.UserModel
 import com.danielspeixoto.connect.model.VisitorModel
 import com.danielspeixoto.connect.model.pojo.Visitor
 import com.danielspeixoto.connect.view.recycler.adapter.ActivityAdapter
-import com.danielspeixoto.connect.view.recycler.adapter.BaseAdapter
+import com.danielspeixoto.connect.view.recycler.adapter.MutableAdapter
 import com.danielspeixoto.connect.view.recycler.adapter.ObserverAdapter
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -18,6 +18,8 @@ class InfoVisitorPresenter(private val view: InfoVisitor.View) : InfoVisitor.Pre
     override var visitor: Visitor? = null
     override var activitiesAdapter: ActivityAdapter? = null
     override var observersAdapter: ObserverAdapter? = null
+
+    //TODO Allow refreshing for visitor
 
     override fun toggleConnected() {
         VisitorModel.toggleConnected(visitor!!._id!!, visitor!!.isConnected).subscribeOn(Schedulers.io()).observeOn(
@@ -32,25 +34,24 @@ class InfoVisitorPresenter(private val view: InfoVisitor.View) : InfoVisitor.Pre
     }
 
     override fun addActivity(activity: String) {
-        activitiesAdapter!!.status = BaseAdapter.LOADING
+        activitiesAdapter!!.status = MutableAdapter.LOADING
         VisitorModel.addActivity(visitor!!._id!!, activity)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({ _ ->
                     visitor!!.addActivity(activity)
                     activitiesAdapter!!.addItem(activity)
-                    activitiesAdapter!!.status = BaseAdapter.LOADED
+                    activitiesAdapter!!.status = MutableAdapter.LOADED
                     view.onActivityAdded(activity)
                 },
                 { throwable ->
-                    activitiesAdapter!!.status = BaseAdapter.LOADED
+                    activitiesAdapter!!.status = MutableAdapter.ERROR
                     throwable.printStackTrace()
-                    view.showErrorDialog()
                 })
     }
 
     override fun observe() {
-        observersAdapter!!.status = BaseAdapter.LOADING
+        observersAdapter!!.status = MutableAdapter.LOADING
         val username = UserModel.currentUser!!.username!!
         VisitorModel.addObserver(visitor!!._id!!)
                 .subscribeOn(Schedulers.io())
@@ -58,12 +59,12 @@ class InfoVisitorPresenter(private val view: InfoVisitor.View) : InfoVisitor.Pre
                 .subscribe({ _ ->
                     visitor!!.observers.add(username)
                     observersAdapter!!.addItem(UserModel.currentUser!!)
-                    observersAdapter!!.status = BaseAdapter.LOADED
+                    observersAdapter!!.status = MutableAdapter.LOADED
                     view.onObserved()
                 },
                 { throwable ->
                     throwable.printStackTrace()
-                    view.showErrorDialog()
+                    observersAdapter!!.status = MutableAdapter.ERROR
                 })
     }
 
@@ -71,11 +72,11 @@ class InfoVisitorPresenter(private val view: InfoVisitor.View) : InfoVisitor.Pre
         VisitorModel.retrieveObservers(visitor!!._id!!).subscribeOn(Schedulers.io()).observeOn(
                 AndroidSchedulers.mainThread()).subscribe({ users ->
                     users.forEach { observersAdapter!!.addItem(it) }
-                    observersAdapter!!.status = BaseAdapter.LOADED
+                    observersAdapter!!.status = MutableAdapter.LOADED
                 },
                 { throwable ->
                     throwable.printStackTrace()
-                    view.showErrorDialog()
+                    observersAdapter!!.status = MutableAdapter.ERROR
                 })
     }
 

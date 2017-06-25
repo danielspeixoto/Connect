@@ -52,4 +52,8 @@
     <string name="years">anos</string>
     <string name="empty">A lista está vazia</string>
     <string name="title_activity_connected">Conectados</string>
+    <string name="search_bar">Procure aqui</string>
+    <string name="date_format">dd/MM/yy</string>
+    <string name="added_in">Adicionado em</string>
+    <string name="search_results">Resultados</string>
 </resources>

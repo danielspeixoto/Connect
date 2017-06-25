@@ -9,7 +9,7 @@ import com.danielspeixoto.connect.R
 import com.danielspeixoto.connect.util.App
 import com.danielspeixoto.connect.util.Database
 import com.danielspeixoto.connect.util.PARAM_LAYOUT
-import com.danielspeixoto.connect.view.recycler.adapter.BaseAdapter
+import com.danielspeixoto.connect.view.recycler.adapter.MutableAdapter
 import org.jetbrains.anko.*
 
 /**
@@ -48,12 +48,14 @@ class EmptyUI : AnkoComponent<ViewGroup> {
     class EmptyHolder(itemView: View) : BaseHolder<String>(itemView) {
 
         lateinit var messageText: TextView
-        var status = BaseAdapter.LOADING
+        var status = MutableAdapter.LOADING
 
         override fun onPostCreated() {
             if (!Database.isConnected) {
                 messageText.text = App.getStringResource(R.string.no_internet)
-            } else {
+            } else if(status == MutableAdapter.ERROR) {
+                messageText.text = App.getStringResource(R.string.error_occurred)
+            }else {
                 messageText.text = App.getStringResource(R.string.empty)
             }
         }
