@@ -1,5 +1,6 @@
 package com.danielspeixoto.connect.contract
 
+import android.support.v4.widget.SwipeRefreshLayout
 import com.danielspeixoto.connect.view.recycler.adapter.VisitorAdapter
 
 /**
@@ -11,6 +12,7 @@ interface Home {
 
     interface Presenter : ActivityBase.Presenter {
         var adapter: VisitorAdapter?
+        var refreshLayout : SwipeRefreshLayout?
         fun syncItems()
     }
 

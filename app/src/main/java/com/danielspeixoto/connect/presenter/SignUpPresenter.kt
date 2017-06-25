@@ -24,8 +24,7 @@ class SignUpPresenter(private val view: SignUp.View) : SignUp.Presenter {
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe ({ user1 ->
-                        view.goToActivity(HomeActivity::class.java)
-                        view.activity.finish()
+                        view.goToActivityClearPrevious(HomeActivity::class.java)
                     }, { _ ->
                         view.showErrorDialog()
                     })

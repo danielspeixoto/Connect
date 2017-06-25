@@ -27,8 +27,24 @@
         <activity
             android:name=".view.activity.HomeActivity"
             android:label="@string/title_activity_home"
-            android:theme="@style/AppTheme">
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data android:name="android.app.searchable"
+                android:resource="@xml/searchable" />
         </activity>
+
+        <activity
+            android:name=".view.activity.SearchResultsActivity"
+            android:label="@string/search_results"
+            android:theme="@style/AppTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.SEARCH" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+            <meta-data android:name="android.app.searchable"
+                android:resource="@xml/searchable" />
+        </activity>
+
         <activity
             android:name=".view.activity.CreateVisitorActivity"
             android:label="@string/title_activity_create_visitor"

@@ -43,7 +43,7 @@ class ConnectedActivity : LoggedActivity(), Connected.View {
 
     override fun onResume() {
         super.onResume()
-        visitorAdapter.status = BaseAdapter.IDLE
+        visitorAdapter.status = BaseAdapter.LOADING
         presenter.syncItems()
     }
 

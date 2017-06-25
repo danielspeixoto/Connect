@@ -39,7 +39,12 @@ open class UserAdapter(activity: BaseActivity) :
         when (holder.getItemViewType()) {
             ITEM_VIEW -> {
                 holder as UserHolder
-                holder.item = data[position]
+                var index = position
+                // When loading view is created it pushes the other views
+                if(status == BaseAdapter.LOADING) {
+                    index--
+                }
+                holder.item = data[index]
                 holder.adapter = this
                 holder.onPostCreated()
             }

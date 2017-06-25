@@ -1,5 +1,6 @@
 package com.danielspeixoto.connect.presenter
 
+import android.support.v4.widget.SwipeRefreshLayout
 import com.danielspeixoto.connect.contract.Home
 import com.danielspeixoto.connect.model.VisitorModel
 import com.danielspeixoto.connect.view.recycler.adapter.BaseAdapter
@@ -12,6 +13,7 @@ import io.reactivex.schedulers.Schedulers
  */
 class HomePresenter(private val view: Home.View) : Home.Presenter {
 
+    override var refreshLayout: SwipeRefreshLayout? = null
     override var adapter: VisitorAdapter? = null
 
     override fun syncItems() {
@@ -23,10 +25,12 @@ class HomePresenter(private val view: Home.View) : Home.Presenter {
                     .subscribe { list, throwable ->
                         adapter!!.status = BaseAdapter.LOADED
                         if (throwable != null) {
+                            refreshLayout!!.isRefreshing = false
                             when (throwable.message) {
                                 else -> view.showErrorDialog()
                             }
                         } else {
+                            refreshLayout!!.isRefreshing = false
                             list.forEach { adapter!!.addItem(it) }
                         }
                     }

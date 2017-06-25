@@ -48,7 +48,7 @@ class EmptyUI : AnkoComponent<ViewGroup> {
     class EmptyHolder(itemView: View) : BaseHolder<String>(itemView) {
 
         lateinit var messageText: TextView
-        var status = BaseAdapter.IDLE
+        var status = BaseAdapter.LOADING
 
         override fun onPostCreated() {
             if (!Database.isConnected) {

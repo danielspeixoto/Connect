@@ -46,7 +46,12 @@ class VisitorAdapter(activity: BaseActivity) :
         when (holder.getItemViewType()) {
             ITEM_VIEW -> {
                 holder as VisitorHolder
-                holder.item = data[position]
+                var index = position
+                // When loading view is created it pushes the other view
+                if(status == BaseAdapter.LOADING) {
+                    index--
+                }
+                holder.item = data[index]
                 holder.adapter = this
                 holder.onPostCreated()
             }

@@ -21,6 +21,8 @@ interface ActivityBase {
         fun closeLoadingDialog()
 
         fun showErrorDialog()
+
+        fun goToActivityClearPrevious(clazz: Class<*>)
     }
 
     interface Presenter : Base.Presenter

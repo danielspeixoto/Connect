@@ -28,6 +28,13 @@ abstract class BaseActivity : AppCompatActivity(), ActivityBase.View {
     override fun goToActivity(clazz: Class<*>) {
         val intent = Intent(this, clazz)
         startActivity(intent)
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+    }
+
+    override fun goToActivityClearPrevious(clazz: Class<*>) {
+        val intent = Intent(this, clazz)
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent)
     }
 
     override fun showLoadingDialog() {
@@ -66,6 +73,7 @@ abstract class BaseActivity : AppCompatActivity(), ActivityBase.View {
                     }
                 }
             }
+            yesButton {  }
 
         }.show()
     }

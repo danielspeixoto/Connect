@@ -74,6 +74,7 @@ class InfoVisitorActivity : LoggedActivity(), InfoVisitor.View {
                             }
                             linearLayout {
                                 imageButton {
+                                    maxWidth = dip(PARAM_LAYOUT * 7)
                                     imageResource = R.drawable.ic_whatsapp
                                     scaleType = ImageView.ScaleType.CENTER_CROP
                                     adjustViewBounds = true
@@ -88,6 +89,7 @@ class InfoVisitorActivity : LoggedActivity(), InfoVisitor.View {
                                     }
                                 }
                                 imageButton {
+                                    maxWidth = dip(PARAM_LAYOUT * 7)
                                     imageResource = R.drawable.ic_call
                                     scaleType = ImageView.ScaleType.FIT_CENTER
                                     adjustViewBounds = true
@@ -175,8 +177,14 @@ class InfoVisitorActivity : LoggedActivity(), InfoVisitor.View {
                             backgroundColor = typedValue.data
                         }
                     }
+                    // TODO Find better way to add padding
+                    linearLayout {
+                        bottomPadding = PARAM_LAYOUT * 2
+                    }.lparams {
+                        bottomMargin = PARAM_LAYOUT * 2
+                    }
                 }.lparams(width = matchParent) {
-                    margin = dip(PARAM_LAYOUT * 2)
+                    margin = PARAM_LAYOUT * 2
                 }
             }.lparams(width = matchParent) {
                 weight = 1f
@@ -191,9 +199,7 @@ class InfoVisitorActivity : LoggedActivity(), InfoVisitor.View {
                         typedValue,
                         true)
                 backgroundColor = typedValue.data
-            }.lparams(width = matchParent) {
-                topMargin = PARAM_LAYOUT * 2
-            }
+            }.lparams(width = matchParent)
             onVisitorConnected(visitor.isConnected)
         }
         // Remove focus from activity field when it starts

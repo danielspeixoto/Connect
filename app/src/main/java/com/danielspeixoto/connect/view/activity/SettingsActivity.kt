@@ -30,10 +30,9 @@ class SettingsActivity : LoggedActivity() {
                       height = matchParent)
         }
         linksAdapter.addItem(Link(App.getStringResource(R.string.log_out),
-                                  Runnable
-                                  {
+                                  Runnable {
                                       UserModel.logOut()
-                                      goToActivity(MainActivity::class.java)
+                                      goToActivityClearPrevious(MainActivity::class.java)
                                       activity.finish()
                                   }))
     }

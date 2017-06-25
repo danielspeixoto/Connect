@@ -11,10 +11,12 @@ abstract class BaseAdapter<O>
         RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     companion object {
-        val IDLE = "idle"
         val LOADED = "loaded"
+        val IDLE = "idle"
+        val LOADING = "loading"
+        val RELOADING = "reloading"
     }
-    var status = "idle"
+    var status = LOADING
         set(update) {
             field = update
             notifyDataSetChanged()
@@ -40,7 +42,6 @@ abstract class BaseAdapter<O>
 
     fun clearData() {
         data.clear()
-        status = "idle"
         notifyDataSetChanged()
     }
 
@@ -53,16 +54,16 @@ abstract class BaseAdapter<O>
     }
 
     override fun getItemCount() : Int {
-        if(data.size == 0) return 1 else return data.size
+        if(status == LOADING) return data.size + 1
+        if(data.size == 0 && status == LOADED) return 1
+        return data.size
     }
 
     override fun getItemViewType(position: Int): Int {
-        if(data.size == 0) {
-            if(status == IDLE) {
-                return LOADING_VIEW
-            }
-            return EMPTY_VIEW
-        }
+        if(position == data.size && status == LOADING)
+            return LOADING_VIEW
+        if(status == LOADED && data.size == 0) return EMPTY_VIEW
         return ITEM_VIEW
     }
+
 }

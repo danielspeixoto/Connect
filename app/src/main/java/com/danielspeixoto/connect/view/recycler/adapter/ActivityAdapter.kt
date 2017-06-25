@@ -9,6 +9,7 @@ import com.danielspeixoto.connect.util.PARAM_LAYOUT
 import com.danielspeixoto.connect.view.activity.BaseActivity
 import com.danielspeixoto.connect.view.recycler.holder.BaseHolder
 import com.danielspeixoto.connect.view.recycler.holder.EmptyUI
+import com.danielspeixoto.connect.view.recycler.holder.LoadingUI
 import org.jetbrains.anko.*
 import org.jetbrains.anko.cardview.v7.cardView
 
@@ -22,6 +23,16 @@ class ActivityAdapter(activity: BaseActivity) :
         status = BaseAdapter.LOADED
     }
 
+    override fun getItemViewType(position: Int): Int {
+        if(status == LOADING && position == 0) {
+            return LOADING_VIEW
+        }
+        if(data.size == 0) {
+            return EMPTY_VIEW
+        }
+        return ITEM_VIEW
+    }
+
     override fun addItem(t: String) {
         data.add(0, t)
         notifyDataSetChanged()
@@ -33,6 +44,8 @@ class ActivityAdapter(activity: BaseActivity) :
             ITEM_VIEW -> return ActivityAdapter.ItemUI().createHolder(
                     AnkoContext.create(parent!!.context,
                                        parent))
+            LOADING_VIEW -> return LoadingUI().createHolder(AnkoContext.create(parent!!.context,
+                    parent))
             else      -> return EmptyUI().createHolder(AnkoContext.create(
                     parent!!.context,
                     parent))
@@ -44,7 +57,12 @@ class ActivityAdapter(activity: BaseActivity) :
         when (holder.getItemViewType()) {
             ITEM_VIEW -> {
                 holder as ActivityAdapter.ActivityHolder
-                holder.item = data[position]
+                var index = position
+                // When loading view is created it pushes the other views
+                if(status == BaseAdapter.LOADING) {
+                    index--
+                }
+                holder.item = data[index]
                 holder.adapter = this
                 holder.onPostCreated()
             }

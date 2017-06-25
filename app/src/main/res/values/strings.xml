@@ -54,4 +54,6 @@
     <string name="incorrect_username_password">Incorrect username or password</string>
     <string name="empty">This list is empty</string>
     <string name="title_activity_connected">Connected</string>
+    <string name="search_bar">Search here</string>
+    <string name="search_results">Results</string>
 </resources>

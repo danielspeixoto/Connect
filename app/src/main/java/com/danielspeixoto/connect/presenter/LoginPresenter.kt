@@ -29,8 +29,7 @@ class LoginPresenter(private val view: Login.View) : Login.Presenter {
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe({ _ ->
-                                   view.goToActivity(HomeActivity::class.java)
-                                   view.activity.finish()
+                                   view.goToActivityClearPrevious(HomeActivity::class.java)
                                },
                                { throwable ->
                                    view.closeLoadingDialog()
