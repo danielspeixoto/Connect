@@ -18,6 +18,7 @@ import java.util.concurrent.TimeUnit
 object Database {
 
     val END_POINT = "https://connect-rest.herokuapp.com/"
+//    val END_POINT = "http://192.168.0.22:8080/"
 
     val gson = Gson()
 
@@ -45,7 +46,7 @@ object Database {
         Database.retrofit.create(VisitorsService::class.java)
     }
 
-    val observersService by lazy {
+    val  observersService by lazy {
         Database.retrofit.create(ObserversService::class.java)
     }
 
@@ -54,4 +55,5 @@ object Database {
             val info = App.context.connectivityManager.activeNetworkInfo
             return info != null && info.isConnected
         }
+
 }

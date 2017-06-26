@@ -2,6 +2,7 @@ package com.danielspeixoto.connect.model.pojo
 
 import android.os.Parcel
 import android.os.Parcelable
+import java.lang.Long.parseLong
 
 /**
  * Created by danielspeixoto on 4/25/17.
@@ -13,7 +14,16 @@ data class Visitor(var _id: String? = null,
                    var age: Int? = null,
                    var activities: ArrayList<String> = arrayListOf<String>(),
                    var observers: ArrayList<String> = arrayListOf<String>(),
-                   var isConnected: Boolean = false) : Parcelable {
+                   var isConnected: Boolean = false,
+                   var timestamp: Long? = null) : Parcelable {
+
+    init {
+        if(_id != null) {
+            timestamp = 1000 * parseLong(_id!!.substring(0, 8), 16)
+        }
+    }
+
+    constructor(names : String) : this (name = names)
 
     companion object {
         @JvmField val CREATOR: Parcelable.Creator<Visitor> = object : Parcelable.Creator<Visitor> {
@@ -22,7 +32,6 @@ data class Visitor(var _id: String? = null,
         }
     }
 
-    constructor(names : String) : this (name = names)
 
     constructor(source: Parcel) : this(
             source.readString(),
@@ -32,7 +41,8 @@ data class Visitor(var _id: String? = null,
             source.readValue(Int::class.java.classLoader) as Int?,
             source.createStringArrayList(),
             source.createStringArrayList(),
-            1.equals(source.readInt())
+            1 == source.readInt(),
+            source.readLong()
     )
 
     override fun describeContents() = 0
@@ -46,6 +56,7 @@ data class Visitor(var _id: String? = null,
         dest?.writeStringList(activities)
         dest?.writeStringList(observers)
         dest?.writeInt((if (isConnected) 1 else 0))
+        dest?.writeValue(timestamp)
     }
 
     fun  addActivity(activity: String) {

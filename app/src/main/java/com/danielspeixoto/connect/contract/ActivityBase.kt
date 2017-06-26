@@ -13,6 +13,16 @@ interface ActivityBase {
         val activity: BaseActivity
 
         fun goToActivity(clazz: Class<*>)
+
+        fun showSavedDialog(message : String)
+
+        fun showLoadingDialog()
+
+        fun closeLoadingDialog()
+
+        fun showErrorDialog()
+
+        fun goToActivityClearPrevious(clazz: Class<*>)
     }
 
     interface Presenter : Base.Presenter

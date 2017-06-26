@@ -1,9 +1,9 @@
 package com.danielspeixoto.connect.presenter
 
-import com.danielspeixoto.connect.R
+import android.support.v4.widget.SwipeRefreshLayout
 import com.danielspeixoto.connect.contract.Users
 import com.danielspeixoto.connect.model.UserModel
-import com.danielspeixoto.connect.util.App
+import com.danielspeixoto.connect.view.recycler.adapter.MutableAdapter
 import com.danielspeixoto.connect.view.recycler.adapter.UserAdapter
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -14,6 +14,7 @@ import io.reactivex.schedulers.Schedulers
 class UsersPresenter(private val view: Users.View) : Users.Presenter {
 
     override var adapter: UserAdapter? = null
+    override var refreshLayout: SwipeRefreshLayout? = null
 
     override fun syncItems() {
         if(adapter != null) {
@@ -23,12 +24,12 @@ class UsersPresenter(private val view: Users.View) : Users.Presenter {
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe { list, throwable ->
                         if (throwable != null) {
-                            when (throwable.message) {
-                                else -> App.showMessage(App.getStringResource(R.string.error_occurred))
-                            }
+                            adapter!!.status = MutableAdapter.ERROR
                         } else {
                             list.forEach { adapter!!.addItem(it) }
+                            adapter!!.status = MutableAdapter.LOADED
                         }
+                        refreshLayout!!.isRefreshing = false
                     }
         }
     }

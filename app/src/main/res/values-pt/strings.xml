@@ -46,8 +46,14 @@
     <string name="title_activity_my_visitors">Meus Visitantes</string>
     <string name="title_activity_sign_up">Criar Conta</string>
     <string name="title_activity_users">Usuários</string>
-    <string name="username_lowercase">Somente letras minúsculas</string>
+    <string name="username_numbers_letters">O nome de usuário deve conter apenas letras minúsculas e números</string>
     <string name="username_password_changed">Usuário ou senha foram trocados</string>
     <string name="visitor_added">Visitante Salvo</string>
     <string name="years">anos</string>
+    <string name="empty">Não há nada aqui</string>
+    <string name="title_activity_connected">Conectados</string>
+    <string name="search_bar">Procure aqui</string>
+    <string name="date_format">dd/MM/yy</string>
+    <string name="added_in">Adicionado em</string>
+    <string name="search_results">Resultados</string>
 </resources>

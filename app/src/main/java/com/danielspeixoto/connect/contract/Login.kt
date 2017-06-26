@@ -6,7 +6,9 @@ package com.danielspeixoto.connect.contract
 
 interface Login {
 
-    interface View : ActivityBase.View
+    interface View : ActivityBase.View {
+        fun setMessageViewText(message : String)
+    }
 
     interface Presenter : ActivityBase.Presenter {
         fun logIn(username: String, password: String)

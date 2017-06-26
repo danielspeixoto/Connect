@@ -16,7 +16,7 @@ object Validate {
     fun user(user: User): String {
         message = OK
         if (!user.username!!.matches("[a-z | 0-9]*".toRegex())) {
-            message = App.getStringResource(R.string.username_lowercase)
+            message = App.getStringResource(R.string.username_numbers_letters)
         }
         return message
     }

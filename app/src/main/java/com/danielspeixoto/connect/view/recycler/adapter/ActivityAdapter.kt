@@ -1,17 +1,15 @@
 package com.danielspeixoto.connect.view.recycler.adapter
 
-import android.view.Gravity
+import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
-import com.danielspeixoto.connect.R
-import com.danielspeixoto.connect.util.App
-import com.danielspeixoto.connect.util.Database
 import com.danielspeixoto.connect.util.PARAM_LAYOUT
 import com.danielspeixoto.connect.view.activity.BaseActivity
 import com.danielspeixoto.connect.view.recycler.holder.BaseHolder
+import com.danielspeixoto.connect.view.recycler.holder.EmptyUI
+import com.danielspeixoto.connect.view.recycler.holder.LoadingUI
 import org.jetbrains.anko.*
 import org.jetbrains.anko.cardview.v7.cardView
 
@@ -19,30 +17,65 @@ import org.jetbrains.anko.cardview.v7.cardView
  * Created by danielspeixoto on 4/28/17.
  */
 class ActivityAdapter(activity: BaseActivity) :
-        BaseAdapter<String>(activity) {
+        MutableAdapter<String>(activity) {
+
+    init {
+        status = MutableAdapter.LOADED
+    }
+
+    override fun getItemViewType(position: Int): Int {
+        if(position == 0) {
+            if(status == MutableAdapter.LOADING) {
+                return LOADING_VIEW
+            } else if(status == MutableAdapter.ERROR) {
+                return EMPTY_VIEW
+            }
+        }
+        if(status == MutableAdapter.LOADED && data.size == 0)
+            return EMPTY_VIEW
+        return ITEM_VIEW
+    }
+
+    override fun addItem(t: String) {
+        data.add(0, t)
+        notifyDataSetChanged()
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup?,
-                                    viewType: Int): BaseHolder<*> {
+                                    viewType: Int): RecyclerView.ViewHolder {
         when (viewType) {
             ITEM_VIEW -> return ActivityAdapter.ItemUI().createHolder(
                     AnkoContext.create(parent!!.context,
                                        parent))
+            LOADING_VIEW -> return LoadingUI().createHolder(AnkoContext.create(parent!!.context,
+                    parent))
             else      -> return EmptyUI().createHolder(AnkoContext.create(
                     parent!!.context,
                     parent))
         }
     }
 
-    override fun onBindViewHolder(holder: BaseHolder<*>,
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder,
                                   position: Int) {
         when (holder.getItemViewType()) {
             ITEM_VIEW -> {
                 holder as ActivityAdapter.ActivityHolder
-                holder.item = data[position]
+                var index = position
+                // When loading view is created it pushes the other views
+                if(status == MutableAdapter.LOADING || status == MutableAdapter.ERROR) {
+                    index--
+                }
+                holder.item = data[index]
                 holder.adapter = this
+                holder.onPostCreated()
+            }
+            EMPTY_VIEW -> {
+                holder as EmptyUI.EmptyHolder
+                holder.status = status
+                holder.onPostCreated()
             }
         }
-        holder.onPostCreated()
+
     }
 
     class ItemUI : AnkoComponent<ViewGroup> {
@@ -78,57 +111,12 @@ class ActivityAdapter(activity: BaseActivity) :
 
     }
 
-    class EmptyUI : AnkoComponent<ViewGroup> {
-
-        lateinit var messageText: TextView
-
-        override fun createView(ui: AnkoContext<ViewGroup>): View {
-            return with(ui) {
-                verticalLayout {
-                    lparams(width = matchParent)
-                    imageView {
-                        imageResource = R.drawable.ic_sentiment_very_dissatisfied
-                        padding = dip(PARAM_LAYOUT / 2)
-                        scaleType = ImageView.ScaleType.FIT_CENTER
-                    }
-                    messageText = textView {
-                        textSize = 26f
-                        horizontalPadding = dip(PARAM_LAYOUT * 2)
-                        bottomPadding = dip(PARAM_LAYOUT * 2)
-                        gravity = Gravity.CENTER
-                    }
-                }
-            }
-
-        }
-
-        fun createHolder(ui: AnkoContext<ViewGroup>): EmptyHolder {
-            val holder = EmptyHolder(createView(ui))
-            holder.messageText = messageText
-            return holder
-        }
-
-    }
-
     class ActivityHolder(itemView: View) : BaseHolder<String>(itemView) {
 
         lateinit var nameText: TextView
 
         override fun onPostCreated() {
             nameText.text = item
-        }
-    }
-
-    class EmptyHolder(itemView: View) : BaseHolder<String>(itemView) {
-
-        lateinit var messageText: TextView
-
-        override fun onPostCreated() {
-            if (!Database.isConnected) {
-                messageText.text = App.getStringResource(R.string.no_internet)
-            } else {
-                messageText.text = App.getStringResource(R.string.no_activities)
-            }
         }
     }
 }

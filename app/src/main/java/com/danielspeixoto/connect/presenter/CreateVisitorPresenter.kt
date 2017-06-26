@@ -9,27 +9,29 @@ import com.danielspeixoto.connect.util.Validate
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
+
 /**
  * Created by danielspeixoto on 4/25/17.
  */
-class CreateVisitorPresenter(private val mView: CreateVisitor.View) : CreateVisitor.Presenter {
+class CreateVisitorPresenter(private val view: CreateVisitor.View) : CreateVisitor.Presenter {
 
     override fun create(visitor: Visitor) {
-        App.showMessage(App.getStringResource(R.string.loading))
         val result = Validate.visitor(visitor)
         if (result == Validate.OK) {
+            view.showLoadingDialog()
             VisitorModel.create(visitor)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe ({ visitor1 ->
-                        //TODO Use a info dialog instead
-                        App.showMessage(App.getStringResource(R.string.visitor_added))
-                        mView.refresh()
+                        view.closeLoadingDialog()
+                        view.showSavedDialog(App.getStringResource(R.string.visitor_added))
+                        view.refresh()
                     }, { throwable ->
-                        App.showMessage(App.getStringResource(R.string.error_occurred))
+                        view.closeLoadingDialog()
+                        view.showErrorDialog()
                     })
         } else {
-            App.showMessage(result)
+            view.setMessageViewText(result)
         }
     }
 }
