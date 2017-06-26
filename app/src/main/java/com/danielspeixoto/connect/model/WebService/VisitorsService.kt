@@ -44,4 +44,6 @@ interface VisitorsService {
                       @Header("Authorization") authorization: String = UserModel.currentUser!!.token!!)
                         : Call<Any>
 
+    @POST("visitors/searches")
+    fun search(@Body query : HashMap<String, String>, @Header("Authorization") authorization: String = UserModel.currentUser!!.token!!) : Call<List<Visitor>>
 }

@@ -52,7 +52,7 @@
     <string name="save">Save</string>
     <string name="name_must_fill">Must fill name</string>
     <string name="incorrect_username_password">Incorrect username or password</string>
-    <string name="empty">This list is empty</string>
+    <string name="empty">There is nothing here</string>
     <string name="title_activity_connected">Connected</string>
     <string name="search_bar">Search here</string>
     <string name="search_results">Results</string>

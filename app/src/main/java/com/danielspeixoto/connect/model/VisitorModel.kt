@@ -174,4 +174,25 @@ object VisitorModel {
         }
     }
 
+    fun search(name : String) : Single<List<Visitor>> {
+        return Single.create<List<Visitor>> { subscriber ->
+            Database.visitorsService.search(hashMapOf("name" to name,
+                    "group" to UserModel.currentUser!!.group!!))
+                    .enqueue(object : Callback<List<Visitor>> {
+                        override fun onResponse(call: Call<List<Visitor>>, response: Response<List<Visitor>>) {
+                            if (response.isSuccessful) {
+                                subscriber.onSuccess(response.body())
+                            } else {
+                                subscriber.onError(Throwable(response.code().string))
+                            }
+                        }
+
+                        override fun onFailure(call: Call<List<Visitor>>, throwable: Throwable) {
+                            throwable.printStackTrace()
+                            subscriber.onError(throwable)
+                        }
+                    })
+        }
+    }
+
 }
