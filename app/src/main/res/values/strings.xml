@@ -19,7 +19,7 @@
     <string name="icon">icon</string>
     <string name="title_activity_home">Visitors</string>
     <string name="title_activity_sign_up">Sign Up</string>
-    <string name="username_lowercase">Cannot use uppercase on username</string>
+    <string name="username_numbers_letters">Username must contain only lowercase letters and numbers</string>
     <string name="history">History</string>
     <string name="manage_users">Manage Users</string>
     <string name="no_internet">No Internet Connection</string>
@@ -52,4 +52,10 @@
     <string name="save">Save</string>
     <string name="name_must_fill">Must fill name</string>
     <string name="incorrect_username_password">Incorrect username or password</string>
+    <string name="empty">There is nothing here</string>
+    <string name="title_activity_connected">Connected</string>
+    <string name="search_bar">Search here</string>
+    <string name="search_results">Results</string>
+    <string name="added_in">Added in</string>
+    <string name="date_format">MM/dd/yy</string>
 </resources>

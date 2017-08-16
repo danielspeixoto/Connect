@@ -39,4 +39,11 @@ interface VisitorsService {
                     @Path("id") id: String,
                     @Body activity: HashMap<String, String>): Call<Visitor>
 
+    @PUT("visitors/{id}")
+    fun deleteVisitor(@Path("id") id: String,
+                      @Header("Authorization") authorization: String = UserModel.currentUser!!.token!!)
+                        : Call<Any>
+
+    @POST("visitors/searches")
+    fun search(@Body query : HashMap<String, String>, @Header("Authorization") authorization: String = UserModel.currentUser!!.token!!) : Call<List<Visitor>>
 }

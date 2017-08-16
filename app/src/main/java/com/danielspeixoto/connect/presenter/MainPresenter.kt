@@ -7,12 +7,12 @@ import com.danielspeixoto.connect.view.activity.HomeActivity
 /**
  * Created by danielspeixoto on 4/27/17.
  */
-class MainPresenter(private val mView: Main.View) : Main.Presenter {
+class MainPresenter(private val view: Main.View) : Main.Presenter {
 
     override fun checkIfUserIsSaved() {
         if (UserModel.hasAccountSavedOnDevice()) {
-            mView.goToActivity(HomeActivity::class.java)
-            mView.activity.finish()
+            view.goToActivity(HomeActivity::class.java)
+            view.activity.finish()
         }
     }
 }

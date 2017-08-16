@@ -17,7 +17,7 @@ class DrawerAdapter(activity: BaseActivity) :
         addItem(Link(App.getStringResource(R.string.my_visitors),
                      Runnable { activity.goToActivity(MyVisitorsActivity::class.java) }))
         addItem(Link(App.getStringResource(R.string.connected_visitors),
-                     Runnable { activity.goToActivity(ConnectedActivity::class.java) }))
+                Runnable { activity.goToActivity(ConnectedActivity::class.java) }))
         val permissions = UserModel.currentUser!!.permissions
         if(permissions.containsKey(Permissions.MANAGE_USERS)) {
             addItem(Link(App.getStringResource(R.string.manage_users),

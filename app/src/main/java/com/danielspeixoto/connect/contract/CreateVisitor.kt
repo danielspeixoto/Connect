@@ -9,6 +9,7 @@ interface CreateVisitor {
 
     interface View : ActivityBase.View {
         fun refresh()
+        fun setMessageViewText(message: String)
     }
 
     interface Presenter : ActivityBase.Presenter {

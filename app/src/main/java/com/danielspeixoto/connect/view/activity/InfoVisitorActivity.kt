@@ -11,6 +11,9 @@ import android.support.v4.content.ContextCompat
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.util.TypedValue
+import android.view.Gravity
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import android.widget.Button
 import android.widget.ImageView
@@ -27,12 +30,14 @@ import com.danielspeixoto.connect.view.recycler.adapter.ObserverAdapter
 import org.jetbrains.anko.*
 import org.jetbrains.anko.recyclerview.v7.recyclerView
 import org.jetbrains.anko.support.v4.nestedScrollView
+import java.text.SimpleDateFormat
+import java.util.*
 
 
 /**
  * Created by danielspeixoto on 4/27/17.
  */
-class InfoVisitorActivity : BaseActivity(), InfoVisitor.View {
+class InfoVisitorActivity : LoggedActivity(), InfoVisitor.View {
 
     lateinit private var presenter: InfoVisitor.Presenter
     private var activityAdapter = ActivityAdapter(this)
@@ -53,22 +58,15 @@ class InfoVisitorActivity : BaseActivity(), InfoVisitor.View {
         presenter = InfoVisitorPresenter(this)
         presenter.visitor = visitor
         title = visitor.name
-        relativeLayout {
-            connectedButton = button {
-                textColor = Color.WHITE
-                onClick {
-                    presenter.toggleVisitorConnected()
-                }
-                val typedValue = TypedValue()
-                theme.resolveAttribute(R.attr.colorAccent,
-                                       typedValue,
-                                       true)
-                backgroundColor = typedValue.data
-            }.lparams(width = matchParent) {
-                alignParentBottom()
-            }
+        verticalLayout {
             nestedScrollView {
                 verticalLayout {
+                    val formatter = SimpleDateFormat(getString(R.string.date_format))
+                    var str = formatter.format(Date(visitor.timestamp!!).getTime())
+                    textView(getString(R.string.added_in) + " " + str) {
+                        textSize = 26f
+                        padding = dip(PARAM_LAYOUT * 2)
+                    }
                     if (visitor.age != null) {
                         textView(visitor.age!!.string + " " + App.getStringResource(R.string.years)) {
                             textSize = 26f
@@ -78,12 +76,13 @@ class InfoVisitorActivity : BaseActivity(), InfoVisitor.View {
                     if (visitor.phone != null) {
                         relativeLayout {
                             textView(visitor.phone!!.string) {
-                                textSize = 26f
+                                textSize = (PARAM_LAYOUT * 3).toFloat()
                                 padding = dip(PARAM_LAYOUT * 2)
                                 isSelectable = true
                             }
                             linearLayout {
                                 imageButton {
+                                    maxWidth = dip(PARAM_LAYOUT * 7)
                                     imageResource = R.drawable.ic_whatsapp
                                     scaleType = ImageView.ScaleType.CENTER_CROP
                                     adjustViewBounds = true
@@ -92,12 +91,13 @@ class InfoVisitorActivity : BaseActivity(), InfoVisitor.View {
                                     onClick {
                                         val uri = Uri.parse("smsto:" + visitor.phone!!.string)
                                         val i = Intent(Intent.ACTION_SENDTO,
-                                                       uri)
+                                                uri)
                                         i.`package` = "com.whatsapp"
                                         startActivity(i)
                                     }
                                 }
                                 imageButton {
+                                    maxWidth = dip(PARAM_LAYOUT * 7)
                                     imageResource = R.drawable.ic_call
                                     scaleType = ImageView.ScaleType.FIT_CENTER
                                     adjustViewBounds = true
@@ -105,12 +105,12 @@ class InfoVisitorActivity : BaseActivity(), InfoVisitor.View {
                                     padding = dip(PARAM_LAYOUT)
                                     onClick {
                                         val permissionCheck = ContextCompat.checkSelfPermission(this@InfoVisitorActivity,
-                                                                                                Manifest.permission.CALL_PHONE)
+                                                Manifest.permission.CALL_PHONE)
                                         if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
                                             callEnabled = false
                                             ActivityCompat.requestPermissions(this@InfoVisitorActivity,
-                                                                              arrayOf(Manifest.permission.CALL_PHONE),
-                                                                              REQUEST_CALL)
+                                                    arrayOf(Manifest.permission.CALL_PHONE),
+                                                    REQUEST_CALL)
                                         }
                                         if (callEnabled) {
                                             makeCall(visitor.phone!!.string)
@@ -131,28 +131,26 @@ class InfoVisitorActivity : BaseActivity(), InfoVisitor.View {
                             padding = dip(PARAM_LAYOUT * 2)
                         }
                     }
-                    relativeLayout {
+                    linearLayout {
                         activityField = editField {
                             hint = getString(R.string.add_activity)
-                            rightPadding = dip(PARAM_LAYOUT * 4)
-                        }.lparams(width = matchParent) {
-                            alignParentLeft()
+                        }.lparams {
+                            weight = 1f
+                            gravity = Gravity.CENTER
                         }
                         imageButton {
-                            imageResource = R.drawable.ic_add_black_24dp
+                            imageResource = R.drawable.ic_add_circle
                             scaleType = ImageView.ScaleType.FIT_CENTER
                             adjustViewBounds = true
                             backgroundColor = Color.TRANSPARENT
                             onClick {
-                                if(!activityField.content.equals(EMPTY_STRING)) {
+                                if(activityField.content != EMPTY_STRING) {
                                     presenter.addActivity(activityField.content)
                                 }
                             }
-
+                            padding = PARAM_LAYOUT * 2
                         }.lparams {
-                            alignParentRight()
-                            centerVertically()
-                            padding = dip(PARAM_LAYOUT)
+                            gravity = Gravity.CENTER
                         }
                     }.lparams(width = matchParent)
                     activitiesList = recyclerView {
@@ -168,6 +166,12 @@ class InfoVisitorActivity : BaseActivity(), InfoVisitor.View {
                         textSize = 26f
                         padding = dip(PARAM_LAYOUT)
                     }
+                    observersList = recyclerView {
+                        layoutManager = LinearLayoutManager(this@InfoVisitorActivity) as RecyclerView.LayoutManager?
+                        adapter = observerAdapter
+                        padding = dip(PARAM_LAYOUT)
+                    }
+                    observersList.setNestedScrollingEnabled(false)
                     if(!visitor!!.observers.contains(UserModel.currentUser!!.username!!)) {
                         observeButton = button(App.getStringResource(R.string.observe)) {
                             textColor = Color.WHITE
@@ -176,33 +180,64 @@ class InfoVisitorActivity : BaseActivity(), InfoVisitor.View {
                             }
                             val typedValue = TypedValue()
                             theme.resolveAttribute(R.attr.colorAccent,
-                                                   typedValue,
-                                                   true)
+                                    typedValue,
+                                    true)
                             backgroundColor = typedValue.data
                         }
                     }
-                    observersList = recyclerView {
-                        layoutManager = LinearLayoutManager(this@InfoVisitorActivity) as RecyclerView.LayoutManager?
-                        adapter = observerAdapter
-                        padding = dip(PARAM_LAYOUT)
+                    // TODO Find better way to add padding
+                    linearLayout {
+                        bottomPadding = PARAM_LAYOUT * 2
+                    }.lparams {
+                        bottomMargin = PARAM_LAYOUT * 2
                     }
-                    observersList.setNestedScrollingEnabled(false)
                 }.lparams(width = matchParent) {
-                    margin = dip(PARAM_LAYOUT)
+                    margin = PARAM_LAYOUT * 2
                 }
             }.lparams(width = matchParent) {
-                // TODO make it work
-                above(connectedButton)
-                bottomMargin = dip(50)
+                weight = 1f
             }
+            connectedButton = button {
+                textColor = Color.WHITE
+                onClick {
+                    presenter.toggleConnected()
+                }
+                val typedValue = TypedValue()
+                theme.resolveAttribute(R.attr.colorAccent,
+                        typedValue,
+                        true)
+                backgroundColor = typedValue.data
+            }.lparams(width = matchParent)
             onVisitorConnected(visitor.isConnected)
         }
+        // Remove focus from activity field when it starts
+        activitiesList.requestFocus()
         presenter.activitiesAdapter = activityAdapter
         presenter.observersAdapter = observerAdapter
         presenter.retrieveObservers()
     }
 
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_visitor, menu)
+        return true
+    }
 
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        when(item!!.itemId) {
+            R.id.delete -> {
+                alert(getString(R.string.are_you_sure)) {
+                    yesButton {
+                        presenter.deleteVisitor()
+                        finish()
+                    }
+                    noButton {
+
+                    }
+                }.show()
+            }
+        }
+        return super.onOptionsItemSelected(item)
+    }
 
     override fun onVisitorConnected(isConnected: Boolean) {
         if (!isConnected) {

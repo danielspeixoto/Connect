@@ -1,10 +1,8 @@
 package com.danielspeixoto.connect.presenter
 
-import com.danielspeixoto.connect.R
 import com.danielspeixoto.connect.contract.CreateUser
 import com.danielspeixoto.connect.model.UserModel
 import com.danielspeixoto.connect.model.pojo.User
-import com.danielspeixoto.connect.util.App
 import com.danielspeixoto.connect.util.Validate
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -15,20 +13,20 @@ import io.reactivex.schedulers.Schedulers
 class CreateUserPresenter(private val view: CreateUser.View) : CreateUser.Presenter {
 
     override fun create(user: User) {
-        App.showMessage(App.getStringResource(R.string.loading))
+        view.showLoadingDialog()
         val result = Validate.user(user)
         if (result == Validate.OK) {
             UserModel.createWorker(user)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe ({ user1 ->
-                                    App.showMessage(App.getStringResource(R.string.user_added))
-                                    view.activity.finish()
-                                }, { throwable ->
-                                    App.showMessage(App.getStringResource(R.string.error_occurred))
-                                })
+                        view.activity.finish()
+                    }, { throwable ->
+                        view.closeLoadingDialog()
+                        view.showErrorDialog()
+                    })
         } else {
-            App.showMessage(result)
+            view.setMessageViewText(result)
         }
     }
 }

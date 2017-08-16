@@ -1,8 +1,6 @@
 package com.danielspeixoto.connect.model
 
 import android.content.Context
-import android.content.Intent
-import com.danielspeixoto.connect.R
 import com.danielspeixoto.connect.model.pojo.User
 import com.danielspeixoto.connect.model.pojo.Visitor
 import com.danielspeixoto.connect.util.*
@@ -139,8 +137,6 @@ object UserModel : DatabaseContract {
                         { user -> },
                         { throwable ->
                             throwable.printStackTrace()
-                            App.showMessage(App.getStringResource(R.string.incorrect_username_password))
-                            forceLogOut()
                         })
             }
         }
@@ -160,17 +156,6 @@ object UserModel : DatabaseContract {
         App.context.getSharedPreferences(USER, Context.MODE_PRIVATE).edit().clear().apply()
     }
 
-    // Used when the user obstructs the security
-    //TODO implement
-    fun forceLogOut() {
-        logOut()
-        // Reset app
-        val resetIntent = Intent(Intent.ACTION_MAIN)
-        resetIntent.addCategory(Intent.CATEGORY_HOME)
-        resetIntent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
-        //startActivity(App.context, resetIntent, null)
-    }
-
-    private val isLogged: Boolean
+    val isLogged: Boolean
         get() = currentUser != null
 }

@@ -1,10 +1,13 @@
 package com.danielspeixoto.connect.view.activity
 
+import android.graphics.Color
 import android.os.Bundle
 import android.support.v4.view.GravityCompat
 import android.view.Gravity
+import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.EditText
+import android.widget.TextView
 import com.danielspeixoto.connect.R
 import com.danielspeixoto.connect.contract.CreateVisitor
 import com.danielspeixoto.connect.model.pojo.Visitor
@@ -19,12 +22,14 @@ import org.jetbrains.anko.design.coordinatorLayout
 /**
  * Created by danielspeixoto on 4/25/17.
  */
-class CreateVisitorActivity : BaseActivity(), CreateVisitor.View {
+class CreateVisitorActivity : LoggedActivity(), CreateVisitor.View, MessageView {
 
     lateinit var nameEdit : EditText
     lateinit var ageEdit: EditField
     lateinit var observationsEdit: EditField
     lateinit var phoneEdit: EditField
+
+    override var messageView: TextView? = null
 
     lateinit var presenter: CreateVisitor.Presenter
 
@@ -52,10 +57,17 @@ class CreateVisitorActivity : BaseActivity(), CreateVisitor.View {
                         hint = getString(R.string.observations)
                         height = dip(100)
                     }
+                    messageView = textView {
+                        padding = PARAM_LAYOUT * 4
+                        textColor = Color.RED
+                        textSize = (PARAM_LAYOUT * 2).toFloat()
+                        visibility = View.GONE
+                        gravity = Gravity.CENTER_HORIZONTAL
+                    }.lparams(width = matchParent)
                 }.lparams(width = matchParent, height = wrapContent)
             }.lparams(width = matchParent, height = wrapContent)
             floatingButton {
-                imageResource = R.drawable.ic_save_black_24dp
+                imageResource = R.drawable.ic_save
                 onClick {
                     val visitor = Visitor(nameEdit.content.trim())
                     if(!ageEdit.isEmpty()) visitor.age = ageEdit.content.integer
@@ -75,5 +87,9 @@ class CreateVisitorActivity : BaseActivity(), CreateVisitor.View {
         ageEdit.clear()
         phoneEdit.clear()
         observationsEdit.clear()
+    }
+
+    override fun setMessageViewText(message: String) {
+        setMessageViewContent(message)
     }
 }

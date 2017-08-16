@@ -7,7 +7,9 @@ import com.danielspeixoto.connect.model.pojo.User
  */
 interface CreateUser {
 
-    interface View : ActivityBase.View
+    interface View : ActivityBase.View {
+        fun setMessageViewText(message: String)
+    }
 
     interface Presenter : ActivityBase.Presenter {
         fun create(user: User)
